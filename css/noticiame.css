@@ -38,6 +38,10 @@ section ul li {
     background-color: #c1d5ff;
 }
 
+.rss {
+    background-color: rgb(255, 255, 153);
+}
+
 .gplus {
     background-color: darkred;
 }

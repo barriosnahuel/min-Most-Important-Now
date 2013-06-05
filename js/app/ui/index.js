@@ -16,11 +16,11 @@ $(document).ready(function () {
         content.append('<section id="' + keyword + '"><h1>' + eachItem.name + '</h1></section>');
         content.find('#' + keyword).append('<ul></ul>');
 
+        var eachSectionList = content.find('#' + keyword).find('ul');
+
         app.service.flickr.findNews(eachItem.name, function (data) {
 
             console.log('Found ' + data.items.length + ' results for ' + eachItem.name + ' in Flickr');
-
-            var eachSectionList = content.find('#' + keyword).find('ul');
 
             $.each(data.items, function (index, item) {
 
@@ -35,8 +35,6 @@ $(document).ready(function () {
         app.service.twitter.findNews(eachItem.query, function (data) {
             console.log('Found ' + data.results.length + ' results for ' + eachItem.query + ' in Twitter');
 
-            var eachSectionList = content.find('#' + keyword).find('ul');
-
             $.each(data.results, function (index, eachItem) {
                 eachSectionList.append('<li class="twitter">' + eachItem.text + '(Tw)</li>');
             });
@@ -44,8 +42,6 @@ $(document).ready(function () {
 
         app.service.gplus.findNews(eachItem.query, function (data) {
             console.log('Found ' + data.items.length + ' results for ' + eachItem.query + ' in Google+');
-
-            var eachSectionList = content.find('#' + keyword).find('ul');
 
             $.each(data.items, function (index, eachItem) {
                 if (eachItem.title !== '') {
@@ -57,12 +53,19 @@ $(document).ready(function () {
         app.service.facebook.findNews(eachItem.query, function (data) {
             console.log('Found ' + data.data.length + ' results for ' + eachItem.query + ' in Facebook');
 
-            var eachSectionList = content.find('#' + keyword).find('ul');
-
             $.each(data.data, function (index, eachItem) {
                 eachSectionList.append('<li class="facebook">' + eachItem.message + '(Fb)</li>');
             });
         });
+
+        var addNewsFromRSS = function (entries) {
+            $.each(entries, function (index, eachItem) {
+                var textToDisplay = $.trim(eachItem.contentSnippet) !== '' ? 'snippet: ' + eachItem.contentSnippet : 'title: ' + eachItem.title;
+                eachSectionList.append('<li class="rss">' + textToDisplay + '(RSS)</li>');
+            });
+        };
+
+        app.service.rss.findNews(keyword, addNewsFromRSS);
 
         //  TODO check http://www.google.com/trends/ la puedo recuperar en JSON
         // con: https://developers.google.com/feed/v1/jsondevguide#loadBasic por ejemplo
@@ -73,16 +76,5 @@ $(document).ready(function () {
     app.service.twitter.findTrends(function (data) {
         $(data[0].trends).each(findNewsForTrends);
     });
-
-
-    //    $.get('http://clarin.feedsportal.com/c/33088/f/577681/index.rss', function (data) {
-    //        $(data).find("entry").each(function () { // or "item" or whatever suits your feed
-    //            var el = $(this);
-    //            console.log("------------------------");
-    //            console.log("title      : " + el.find("title").text());
-    //            console.log("author     : " + el.find("author").text());
-    //            console.log("description: " + el.find("description").text());
-    //        });
-    //    });
 
 });
