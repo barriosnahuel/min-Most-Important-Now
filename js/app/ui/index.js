@@ -85,9 +85,21 @@ $(document).ready(function () {
 
         app.service.rss.findNews(keyword, addNewsFromRSS);
 
-        //  TODO check http://www.google.com/trends/ la puedo recuperar en JSON
-        // con: https://developers.google.com/feed/v1/jsondevguide#loadBasic por ejemplo
-        // haciendo: https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&q=http%3A%2F%2Fwww.google.com%2Ftrends%2Fhottrends%2Fatom%2Fhourly&callback=processResults
+        //        http://www.google.com/trends/hottrends/atom/hourly
+        //        http://www.google.com/trends/hottrends/atom/feed?pn=p1
+
+        $.ajax({
+            url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=-1&q=' + encodeURIComponent('http://www.google.com/trends/hottrends/atom/feed'),
+            dataType: 'xml',
+            success: function (data) {
+                console.log('IT\'S HERE!!!');
+                console.log(data);
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
     };
 
     //    hasta acá son definiciones de funciones, ahora arranca el "init"
