@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Noticiame</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+
+    <link rel="stylesheet" href="css/noticiame.css">
+</head>
+<body>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="span12">
+
+            <div class="row-fluid">
+                <div class="span4">
+                    <div>
+                        <h1>Twitter</h1>
+                        <ul id="twitter">
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="span4">
+                    <h1>Flickr</h1>
+                    <ul id="flickr">
+                    </ul>
+                </div>
+
+                <div class="span4">
+                    <h1>Google+</h1>
+                    <ul id="gplus">
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!--Bibliotecas-->
+<script type="text/javascript" src="js/lib/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+
+<!--Scripts propios de los que dependo-->
+<script type="text/javascript" src="js/app/service/twitter.js"></script>
+<script type="text/javascript" src="js/app/service/flickr.js"></script>
+<script type="text/javascript" src="js/app/service/gplus.js"></script>
+
+<!--Script asociado a esta pantalla-->
+<script type="text/javascript" src="js/app/ui/index.js"></script>
+
+</body>
+</html>

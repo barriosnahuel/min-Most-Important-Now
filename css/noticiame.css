@@ -1,0 +1,12 @@
+/*************************** Estilos por default para los elementos HTML ***************************/
+div {
+    text-align: center;
+}
+
+ul {
+    text-align: left;
+}
+
+/*************************** Clases propias ***************************/
+
+/*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/
