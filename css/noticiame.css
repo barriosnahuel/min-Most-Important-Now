@@ -7,6 +7,34 @@ ul {
     text-align: left;
 }
 
+section ul li {
+    border: solid 1px gray;
+    padding: 5px 10px;
+    margin: 10px 0;
+    background-color: rgb(240, 255, 240);
+    border-radius: 5px;
+    list-style: none;
+}
+
 /*************************** Clases propias ***************************/
+
+.nav ul li {
+    border: solid 1px;
+    border-radius: 5px;
+    margin: 1px 0;
+    padding: 2px;
+}
+
+.flickr {
+    background-color: pink;
+}
+
+.twitter {
+    background-color: #c1d5ff;
+}
+
+.gplus {
+    background-color: darkred;
+}
 
 /*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/
