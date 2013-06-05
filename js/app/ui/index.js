@@ -25,7 +25,7 @@ $(document).ready(function () {
             $.each(data.items, function (index, item) {
 
                 //eachSectionList.append('<li class="flickr"><img src="' + item.media.m + '"/></li>');
-                eachSectionList.append('<li class="flickr">' + item.description + '</li>');
+                eachSectionList.append('<li class="flickr">' + item.description + '(Fl)</li>');
 
                 //  TODO onmouseover cargo la .description con un popover de bootstrap.
                 //  TODO Usar isotope para ubicar las imágenes de manera de aprovechar el espacio en el sitio.
@@ -38,7 +38,7 @@ $(document).ready(function () {
             var eachSectionList = content.find('#' + keyword).find('ul');
 
             $.each(data.results, function (index, eachItem) {
-                eachSectionList.append('<li class="twitter">' + eachItem.text + '</li>');
+                eachSectionList.append('<li class="twitter">' + eachItem.text + '(Tw)</li>');
             });
         });
 
@@ -49,8 +49,18 @@ $(document).ready(function () {
 
             $.each(data.items, function (index, eachItem) {
                 if (eachItem.title !== '') {
-                    eachSectionList.append('<li class="gplus">' + eachItem.title + '</li>');
+                    eachSectionList.append('<li class="gplus">' + eachItem.title + '(G+)</li>');
                 }
+            });
+        });
+
+        app.service.facebook.findNews(eachItem.query, function (data) {
+            console.log('Found ' + data.data.length + ' results for ' + eachItem.query + ' in Facebook');
+
+            var eachSectionList = content.find('#' + keyword).find('ul');
+
+            $.each(data.data, function (index, eachItem) {
+                eachSectionList.append('<li class="facebook">' + eachItem.message + '(Fb)</li>');
             });
         });
 
