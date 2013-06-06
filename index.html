@@ -19,7 +19,7 @@
 
 <html>
 <head>
-    <title>Noticiame</title>
+    <title>MIN [Most Important Now]</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
@@ -57,6 +57,19 @@
 <!--Bibliotecas-->
 <script type="text/javascript" src="js/lib/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/jsrender.js"></script>
+
+<!--Templates-->
+<script id="rssFeedTemplate" type="text/x-jsrender">
+    <li class="rss">
+        <div>
+            <h4>{{:title}}</h4>
+            <p>{{:contentSnippet}}</p>
+            <a href="{{url:link}}" target="_blank">View complete</a>
+        </div>
+    </li>
+
+</script>
 
 <!--Scripts propios de los que dependo-->
 <script type="text/javascript" src="js/app/service/twitter.js"></script>

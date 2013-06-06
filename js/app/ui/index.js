@@ -31,7 +31,7 @@ $(document).ready(function () {
 
         $('.nav ul').append('<li><a href="#' + keyword + '">' + eachItem.name + '</a></li>');
 
-        content.append('<section id="' + keyword + '"><h1>' + eachItem.name + '</h1></section>');
+        content.append('<section id="' + keyword + '"><h2>' + eachItem.name + '</h2></section>');
         content.find('#' + keyword).append('<ul></ul>');
 
         var eachSectionList = content.find('#' + keyword).find('ul');
@@ -78,8 +78,7 @@ $(document).ready(function () {
 
         var addNewsFromRSS = function (entries) {
             $.each(entries, function (index, eachItem) {
-                var textToDisplay = $.trim(eachItem.contentSnippet) !== '' ? 'snippet: ' + eachItem.contentSnippet : 'title: ' + eachItem.title;
-                eachSectionList.append('<li class="rss">' + textToDisplay + '(RSS)</li>');
+                eachSectionList.html($('#rssFeedTemplate').render(eachItem));
             });
         };
 

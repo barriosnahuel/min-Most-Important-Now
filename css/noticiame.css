@@ -25,8 +25,12 @@ ul {
     text-align: left;
 }
 
+body {
+    background-color: #439861;
+}
+
 section ul li {
-    border: solid 1px gray;
+    border: solid 1px white;
     padding: 5px 10px;
     margin: 10px 0;
     background-color: rgb(240, 255, 240);
@@ -41,15 +45,16 @@ section ul li {
     border-radius: 5px;
     margin: 1px 0;
     padding: 2px;
+    background-color: #414261;
+    list-style: none;
+}
+
+.nav ul li a {
+    color: white;
 }
 
 .flickr {
     background-color: pink;
-}
-
-.facebook {
-    background-color: rgb(0, 0, 136);
-    color: white;
 }
 
 .twitter {
@@ -57,11 +62,18 @@ section ul li {
 }
 
 .rss {
-    background-color: rgb(255, 255, 153);
+    background-color: #fff6dc;
+}
+
+.facebook {
+    color: white;
+    background: url("../img/FB-f-Logo__blue_29.png") no-repeat right;
+    background-size: 20px;
 }
 
 .gplus {
-    background-color: darkred;
+    background: url("../img/g+29.png") no-repeat right;
+    background-size: 20px;
 }
 
 /*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/
