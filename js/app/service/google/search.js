@@ -18,30 +18,28 @@
 
 /**
  * Created by Nahuel Barrios <barrios.nahuel@gmail.com>.
- * Created on 6/5/13, at 3:42 AM.
+ * Created on 6/6/13, at 9:16 PM.
  */
 
 var app = app || {};
 app.service = app.service || {};
+app.service.google = app.service.google || {};
 
-app.service.gplus = (function () {
+app.service.google.search = (function () {
     'use strict';
 
     /**
-     * https://developers.google.com/+/api/latest/activities#resource
-     * @param keyword
+     * Taken from: http://www.google.com/trends/
      * @param onSuccess
      */
-    var findNews = function (keyword, onSuccess) {
-        var apiKey = 'AIzaSyCNQ1slAxWLz8pg6MCPXJDVdeozgQBYxz8';
-
-        var url = 'https://www.googleapis.com/plus/v1/activities?key=' + apiKey + '&query=' + keyword;
-
-        $.getJSON(url, onSuccess);
+    var findTrends = function (onSuccess) {
+        return $.Deferred(function (dfd) {
+            new google.feeds.Feed("http://www.google.com/trends/hottrends/atom/feed?pn=p1").load(onSuccess || dfd.resolve);
+        });
     };
 
     return {
-        findNews: findNews
+        findTrends: findTrends
     };
 
 }());

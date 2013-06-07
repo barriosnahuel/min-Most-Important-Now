@@ -31,7 +31,11 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="span2">
+        <div class="span3">
+            <form class="form-inline">
+                <input type="text" class="input-medium" placeholder="Wanna know about...">
+                <button class="btn" type="button"><i class="icon-search"></i></button>
+            </form>
             <div class="nav">
                 <h2>Trends!</h2>
                 <ul>
@@ -40,9 +44,9 @@
             </div>
         </div>
 
-        <div class="span10">
+        <div class="span9">
 
-            <div class="row-fluid">
+        <div class="row-fluid">
                 <div class="span12">
                     <div class="content">
                     </div>
@@ -58,6 +62,8 @@
 <script type="text/javascript" src="js/lib/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/lib/jsrender.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("feeds", "1");</script>
 
 <!--Templates-->
 <script id="rssFeedTemplate" type="text/x-jsrender">
@@ -69,13 +75,17 @@
         </div>
     </li>
 
+
+
+
 </script>
 
 <!--Scripts propios de los que dependo-->
 <script type="text/javascript" src="js/app/service/twitter.js"></script>
 <script type="text/javascript" src="js/app/service/flickr.js"></script>
 <script type="text/javascript" src="js/app/service/facebook.js"></script>
-<script type="text/javascript" src="js/app/service/gplus.js"></script>
+<script type="text/javascript" src="js/app/service/google/search.js"></script>
+<script type="text/javascript" src="js/app/service/google/gplus.js"></script>
 <script type="text/javascript" src="js/app/service/rss.js"></script>
 
 <script type="text/javascript" src="js/app/util/strings.js"></script>

@@ -18,38 +18,31 @@
 
 /**
  * Created by Nahuel Barrios <barrios.nahuel@gmail.com>.
- * Created on 6/5/13, at 2:35 AM.
+ * Created on 6/5/13, at 3:42 AM.
  */
 
 var app = app || {};
 app.service = app.service || {};
+app.service.google = app.service.google || {};
 
-app.service.twitter = (function () {
+app.service.google.gplus = (function () {
     'use strict';
 
     /**
-     * https://dev.twitter.com/docs/api/1/get/search
+     * https://developers.google.com/+/api/latest/activities#resource
      * @param keyword
      * @param onSuccess
      */
     var findNews = function (keyword, onSuccess) {
-        var url = 'http://search.twitter.com/search.json?callback=?&q="' + keyword + '"';
+        var apiKey = 'AIzaSyCNQ1slAxWLz8pg6MCPXJDVdeozgQBYxz8';
+
+        var url = 'https://www.googleapis.com/plus/v1/activities?key=' + apiKey + '&query=' + keyword;
 
         $.getJSON(url, onSuccess);
     };
 
-    /**
-     * https://dev.twitter.com/docs/api/1/get/trends/%3Awoeid
-     * @param onSuccess
-     */
-    var findTrends = function (onSuccess) {
-        return $.Deferred(function (dfd) {
-            $.getJSON('https://api.twitter.com/1/trends/1.json?callback=?', onSuccess || dfd.resolve);
-        });
-    };
-
     return {
-        findNews: findNews, findTrends: findTrends
+        findNews: findNews
     };
 
 }());
