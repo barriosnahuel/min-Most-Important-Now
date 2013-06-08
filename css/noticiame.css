@@ -54,25 +54,26 @@ section ul li {
 }
 
 .flickr {
-    background-color: pink;
+    background: url("../img/logo_flickr-cuadrado.png") no-repeat right;
 }
 
 .twitter {
-    background-color: #c1d5ff;
+    background: url("../img/twitter-bird-white-on-blue.png") no-repeat right;
 }
 
 .rss {
-    background-color: #fff6dc;
+    background: url("../img/1370747843_Location News.png") no-repeat right;
 }
 
 .facebook {
-    color: white;
     background: url("../img/FB-f-Logo__blue_29.png") no-repeat right;
-    background-size: 20px;
 }
 
 .gplus {
     background: url("../img/g+29.png") no-repeat right;
+}
+
+.flickr, .twitter, .rss, .facebook, .gplus {
     background-size: 20px;
 }
 
