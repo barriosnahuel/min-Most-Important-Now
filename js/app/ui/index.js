@@ -116,19 +116,19 @@ $(document).ready(function () {
     //    ****************************************************************
     //    Hasta acá son definiciones de funciones, ahora arranca el "init"
 
-    $.when(/*app.service.twitter.findTrends(),*/ app.service.google.search.findTrends()).done(function (data, result) {
+    $.when(app.service.twitter.findTrends(), app.service.google.search.findTrends()).done(function (data, result) {
         var index, eachTrend, trends = [], trendsIndex = 0;
 
-//        var twitterTrends = data[0][0].trends;
-//
-//        for (index = 0; index < twitterTrends.length; index++) {
-//            eachTrend = twitterTrends[index];
-//            //  TODO : use a Javascript Object instead of an a JSON object.
-//            trends[index] = {name: eachTrend.title, keywords: eachTrend.content.split(', ')};
-//        }
+        var twitterTrends = data[0][0].trends;
+
+        for (index = 0; index < twitterTrends.length; index++) {
+            eachTrend = twitterTrends[index];
+            //  TODO : use a Javascript Object instead of an a JSON object.
+            trends[index] = {name: eachTrend.name, keywords: [eachTrend.name]};
+        }
 
         trendsIndex = trends.length;
-        var googleTrends = data.feed.entries;
+        var googleTrends = result.feed.entries;
         for (index = 0; index < googleTrends.length; index++, trendsIndex++) {
             eachTrend = googleTrends[index];
             trends[trendsIndex] = {name: eachTrend.title, keywords: eachTrend.content.split(', ')};
