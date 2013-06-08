@@ -53,13 +53,13 @@ $(document).ready(function () {
             });
         });
 
-        //        app.service.twitter.findNews(query, function (data) {
-        //            if (!data.error) {
-        //                $.each(data.results, function (index, eachItem) {
-        //                    container.append('<li class="twitter">' + eachItem.text + '</li>');
-        //                });
-        //            }
-        //        });
+        app.service.twitter.findNews(query, function (data) {
+            if (!data.error) {
+                $.each(data.results, function (index, eachItem) {
+                    container.append('<li class="twitter">' + eachItem.text + '</li>');
+                });
+            }
+        });
 
         app.service.google.gplus.findNews(query, function (data) {
             $.each(data.items, function (index, eachItem) {
@@ -104,9 +104,7 @@ $(document).ready(function () {
     };
 
     var findNewsForCustomTopic = function () {
-
         var userQuery = $('form input').val();
-
         findNewsForQuery(userQuery, createNewTopic(userQuery, true));
     };
 
