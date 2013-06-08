@@ -38,21 +38,28 @@ section ul li {
     list-style: none;
 }
 
-/*************************** Clases propias ***************************/
+/*************************** Own classes ***************************/
 
-.nav ul li {
+/***    Menu    ***/
+.nav li {
     border: solid 1px;
     border-radius: 5px;
     margin: 1px 0;
-    padding: 2px;
+    padding: 2px 0 2px 5px;
     background-color: #414261;
     list-style: none;
 }
 
-.nav ul li a {
+.nav li a {
     color: white;
 }
 
+.nav li i {
+    float: right;
+    margin-top: 3px;
+}
+
+/***    News (per each social network    ***/
 .flickr {
     background: url("../img/1370749307_flickr 02.png") no-repeat right;
 }

@@ -30,7 +30,7 @@ $(document).ready(function () {
         var trendName = app.util.strings.getKeywordWithoutPreffix(eachItem.name);
 
         var trendNameElementId = trendName.replace(/ /g, '');
-        $('.nav ul').append('<li><a href="#' + trendNameElementId + '">' + eachItem.name + '</a></li>');
+        $('.nav').append('<li><a href="#' + trendNameElementId + '"><i class="icon-chevron-right "></i>' + eachItem.name + '</a></li>');
 
         content.append('<section id="' + trendNameElementId + '"><h2>' + eachItem.name + '</h2></section>');
 
@@ -112,6 +112,8 @@ $(document).ready(function () {
 
         app.service.rss.findNews(trendName, addNewsFromRSS);
     };
+
+    $('#navbar').affix();
 
     //    ****************************************************************
     //    Hasta acá son definiciones de funciones, ahora arranca el "init"
