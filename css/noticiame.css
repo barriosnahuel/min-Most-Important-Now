@@ -17,16 +17,23 @@
  */
 
 /*************************** Estilos por default para los elementos HTML ***************************/
+
+header {
+    text-align: center;
+    text-shadow: 4px -1px 4px #ffffff;
+    filter: dropshadow(color=#ffffff, offx=4, offy=-1);
+}
+
+body {
+    background-color: #439861;
+}
+
 div {
     text-align: center;
 }
 
 ul {
     text-align: left;
-}
-
-body {
-    background-color: #439861;
 }
 
 section ul li {

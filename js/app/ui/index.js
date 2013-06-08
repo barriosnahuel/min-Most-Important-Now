@@ -24,84 +24,99 @@
 $(document).ready(function () {
     'use strict';
 
-    var findNewsForTrends = function (index, eachItem) {
+    var findNewsForQuery = function (query, container) {
+        google.feeds.findFeeds(query, function (result) {
+            var index;
+            var eachEntry;
+
+            if (!result.error) {
+                for (index = 0; index < result.entries.length; index++) {
+                    eachEntry = result.entries[index];
+
+                    container.append('<li class="rss">' + eachEntry.title + ': ' + eachEntry.content + '</li>');
+                }
+            }
+        });
+
+        //  TODO : Add instagram public photos!
+        //  TODO : Add flipboard! (they haven't got an API yet)
+        //  TODO : Add youtube! (and other video sources)
+
+        app.service.flickr.findNews(query, function (data) {
+            $.each(data.items, function (index, item) {
+
+                //container.append('<li class="flickr"><img src="' + item.media.m + '"/></li>');
+                container.append('<li class="flickr">' + item.description + '</li>');
+
+                //  TODO onmouseover cargo la .description con un popover de bootstrap.
+                //  TODO Usar isotope para ubicar las imágenes de manera de aprovechar el espacio en el sitio.
+            });
+        });
+
+        //        app.service.twitter.findNews(query, function (data) {
+        //            if (!data.error) {
+        //                $.each(data.results, function (index, eachItem) {
+        //                    container.append('<li class="twitter">' + eachItem.text + '</li>');
+        //                });
+        //            }
+        //        });
+
+        app.service.google.gplus.findNews(query, function (data) {
+            $.each(data.items, function (index, eachItem) {
+                if (eachItem.title !== '') {
+                    container.append('<li class="gplus">' + eachItem.title + '</li>');
+                }
+            });
+        });
+
+        app.service.facebook.findNews(query, function (data) {
+            $.each(data.data, function (index, eachItem) {
+                container.append('<li class="facebook">' + eachItem.message + '</li>');
+            });
+        });
+    };
+
+    var createNewTopic = function (topicName, atBegin) {
+        //  TODO : Use a template instead of this horrible script!
+        //  TODO : Split this function into others two: createMenuEntry() and createSection()
+
+        var trendNameElementId = topicName.replace(/ /g, '');
         var content = $('.content');
+        var menuHTML = '<li><a href="#' + trendNameElementId + '"><i class="icon-chevron-right "></i>' + topicName + '</a></li>';
 
-        var trendName = app.util.strings.getKeywordWithoutPreffix(eachItem.name);
+        if (atBegin) {
+            $('.nav').prepend(menuHTML);
+        } else {
+            $('.nav').append(menuHTML);
+        }
 
-        var trendNameElementId = trendName.replace(/ /g, '');
-        $('.nav').append('<li><a href="#' + trendNameElementId + '"><i class="icon-chevron-right "></i>' + eachItem.name + '</a></li>');
-
-        content.append('<section id="' + trendNameElementId + '"><h2>' + eachItem.name + '</h2></section>');
+        var sectionHTML = '<section id="' + trendNameElementId + '"><h2>' + topicName + '</h2></section>';
+        if (atBegin) {
+            content.prepend(sectionHTML);
+        } else {
+            content.append(sectionHTML);
+        }
 
         var eachSection = content.find('#' + trendNameElementId);
         eachSection.append('<ul></ul>');
 
-        var eachSectionList = eachSection.find('ul');
+        return eachSection.find('ul');
+    };
+
+    var findNewsForCustomTopic = function () {
+
+        var userQuery = $('form input').val();
+
+        findNewsForQuery(userQuery, createNewTopic(userQuery, true));
+    };
+
+    var findNewsForTrends = function (index, eachItem) {
+        var trendName = app.util.strings.getKeywordWithoutPreffix(eachItem.name);
+
+        var eachSectionList = createNewTopic(trendName);
 
         $.each(eachItem.keywords, function (index, eachKeyword) {
-            google.feeds.findFeeds(eachKeyword, function (result) {
-                var index;
-                var eachEntry;
-
-                if (!result.error) {
-                    console.log('cantidad de entries: ' + result.entries.length);
-
-                    for (index = 0; index < result.entries.length; index++) {
-                        eachEntry = result.entries[index];
-
-                        eachSectionList.append('<li class="rss">' + eachEntry.title + ': ' + eachEntry.content + '</li>');
-                    }
-                }
-            });
-
-            //  TODO : Add instagram public photos!
-            //  TODO : Add flipboard! (they haven't got an API yet)
-            //  TODO : Add youtube! (and other video sources)
-
-            app.service.flickr.findNews(eachItem.name, function (data) {
-
-                console.log('Found ' + data.items.length + ' results for ' + eachItem.name + ' in Flickr');
-
-                $.each(data.items, function (index, item) {
-
-                    //eachSectionList.append('<li class="flickr"><img src="' + item.media.m + '"/></li>');
-                    eachSectionList.append('<li class="flickr">' + item.description + '(Fl)</li>');
-
-                    //  TODO onmouseover cargo la .description con un popover de bootstrap.
-                    //  TODO Usar isotope para ubicar las imágenes de manera de aprovechar el espacio en el sitio.
-                });
-            });
-
-            app.service.twitter.findNews(eachKeyword, function (data) {
-                if (!data.error) {
-                    console.log('Found ' + data.results.length + ' results for ' + eachKeyword + ' in Twitter');
-
-                    $.each(data.results, function (index, eachItem) {
-                        eachSectionList.append('<li class="twitter">' + eachItem.text + '(Tw)</li>');
-                    });
-                }
-            });
-
-            app.service.google.gplus.findNews(eachKeyword, function (data) {
-                console.log('Found ' + data.items.length + ' results for ' + eachKeyword + ' in Google+');
-
-                $.each(data.items, function (index, eachItem) {
-                    if (eachItem.title !== '') {
-                        eachSectionList.append('<li class="gplus">' + eachItem.title + '(G+)</li>');
-                    }
-                });
-            });
-
-            app.service.facebook.findNews(eachKeyword, function (data) {
-                console.log('Found ' + data.data.length + ' results for ' + eachKeyword + ' in Facebook');
-
-                $.each(data.data, function (index, eachItem) {
-                    eachSectionList.append('<li class="facebook">' + eachItem.message + '(Fb)</li>');
-                });
-            });
-
-
+            findNewsForQuery(eachKeyword, eachSectionList);
         });
 
         var addNewsFromRSS = function (entries) {
@@ -111,12 +126,17 @@ $(document).ready(function () {
         };
 
         app.service.rss.findNews(trendName, addNewsFromRSS);
+        //  TODO : Change this RSS implementation to use the Google Feed API
     };
 
-    $('#navbar').affix();
+    //    ********************************************
+    //    Bind events and customize controls behavior.
 
-    //    ****************************************************************
-    //    Hasta acá son definiciones de funciones, ahora arranca el "init"
+    $('#navbar').affix();
+    $('#customSearchButton').on('click', findNewsForCustomTopic);
+
+    //    ********************
+    //    Load trends and news
 
     $.when(app.service.twitter.findTrends(), app.service.google.search.findTrends()).done(function (data, result) {
         var index, eachTrend, trends = [], trendsIndex = 0;

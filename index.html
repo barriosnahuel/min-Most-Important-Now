@@ -28,14 +28,18 @@
 </head>
 <body>
 
+<header>
+    <h1>MIN - Most Important Now!</h1>
+</header>
+
 <div class="container-fluid">
 
     <div class="row">
         <div class="span3">
             <div id="navbar" class="affix">
                 <form class="form-inline">
-                    <input type="text" class="input-medium" placeholder="Wanna know about...">
-                    <button class="btn" type="button"><i class="icon-search"></i></button>
+                    <input type="text" class="input-medium" placeholder="Wanna know about..." tabindex="1">
+                    <button id="customSearchButton" class="btn" type="button" tabindex="2"><i class="icon-search"></i></button>
                 </form>
                 <div>
                     <ul class="nav nav-list">
@@ -48,8 +52,8 @@
         <div class="span9">
 
             <div class="row-fluid">
-            <div class="span12">
-                    <div class="content">
+                <div class="span12">
+                <div class="content">
                     </div>
                 </div>
             </div>
@@ -75,14 +79,6 @@
             <a href="{{url:link}}" target="_blank">View complete</a>
         </div>
     </li>
-
-
-
-
-
-
-
-
 </script>
 
 <!--Scripts propios de los que dependo-->
