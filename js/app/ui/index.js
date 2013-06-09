@@ -33,7 +33,7 @@ $(document).ready(function () {
                 for (index = 0; index < result.entries.length; index++) {
                     eachEntry = result.entries[index];
 
-                    container.append('<li class="rss">' + eachEntry.title + ': ' + eachEntry.content + '</li>');
+                    container.append('<li class="rss">' + eachEntry.title + ': ' + eachEntry.contentSnippet + '</li>');
                 }
             }
         });
@@ -76,13 +76,25 @@ $(document).ready(function () {
         });
     };
 
+    /**
+     * Scroll to the specified {@code jQuerySelector}.
+     * @param jQuerySelector A jQuery selector to scroll the entire page.
+     */
+    var scrollTo = function (jQuerySelector) {
+        $('html, body').stop().animate({
+            scrollTop: $(jQuerySelector).offset().top
+        }, 2000);
+    };
+
     var createNewTopic = function (topicName, atBegin) {
         //  TODO : Use a template instead of this horrible script!
         //  TODO : Split this function into others two: createMenuEntry() and createSection()
 
         var trendNameElementId = topicName.replace(/ /g, '');
         var content = $('.content');
-        var menuHTML = '<li><a href="#' + trendNameElementId + '"><i class="icon-chevron-right "></i>' + topicName + '</a></li>';
+
+        var templateData = {trendNameElementId: trendNameElementId, topicName: topicName};
+        var menuHTML = $('#menuItemTemplate').render(templateData);
 
         if (atBegin) {
             $('.nav').prepend(menuHTML);
@@ -90,28 +102,37 @@ $(document).ready(function () {
             $('.nav').append(menuHTML);
         }
 
-        var sectionHTML = '<section id="' + trendNameElementId + '"><h2>' + topicName + '</h2></section>';
+
+        var trendNameElementSelector = '#' + trendNameElementId;
+        $('.nav a[href=' + trendNameElementSelector + ']').on('click', function () {
+            scrollTo(trendNameElementSelector);
+        });
+
+        var sectionHTML = $('#newsSectionTemplate').render(templateData);
         if (atBegin) {
             content.prepend(sectionHTML);
         } else {
             content.append(sectionHTML);
         }
 
-        var eachSection = content.find('#' + trendNameElementId);
-        eachSection.append('<ul></ul>');
-
-        return eachSection.find('ul');
+        return trendNameElementSelector;
     };
 
+    /**
+     * Find news from all configured sources for a specific topic that has been choosed for the user in the search box of the left side menu.
+     */
     var findNewsForCustomTopic = function () {
         var userQuery = $('form input').val();
-        findNewsForQuery(userQuery, createNewTopic(userQuery, true));
+        var sectionIdSelector = createNewTopic(userQuery, true);
+
+        findNewsForQuery(userQuery, $(sectionIdSelector + ' ul'));
+        scrollTo(sectionIdSelector);
     };
 
     var findNewsForTrends = function (index, eachItem) {
         var trendName = app.util.strings.getKeywordWithoutPreffix(eachItem.name);
 
-        var eachSectionList = createNewTopic(trendName);
+        var eachSectionList = $(createNewTopic(trendName) + ' ul');
 
         $.each(eachItem.keywords, function (index, eachKeyword) {
             findNewsForQuery(eachKeyword, eachSectionList);
@@ -124,7 +145,7 @@ $(document).ready(function () {
         };
 
         //  TODO : Should I remove this?
-        app.service.rss.findNews(trendName, addNewsFromRSS);
+        //        app.service.rss.findNews(trendName, addNewsFromRSS);
         //  TODO : Change this RSS implementation to use the Google Feed API
     };
 
@@ -134,25 +155,24 @@ $(document).ready(function () {
     $('#navbar').affix();
     $('#customSearchButton').on('click', findNewsForCustomTopic);
 
-    //    ********************
-    //    Load trends and news
+    //    ************************************************
+    //    Load trends, then news for those trending topics
 
-    $.when(app.service.twitter.findTrends(), app.service.google.search.findTrends()).done(function (data, result) {
+    $.when(app.service.google.search.findTrends(), app.service.twitter.findTrends()).done(function (result, data) {
         var index, eachTrend, trends = [], trendsIndex = 0;
 
-        var twitterTrends = data[0][0].trends;
-
-        for (index = 0; index < twitterTrends.length; index++) {
-            eachTrend = twitterTrends[index];
-            //  TODO : use a Javascript Object instead of an a JSON object.
-            trends[index] = {name: eachTrend.name, keywords: [eachTrend.name]};
+        var googleTrends = result.feed.entries;
+        for (index = 0; index < googleTrends.length; index++) {
+            eachTrend = googleTrends[index];
+            trends[index] = {name: eachTrend.title, keywords: eachTrend.content.split(', ')};
         }
 
         trendsIndex = trends.length;
-        var googleTrends = result.feed.entries;
-        for (index = 0; index < googleTrends.length; index++, trendsIndex++) {
-            eachTrend = googleTrends[index];
-            trends[trendsIndex] = {name: eachTrend.title, keywords: eachTrend.content.split(', ')};
+        var twitterTrends = data[0][0].trends;
+        for (index = 0; index < twitterTrends.length; index++, trendsIndex++) {
+            eachTrend = twitterTrends[index];
+            //  TODO : use a Javascript Object instead of an a JSON object.
+            trends[trendsIndex] = {name: eachTrend.name, keywords: [eachTrend.name]};
         }
 
         $.each(trends, findNewsForTrends);

@@ -53,7 +53,7 @@
 
             <div class="row-fluid">
                 <div class="span12">
-                <div class="content">
+                    <div class="content">
                     </div>
                 </div>
             </div>
@@ -71,6 +71,22 @@
 <script type="text/javascript">google.load("feeds", "1");</script>
 
 <!--Templates-->
+<script id="menuItemTemplate" type="text/x-jsrender">
+    <li>
+        <a href="#{{:trendNameElementId}}"><i class="icon-chevron-right "></i>{{:topicName}}</a>
+    </li>
+
+
+</script>
+
+<script id="newsSectionTemplate" type="text/x-jsrender">
+    <section id="{{:trendNameElementId}}">
+        <h2>{{:topicName}}</h2>
+        <ul></ul>
+    </section>
+
+
+</script>
 <script id="rssFeedTemplate" type="text/x-jsrender">
     <li class="rss">
         <div>
@@ -79,6 +95,7 @@
             <a href="{{url:link}}" target="_blank">View complete</a>
         </div>
     </li>
+
 </script>
 
 <!--Scripts propios de los que dependo-->
