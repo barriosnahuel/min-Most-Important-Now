@@ -123,6 +123,7 @@ $(document).ready(function () {
             });
         };
 
+        //  TODO : Should I remove this?
         app.service.rss.findNews(trendName, addNewsFromRSS);
         //  TODO : Change this RSS implementation to use the Google Feed API
     };
