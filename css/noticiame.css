@@ -17,6 +17,17 @@
  */
 
 /*************************** Estilos por default para los elementos HTML ***************************/
+
+header {
+    text-align: center;
+    text-shadow: 4px -1px 4px #ffffff;
+    filter: dropshadow(color=#ffffff, offx=4, offy=-1);
+}
+
+body {
+    background-color: rgb(151, 224, 177);
+}
+
 div {
     text-align: center;
 }
@@ -26,7 +37,7 @@ ul {
 }
 
 section ul li {
-    border: solid 1px gray;
+    border: solid 1px white;
     padding: 5px 10px;
     margin: 10px 0;
     background-color: rgb(240, 255, 240);
@@ -34,34 +45,50 @@ section ul li {
     list-style: none;
 }
 
-/*************************** Clases propias ***************************/
+/*************************** Own classes ***************************/
 
-.nav ul li {
+/***    Menu    ***/
+.nav li {
     border: solid 1px;
     border-radius: 5px;
     margin: 1px 0;
-    padding: 2px;
+    padding: 2px 0 2px 5px;
+    background-color: #414261;
+    list-style: none;
 }
 
-.flickr {
-    background-color: pink;
-}
-
-.facebook {
-    background-color: rgb(0, 0, 136);
+.nav li a {
     color: white;
 }
 
+.nav li i {
+    float: right;
+    margin-top: 3px;
+}
+
+/***    News (per each social network    ***/
+.flickr {
+    background: url("../img/1370749307_flickr 02.png") no-repeat right;
+}
+
 .twitter {
-    background-color: #c1d5ff;
+    background: url("../img/twitter-bird-white-on-blue.png") no-repeat right;
 }
 
 .rss {
-    background-color: rgb(255, 255, 153);
+    background: url("../img/1370747843_Location News.png") no-repeat right;
+}
+
+.facebook {
+    background: url("../img/FB-f-Logo__blue_29.png") no-repeat right;
 }
 
 .gplus {
-    background-color: darkred;
+    background: url("../img/g+29.png") no-repeat right;
+}
+
+.flickr, .twitter, .rss, .facebook, .gplus {
+    background-size: 20px;
 }
 
 /*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/

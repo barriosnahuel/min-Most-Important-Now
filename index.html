@@ -19,16 +19,118 @@
 
 <html>
 <head>
-    <title>Noticiame</title>
+    <title>MIN [Most Important Now]</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 
     <link rel="stylesheet" href="css/noticiame.css">
 </head>
-<body style="text-align: center">
+<body>
 
-<img src="img/work-in-progress.gif">
+<header>
+    <h1>MIN - Most Important Now!</h1>
+</header>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="span3">
+            <div id="navbar" class="affix">
+                <form class="form-inline">
+                    <input type="text" class="input-medium" placeholder="Wanna know about..." tabindex="1">
+                    <button id="customSearchButton" class="btn" type="button" tabindex="2"><i class="icon-search"></i></button>
+                </form>
+                <div>
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Global Trends!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="span9">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="content">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!--Bibliotecas-->
+<script type="text/javascript" src="js/lib/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/jsrender.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("feeds", "1");</script>
+
+<!--Templates-->
+<script id="menuItemTemplate" type="text/x-jsrender">
+    <li>
+        <a href="#{{:trendNameElementId}}"><i class="icon-chevron-right "></i>{{:topicName}}</a>
+    </li>
+
+
+
+
+</script>
+
+<script id="newsSectionTemplate" type="text/x-jsrender">
+    <section id="{{:trendNameElementId}}">
+        <h2>{{:topicName}}</h2>
+        <ul></ul>
+    </section>
+
+
+
+
+</script>
+<script id="rssFeedTemplate" type="text/x-jsrender">
+    <li class="rss">
+        <h4>{{:title}}</h4>
+        <p>{{:contentSnippet}}</p>
+        <a href="{{url:link}}" target="_blank">View complete</a>
+    </li>
+
+
+
+</script>
+
+<script id="flickrNewsTemplate" type="text/x-jsrender">
+    <li class="flickr">
+        <h4>{{:title}}</h4>
+        <p>{{:contentSnippet}}</p>
+        <a href="{{url:link}}" target="_blank">View complete</a>
+    </li>
+
+
+</script>
+
+<script id="twitterNewsTemplate" type="text/x-jsrender">
+<li class="twitter">
+    <a href="http://twitter.com/{{:user}}" target="_blank">@{{:user}}</a> said: {{:text}}
+</li>
+
+
+</script>
+
+<!--Scripts propios de los que dependo-->
+<script type="text/javascript" src="js/app/service/twitter.js"></script>
+<script type="text/javascript" src="js/app/service/flickr.js"></script>
+<script type="text/javascript" src="js/app/service/facebook.js"></script>
+<script type="text/javascript" src="js/app/service/google/search.js"></script>
+<script type="text/javascript" src="js/app/service/google/gplus.js"></script>
+
+<script type="text/javascript" src="js/app/util/strings.js"></script>
+
+<!--Script asociado a esta pantalla-->
+<script type="text/javascript" src="js/app/ui/index.js"></script>
 
 </body>
 </html>
