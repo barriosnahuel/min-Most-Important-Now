@@ -32,8 +32,8 @@ $(document).ready(function () {
             if (!result.error) {
                 for (index = 0; index < result.entries.length; index++) {
                     eachEntry = result.entries[index];
-
-                    container.append('<li class="rss">' + eachEntry.title + ': ' + eachEntry.contentSnippet + '</li>');
+                    var templateData = {title: eachEntry.title, contentSnippet: eachEntry.contentSnippet, link: eachEntry.link};
+                    container.append($('#rssFeedTemplate').render(templateData));
                 }
             }
         });
@@ -45,8 +45,8 @@ $(document).ready(function () {
         app.service.flickr.findNews(query, function (data) {
             $.each(data.items, function (index, item) {
 
-                //container.append('<li class="flickr"><img src="' + item.media.m + '"/></li>');
-                container.append('<li class="flickr">' + item.description + '</li>');
+                var templateData = {title: item.title, contentSnippet: item.description, link: item.link};
+                container.append($('#flickrNewsTemplate').render(templateData));
 
                 //  TODO onmouseover cargo la .description con un popover de bootstrap.
                 //  TODO Usar isotope para ubicar las imágenes de manera de aprovechar el espacio en el sitio.
@@ -56,7 +56,8 @@ $(document).ready(function () {
         app.service.twitter.findNews(query, function (data) {
             if (!data.error) {
                 $.each(data.results, function (index, eachItem) {
-                    container.append('<li class="twitter">' + eachItem.text + '</li>');
+                    var templateData = {user: eachItem.from_user, text: eachItem.text, tweetId: eachItem.id};
+                    container.append($('#twitterNewsTemplate').render(templateData));
                 });
             }
         });
@@ -137,16 +138,6 @@ $(document).ready(function () {
         $.each(eachItem.keywords, function (index, eachKeyword) {
             findNewsForQuery(eachKeyword, eachSectionList);
         });
-
-        var addNewsFromRSS = function (entries) {
-            $.each(entries, function (index, eachItem) {
-                eachSectionList.html($('#rssFeedTemplate').render(eachItem));
-            });
-        };
-
-        //  TODO : Should I remove this?
-        //        app.service.rss.findNews(trendName, addNewsFromRSS);
-        //  TODO : Change this RSS implementation to use the Google Feed API
     };
 
     //    ********************************************

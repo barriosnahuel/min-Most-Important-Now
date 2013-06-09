@@ -43,7 +43,7 @@
                 </form>
                 <div>
                     <ul class="nav nav-list">
-                        <li class="nav-header">Trends!</li>
+                        <li class="nav-header">Global Trends!</li>
                     </ul>
                 </div>
             </div>
@@ -77,6 +77,8 @@
     </li>
 
 
+
+
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -86,15 +88,35 @@
     </section>
 
 
+
+
 </script>
 <script id="rssFeedTemplate" type="text/x-jsrender">
     <li class="rss">
-        <div>
-            <h4>{{:title}}</h4>
-            <p>{{:contentSnippet}}</p>
-            <a href="{{url:link}}" target="_blank">View complete</a>
-        </div>
+        <h4>{{:title}}</h4>
+        <p>{{:contentSnippet}}</p>
+        <a href="{{url:link}}" target="_blank">View complete</a>
     </li>
+
+
+
+</script>
+
+<script id="flickrNewsTemplate" type="text/x-jsrender">
+    <li class="flickr">
+        <h4>{{:title}}</h4>
+        <p>{{:contentSnippet}}</p>
+        <a href="{{url:link}}" target="_blank">View complete</a>
+    </li>
+
+
+</script>
+
+<script id="twitterNewsTemplate" type="text/x-jsrender">
+<li class="twitter">
+    <a href="http://twitter.com/{{:user}}" target="_blank">@{{:user}}</a> said: {{:text}}
+</li>
+
 
 </script>
 
@@ -104,7 +126,6 @@
 <script type="text/javascript" src="js/app/service/facebook.js"></script>
 <script type="text/javascript" src="js/app/service/google/search.js"></script>
 <script type="text/javascript" src="js/app/service/google/gplus.js"></script>
-<script type="text/javascript" src="js/app/service/rss.js"></script>
 
 <script type="text/javascript" src="js/app/util/strings.js"></script>
 
