@@ -18,14 +18,19 @@
 
 /*************************** Estilos por default para los elementos HTML ***************************/
 
-header {
+header h1 {
     text-align: center;
+    font-family: monospace;
     text-shadow: 4px -1px 4px #ffffff;
     filter: dropshadow(color=#ffffff, offx=4, offy=-1);
 }
 
+header h1 span {
+    font-size: large;
+}
+
 body {
-    background-color: rgb(151, 224, 177);
+    background-color: #98D5AC;
 }
 
 div {
@@ -37,7 +42,7 @@ ul {
 }
 
 section ul li {
-    border: solid 1px white;
+    border: solid 1px black;
     padding: 5px 10px;
     margin: 10px 0;
     background-color: rgb(240, 255, 240);
@@ -53,12 +58,12 @@ section ul li {
     border-radius: 5px;
     margin: 1px 0;
     padding: 2px 0 2px 5px;
-    background-color: #414261;
+    background-color: #D2DB84;
     list-style: none;
 }
 
 .nav li a {
-    color: white;
+    color: black;
 }
 
 .nav li i {

@@ -84,7 +84,7 @@ $(document).ready(function () {
     var scrollTo = function (jQuerySelector) {
         $('html, body').stop().animate({
             scrollTop: $(jQuerySelector).offset().top
-        }, 2000);
+        }, 1500);
     };
 
     var createNewTopic = function (topicName, atBegin) {
@@ -143,14 +143,23 @@ $(document).ready(function () {
     //    ********************************************
     //    Bind events and customize controls behavior.
 
+    var customSearchButton = $('#customSearchButton');
+
+    customSearchButton.on('click', findNewsForCustomTopic);
+
+    $('form').submit(function (event) {
+        event.preventDefault();
+        customSearchButton.click();
+    });
+
     $('#navbar').affix();
-    $('#customSearchButton').on('click', findNewsForCustomTopic);
+
 
     //    ************************************************
     //    Load trends, then news for those trending topics
 
-    $.when(app.service.google.search.findTrends(), app.service.twitter.findTrends()).done(function (result, data) {
-        var index, eachTrend, trends = [], trendsIndex = 0;
+    $.when(app.service.google.search.findTrends()).done(function (result) {
+        var index, eachTrend, trends = [];
 
         var googleTrends = result.feed.entries;
         for (index = 0; index < googleTrends.length; index++) {
@@ -158,12 +167,16 @@ $(document).ready(function () {
             trends[index] = {name: eachTrend.title, keywords: eachTrend.content.split(', ')};
         }
 
-        trendsIndex = trends.length;
-        var twitterTrends = data[0][0].trends;
-        for (index = 0; index < twitterTrends.length; index++, trendsIndex++) {
+        $.each(trends, findNewsForTrends);
+    });
+
+    $.when(app.service.twitter.findTrends()).done(function (data) {
+        var index, eachTrend, trends = [];
+
+        var twitterTrends = data[0].trends;
+        for (index = 0; index < twitterTrends.length; index++) {
             eachTrend = twitterTrends[index];
-            //  TODO : use a Javascript Object instead of an a JSON object.
-            trends[trendsIndex] = {name: eachTrend.name, keywords: [eachTrend.name]};
+            trends[index] = {name: eachTrend.name, keywords: [eachTrend.name]};
         }
 
         $.each(trends, findNewsForTrends);

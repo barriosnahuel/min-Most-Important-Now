@@ -24,12 +24,12 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 
-    <link rel="stylesheet" href="css/noticiame.css">
+    <link rel="stylesheet" href="css/spoken-today.css">
 </head>
 <body>
 
 <header>
-    <h1>Spoken Today (the top things...)</h1>
+    <h1>Spoken Today <span>(the top things...)</span></h1>
 </header>
 
 <div class="container-fluid">
@@ -95,6 +95,7 @@
         <a href="#{{:trendNameElementId}}"><i class="icon-chevron-right "></i>{{:topicName}}</a>
     </li>
 
+
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -102,6 +103,7 @@
         <h2>{{:topicName}}</h2>
         <ul></ul>
     </section>
+
 
 </script>
 
@@ -112,6 +114,7 @@
         <a href="{{url:link}}" target="_blank">View complete</a>
     </li>
 
+
 </script>
 
 <script id="flickrNewsTemplate" type="text/x-jsrender">
@@ -121,12 +124,14 @@
         <a href="{{url:link}}" target="_blank">View complete</a>
     </li>
 
+
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
 <li class="twitter">
     <a href="http://twitter.com/{{:user}}" target="_blank">@{{:user}}</a> said: {{:text}}
 </li>
+
 
 </script>
 
