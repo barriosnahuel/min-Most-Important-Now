@@ -143,8 +143,17 @@ $(document).ready(function () {
     //    ********************************************
     //    Bind events and customize controls behavior.
 
+    var customSearchButton = $('#customSearchButton');
+
+    customSearchButton.on('click', findNewsForCustomTopic);
+
+    $('form').submit(function (event) {
+        event.preventDefault();
+        customSearchButton.click();
+    });
+
     $('#navbar').affix();
-    $('#customSearchButton').on('click', findNewsForCustomTopic);
+
 
     //    ************************************************
     //    Load trends, then news for those trending topics
