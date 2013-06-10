@@ -25,6 +25,7 @@ $(document).ready(function () {
     'use strict';
 
     var findNewsForQuery = function (query, container) {
+
         google.feeds.findFeeds(query, function (result) {
             var index;
             var eachEntry;
