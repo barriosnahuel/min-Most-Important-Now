@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     var findNewsForQuery = function (query, container) {
 
-        google.feeds.findFeeds(query, function (result) {
+        var googleFeedsCallback = function (result) {
             var index;
             var eachEntry;
 
@@ -37,13 +37,9 @@ $(document).ready(function () {
                     container.append($('#rssFeedTemplate').render(templateData));
                 }
             }
-        });
+        };
 
-        //  TODO : Add instagram public photos!
-        //  TODO : Add flipboard! (they haven't got an API yet)
-        //  TODO : Add youtube! (and other video sources)
-
-        app.service.flickr.findNews(query, function (data) {
+        var flickrCallback = function (data) {
             $.each(data.items, function (index, item) {
 
                 var templateData = {title: item.title, contentSnippet: item.description, link: item.link};
@@ -52,30 +48,32 @@ $(document).ready(function () {
                 //  TODO onmouseover cargo la .description con un popover de bootstrap.
                 //  TODO Usar isotope para ubicar las imágenes de manera de aprovechar el espacio en el sitio.
             });
-        });
+        };
 
-        app.service.twitter.findNews(query, function (data) {
+        var twitterCallback = function (data) {
             if (!data.error) {
                 $.each(data.results, function (index, eachItem) {
                     var templateData = {user: eachItem.from_user, text: eachItem.text, tweetId: eachItem.id};
                     container.append($('#twitterNewsTemplate').render(templateData));
                 });
             }
-        });
+        };
 
-        app.service.google.gplus.findNews(query, function (data) {
+        var googlePlusCallback = function (data) {
             $.each(data.items, function (index, eachItem) {
                 if (eachItem.title !== '') {
                     container.append('<li class="gplus">' + eachItem.title + '</li>');
                 }
             });
-        });
+        };
 
-        app.service.facebook.findNews(query, function (data) {
+        var facebookCallback = function (data) {
             $.each(data.data, function (index, eachItem) {
                 container.append('<li class="facebook">' + eachItem.message + '</li>');
             });
-        });
+        };
+
+        app.service.newsFinder.findNews(query, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback);
     };
 
     /**
