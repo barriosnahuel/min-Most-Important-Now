@@ -20,9 +20,9 @@
 
 header h1 {
     text-align: center;
-    font-family: monospace;
-    text-shadow: 4px -1px 4px #ffffff;
-    filter: dropshadow(color=#ffffff, offx=4, offy=-1);
+    font-family: 'Finger Paint', cursive;
+    text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
+    filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
 }
 
 header h1 span {
@@ -30,7 +30,7 @@ header h1 span {
 }
 
 body {
-    background-color: #98D5AC;
+    background: url('../img/hexellence.png') repeat;
 }
 
 div {
@@ -50,6 +50,10 @@ section ul li {
     list-style: none;
 }
 
+footer {
+    font-size: x-small;
+}
+
 /*************************** Own classes ***************************/
 
 /***    Menu    ***/
@@ -58,7 +62,7 @@ section ul li {
     border-radius: 5px;
     margin: 1px 0;
     padding: 2px 0 2px 5px;
-    background-color: #D2DB84;
+    background-color: rgba(238, 255, 89, 0.41);
     list-style: none;
 }
 

@@ -19,12 +19,20 @@
 
 <html>
 <head>
-    <title>Spoken Today</title>
+    <title>Spoken Today (the top things...)</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Finger+Paint">
 
     <link rel="stylesheet" href="css/spoken-today.css">
+
+    <meta name="description"
+          content="What people around the world are saying when you want to listen.">
+
+    <meta name="author" content="Nahuel Barrios <barrios.nahuel@gmail.com>">
+    <meta name="keywords" content="Twitter,Facebook,Google+,Flickr,Google,Trends,Trending topics,Hot searches">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
 
@@ -35,6 +43,7 @@
 <div class="container-fluid">
 
     <div class="row">
+
         <div class="span3">
             <div id="navbar" class="affix">
                 <form class="form-inline">
@@ -58,6 +67,18 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <footer>
+                <hr>
+                This site was created by <a href="https://docs.google.com/document/d/1Bb5ApFV9tcF-IDgelTLGpCM9xQ_ZCRM19OpchOB8gvU/edit?usp=sharing"
+                                            target="_blank">Nahuel Barrios</a>
+                | <a href="mailto:barrios.nahuel@gmail.com" target="_blank">barrios.nahuel@gmail.com</a>
+                | <a href="https://github.com/barriosnahuel/spoken-today" target="_blank">Project site</a>
+            </footer>
         </div>
     </div>
 
@@ -96,6 +117,7 @@
     </li>
 
 
+
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -103,6 +125,7 @@
         <h2>{{:topicName}}</h2>
         <ul></ul>
     </section>
+
 
 
 </script>
@@ -115,6 +138,7 @@
     </li>
 
 
+
 </script>
 
 <script id="flickrNewsTemplate" type="text/x-jsrender">
@@ -125,12 +149,14 @@
     </li>
 
 
+
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
 <li class="twitter">
     <a href="http://twitter.com/{{:user}}" target="_blank">@{{:user}}</a> said: {{:text}}
 </li>
+
 
 
 </script>
