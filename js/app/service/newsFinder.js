@@ -35,11 +35,13 @@ app.service.newsFinder = (function () {
      * @param twitterCallback The callback to execute after retrieve tweets.
      * @param googlePlusCallback The callback to execute after retrieve Google Plus posts.
      * @param facebookCallback The callback to execute after retrieve Facebook posts.
+     * @param instagramCallback The callback to execute after retrieve Instagram posts.
      */
-    var findNews = function (keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback) {
+    var findNews = function (keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback) {
         var index;
 
         app.service.flickr.findNews(keywords, flickrCallback);
+        app.service.instagram.findNews(keywords, instagramCallback);
 
         for (index = 0; index < keywords.length; index++) {
             google.feeds.findFeeds(keywords[index], googleFeedsCallback);

@@ -39,31 +39,6 @@ $(document).ready(function () {
             }
         };
 
-        var flickrCallback = function (data) {
-            var templateData = {}, index;
-
-            templateData.photos = [];
-
-            for (index = 0; index < data.items.length; index++) {
-                var eachItem = data.items[index];
-                templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link};
-            }
-            console.log('hay ' + index + ' items..');
-
-            var li = container.find('li[class=flickr]');
-
-            if (li.length === 0) {
-                li = container.append('<li class="flickr"></li>').find('li[class=flickr]');
-            }
-
-            li.append($('#flickrNewsTemplate').render(templateData));
-
-            var imagesContainer = li.find('div');
-            imagesContainer.imagesLoaded(function () {
-                imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
-            });
-        };
-
         var twitterCallback = function (data) {
             if (!data.error) {
                 $.each(data.results, function (index, eachItem) {
@@ -89,7 +64,61 @@ $(document).ready(function () {
             });
         };
 
-        app.service.newsFinder.findNews(query, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback);
+        var flickrCallback = function (data) {
+            var templateData = {}, index;
+
+            templateData.photos = [];
+
+            for (index = 0; index < data.items.length; index++) {
+                var eachItem = data.items[index];
+                templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link};
+            }
+
+            var li = container.find('li[class=flickr]');
+
+            if (li.length === 0) {
+                li = container.append('<li class="flickr"></li>').find('li[class=flickr]');
+            }
+
+            li.append($('#flickrNewsTemplate').render(templateData));
+
+            var imagesContainer = li.find('div');
+            imagesContainer.imagesLoaded(function () {
+                imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
+            });
+        };
+
+        var instagramCallback = function (data) {
+            var templateData = {}, index;
+
+            templateData.photos = [];
+
+            if (data.meta.code === 200) {
+                for (index = 0; index < data.data.length; index++) {
+                    var eachItem = data.data[index];
+
+                    templateData.photos[index] = {photo: eachItem.images.thumbnail.url, link: eachItem.link};
+                }
+                console.log('hay ' + index + ' items..');
+
+                var li = container.find('li[class=flickr]');
+
+                if (li.length === 0) {
+                    li = container.append('<li class="flickr"></li>').find('li[class=flickr]');
+                }
+
+                li.append($('#flickrNewsTemplate').render(templateData));
+
+                var imagesContainer = li.find('div');
+                imagesContainer.imagesLoaded(function () {
+                    imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
+                });
+            } else {
+                console.log('Ocurrió un error al recuperar las noticias de Instagram: ' + data.meta.code);
+            }
+        };
+
+        app.service.newsFinder.findNews(query, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback);
     };
 
     /**
@@ -175,8 +204,9 @@ $(document).ready(function () {
             var templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
             instagramDiv.append($('#instagramNewsTemplate').render(templateData));
         }
-    });
 
+        //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
+    });
 
     $.when(app.service.google.search.findTrends()).done(function (result) {
         var index, eachTrend, trends = [];
