@@ -50,8 +50,21 @@ section ul li {
     list-style: none;
 }
 
+section h2 {
+    text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
+    filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
+}
+
 footer {
     font-size: x-small;
+}
+
+footer a {
+    transition: color 1.2s;
+}
+
+footer a:hover {
+    color: black;
 }
 
 /*************************** Own classes ***************************/
@@ -72,6 +85,12 @@ footer {
 
 .nav li a {
     color: black;
+    transition: 0.5s;
+}
+
+.nav li a:hover {
+    color: rgb(206, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .nav li i {
@@ -94,6 +113,11 @@ footer {
 
 .facebook {
     background: url("../img/FB-f-Logo__blue_29.png") no-repeat right;
+}
+
+.twitter span, .facebook span, .gplus span, .rss span {
+    font-style: italic;
+    font-size: small;
 }
 
 .gplus {

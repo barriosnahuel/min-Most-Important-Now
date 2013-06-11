@@ -35,7 +35,7 @@
           content="What people around the world are saying when you want to listen.">
 
     <meta name="author" content="Nahuel Barrios <barrios.nahuel@gmail.com>">
-    <meta name="keywords" content="Twitter,Facebook,Google+,Flickr,Google,Trends,Trending topics,Hot searches">
+    <meta name="keywords" content="Twitter,Facebook,Google+,Instagram,Flickr,Google,Trends,Trending topics,Hot searches">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <!--Facebook metatags\required-->
@@ -78,7 +78,8 @@
             <div class="row-fluid">
                 <div class="span12">
                     <div id="instagramPopularPhotos">
-                        <h5><a href="http://instagram.com/" target="_blank">Instagram</a> popular photos</h5>
+                        <h5><a href="http://instagram.com/" target="_blank" title="Navigate to Instagram official site">Instagram</a> popular photos
+                        </h5>
                     </div>
                 </div>
             </div>
@@ -98,9 +99,9 @@
             <footer>
                 <hr>
                 This site was created by <a href="https://docs.google.com/document/d/1Bb5ApFV9tcF-IDgelTLGpCM9xQ_ZCRM19OpchOB8gvU/edit?usp=sharing"
-                                            target="_blank">Nahuel Barrios</a>
-                | <a href="mailto:barrios.nahuel@gmail.com" target="_blank">barrios.nahuel@gmail.com</a>
-                | <a href="https://github.com/barriosnahuel/spoken-today" target="_blank">Project site</a>
+                                            target="_blank" title="My resume">Nahuel Barrios</a>
+                | <a href="mailto:barrios.nahuel@gmail.com" target="_blank" title="Send me an email">barrios.nahuel@gmail.com</a>
+                | <a href="https://github.com/barriosnahuel/spoken-today" target="_blank" title="Navigate to the project main site">Project site</a>
             </footer>
         </div>
     </div>
@@ -137,9 +138,35 @@
 <script id="rssFeedTemplate" type="text/x-jsrender">
     <li class="rss">
         <h4>{{:title}}</h4>
-        <p>{{:contentSnippet}}</p>
-        <a href="{{url:link}}" target="_blank">View complete</a>
+        <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a></p>
     </li>
+</script>
+
+<script id="facebookNewsTemplate" type="text/x-jsrender">
+    <li class="facebook">
+        <a href="http://facebook.com/{{:userId}}" target="_blank">{{:userName}}</a>
+        <span> said: </span>{{:text}} -
+        <a href="http://facebook.com/{{:id}}" target="_blank"><span>[Original post]</span></a>
+    </li>
+
+</script>
+
+<script id="googlePlusNewsTemplate" type="text/x-jsrender">
+    <li class="gplus">
+        <a href="http://plus.google.com/{{:userId}}" target="_blank">{{:userName}}</a>
+        <span> said: </span>{{:text}} -
+        <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a>
+    </li>
+
+</script>
+
+<script id="twitterNewsTemplate" type="text/x-jsrender">
+    <li class="twitter">
+        <a href="http://twitter.com/{{:userName}}" rel="me" target="_blank">@{{:userName}}</a>
+        <span> said: </span>{{:text}} -
+        <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank"><span>[Original post]</span></a>
+    </li>
+
 </script>
 
 <script id="flickrNewsTemplate" type="text/x-jsrender">
@@ -148,12 +175,6 @@
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}"></a>
         {{/for}}
     </div>
-</script>
-
-<script id="twitterNewsTemplate" type="text/x-jsrender">
-<li class="twitter">
-    <a href="http://twitter.com/{{:user}}" rel="me" target="_blank">@{{:user}}</a> said: {{:text}}
-</li>
 </script>
 
 <!--Scripts propios de los que dependo-->
