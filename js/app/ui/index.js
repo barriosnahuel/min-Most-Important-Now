@@ -157,6 +157,17 @@ $(document).ready(function () {
     //    ************************************************
     //    Load trends, then news for those trending topics
 
+    app.service.instagram.findTrends(function (data) {
+        var instagramDiv = $('#instagramPopularPhotos');
+        var index;
+
+        for (index = 0; index < data.data.length; index++) {
+            var templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
+            instagramDiv.append($('#instagramNewsTemplate').render(templateData));
+        }
+    });
+
+
     $.when(app.service.google.search.findTrends()).done(function (result) {
         var index, eachTrend, trends = [];
 
