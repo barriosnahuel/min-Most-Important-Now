@@ -36,7 +36,24 @@ app.util.strings = (function () {
         return finalValue;
     };
 
+    /**
+     * Truncate the specified {@code aString} to 140 characters and append a '...' suffix to display it to the user.
+     * @param aString The String to truncate.
+     * @returns The truncated (or not) String.
+     */
+    var truncate = function (aString) {
+        var result = aString
+            , maxLength = 140
+            , suffix = '...';
+
+        if (aString.length > maxLength) {
+            result = result.substring(0, maxLength - suffix.length).concat(suffix);
+        }
+
+        return result;
+    };
+
     return {
-        getKeywordWithoutPreffix: getKeywordWithoutPreffix
+        getKeywordWithoutPreffix: getKeywordWithoutPreffix, truncate: truncate
     };
 }());

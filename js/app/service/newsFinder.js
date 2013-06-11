@@ -29,28 +29,38 @@ app.service.newsFinder = (function () {
 
     /**
      *
-     * @param query The query
+     * @param keywords An array of tags/keywords
      * @param googleFeedsCallback The callback to execute after retrieve Google feeds.
      * @param flickrCallback The callback to execute after retrieve Flickr posts.
      * @param twitterCallback The callback to execute after retrieve tweets.
      * @param googlePlusCallback The callback to execute after retrieve Google Plus posts.
      * @param facebookCallback The callback to execute after retrieve Facebook posts.
      */
-    var findNews = function (query, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback) {
+    var findNews = function (keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback) {
+        var index;
 
-        google.feeds.findFeeds(query, googleFeedsCallback);
+        app.service.flickr.findNews(keywords, flickrCallback);
 
-        app.service.flickr.findNews(query, flickrCallback);
+        for (index = 0; index < keywords.length; index++) {
+            google.feeds.findFeeds(keywords[index], googleFeedsCallback);
+        }
 
-        app.service.twitter.findNews(query, twitterCallback);
+        for (index = 0; index < keywords.length; index++) {
+            app.service.twitter.findNews(keywords[index], twitterCallback);
+        }
 
-        app.service.google.gplus.findNews(query, googlePlusCallback);
+        for (index = 0; index < keywords.length; index++) {
+            app.service.google.gplus.findNews(keywords[index], googlePlusCallback);
+        }
 
-        app.service.facebook.findNews(query, facebookCallback);
+        for (index = 0; index < keywords.length; index++) {
+            app.service.facebook.findNews(keywords[index], facebookCallback);
+        }
 
-        //  TODO : Add instagram public photos!
-        //  TODO : Add flipboard! (they haven't got an API yet)
-        //  TODO : Add youtube! (and other video sources)
+        //  TODO : Add Instagram!
+        //  TODO : Add Flipboard! (they haven't got an API yet)
+        //  TODO : Add Pinterest!
+        //  TODO : Add Youtube! (and other video sources)
     };
 
     return {

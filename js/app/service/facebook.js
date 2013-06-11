@@ -33,7 +33,7 @@ app.service.facebook = (function () {
      * @param onSuccess
      */
     var findNews = function (keyword, onSuccess) {
-        var url = 'https://graph.facebook.com/search?type=post&q=' + keyword;
+        var url = 'https://graph.facebook.com/search?type=post&q=' + keyword + '&fields=from,message,id';
 
         $.getJSON(url, onSuccess);
     };

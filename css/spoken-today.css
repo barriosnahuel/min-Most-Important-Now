@@ -50,11 +50,28 @@ section ul li {
     list-style: none;
 }
 
+section h2 {
+    text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
+    filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
+}
+
 footer {
     font-size: x-small;
 }
 
+footer a {
+    transition: color 1.2s;
+}
+
+footer a:hover {
+    color: black;
+}
+
 /*************************** Own classes ***************************/
+
+#instagramPopularPhotos {
+    text-align: left;
+}
 
 /***    Menu    ***/
 .nav li {
@@ -68,6 +85,12 @@ footer {
 
 .nav li a {
     color: black;
+    transition: 0.5s;
+}
+
+.nav li a:hover {
+    color: rgb(206, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .nav li i {
@@ -92,6 +115,11 @@ footer {
     background: url("../img/FB-f-Logo__blue_29.png") no-repeat right;
 }
 
+.twitter span, .facebook span, .gplus span, .rss span {
+    font-style: italic;
+    font-size: small;
+}
+
 .gplus {
     background: url("../img/g+29.png") no-repeat right;
 }
@@ -101,3 +129,56 @@ footer {
 }
 
 /*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/
+
+/* Start: Recommended Isotope styles */
+/**** Isotope Filtering ****/
+
+.isotope-item {
+    z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+    pointer-events: none;
+    z-index: 1;
+}
+
+/**** Isotope CSS3 transitions ****/
+
+.isotope,
+.isotope .isotope-item {
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -ms-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+}
+
+.isotope {
+    -webkit-transition-property: height, width;
+    -moz-transition-property: height, width;
+    -ms-transition-property: height, width;
+    -o-transition-property: height, width;
+    transition-property: height, width;
+}
+
+.isotope .isotope-item {
+    -webkit-transition-property: -webkit-transform, opacity;
+    -moz-transition-property: -moz-transform, opacity;
+    -ms-transition-property: -ms-transform, opacity;
+    -o-transition-property: -o-transform, opacity;
+    transition-property: transform, opacity;
+}
+
+/**** disabling Isotope CSS3 transitions ****/
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+    -webkit-transition-duration: 0s;
+    -moz-transition-duration: 0s;
+    -ms-transition-duration: 0s;
+    -o-transition-duration: 0s;
+    transition-duration: 0s;
+}
+
+/* End: Recommended Isotope styles */

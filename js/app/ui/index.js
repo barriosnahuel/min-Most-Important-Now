@@ -40,36 +40,52 @@ $(document).ready(function () {
         };
 
         var flickrCallback = function (data) {
-            $.each(data.items, function (index, item) {
+            var templateData = {}, index;
 
-                var templateData = {title: item.title, contentSnippet: item.description, link: item.link};
-                container.append($('#flickrNewsTemplate').render(templateData));
+            templateData.photos = [];
 
-                //  TODO onmouseover cargo la .description con un popover de bootstrap.
-                //  TODO Usar isotope para ubicar las imágenes de manera de aprovechar el espacio en el sitio.
+            for (index = 0; index < data.items.length; index++) {
+                var eachItem = data.items[index];
+                templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link};
+            }
+            console.log('hay ' + index + ' items..');
+
+            var li = container.find('li[class=flickr]');
+
+            if (li.length === 0) {
+                li = container.append('<li class="flickr"></li>').find('li[class=flickr]');
+            }
+
+            li.append($('#flickrNewsTemplate').render(templateData));
+
+            var imagesContainer = li.find('div');
+            imagesContainer.imagesLoaded(function () {
+                imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
             });
         };
 
         var twitterCallback = function (data) {
             if (!data.error) {
                 $.each(data.results, function (index, eachItem) {
-                    var templateData = {user: eachItem.from_user, text: eachItem.text, tweetId: eachItem.id};
+                    var templateData = {userName: eachItem.from_user, text: eachItem.text, id: eachItem.id_str};
                     container.append($('#twitterNewsTemplate').render(templateData));
                 });
             }
         };
 
-        var googlePlusCallback = function (data) {
-            $.each(data.items, function (index, eachItem) {
-                if (eachItem.title !== '') {
-                    container.append('<li class="gplus">' + eachItem.title + '</li>');
-                }
+        var facebookCallback = function (data) {
+            $.each(data.data, function (index, eachItem) {
+                var templateData = {userId: eachItem.from.id, userName: eachItem.from.name, text: app.util.strings.truncate(eachItem.message), id: eachItem.id};
+                container.append($('#facebookNewsTemplate').render(templateData));
             });
         };
 
-        var facebookCallback = function (data) {
-            $.each(data.data, function (index, eachItem) {
-                container.append('<li class="facebook">' + eachItem.message + '</li>');
+        var googlePlusCallback = function (data) {
+            $.each(data.items, function (index, eachItem) {
+                if (eachItem.title !== '') {
+                    var templateData = {userId: eachItem.actor.id, userName: eachItem.actor.displayName, text: app.util.strings.truncate(eachItem.title), link: eachItem.object.url};
+                    container.append($('#googlePlusNewsTemplate').render(templateData));
+                }
             });
         };
 
@@ -134,9 +150,7 @@ $(document).ready(function () {
 
         var eachSectionList = $(createNewTopic(trendName) + ' ul');
 
-        $.each(eachItem.keywords, function (index, eachKeyword) {
-            findNewsForQuery(eachKeyword, eachSectionList);
-        });
+        findNewsForQuery(eachItem.keywords, eachSectionList);
     };
 
     //    ********************************************
@@ -156,6 +170,17 @@ $(document).ready(function () {
 
     //    ************************************************
     //    Load trends, then news for those trending topics
+
+    app.service.instagram.findTrends(function (data) {
+        var instagramDiv = $('#instagramPopularPhotos');
+        var index;
+
+        for (index = 0; index < data.data.length; index++) {
+            var templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
+            instagramDiv.append($('#instagramNewsTemplate').render(templateData));
+        }
+    });
+
 
     $.when(app.service.google.search.findTrends()).done(function (result) {
         var index, eachTrend, trends = [];
