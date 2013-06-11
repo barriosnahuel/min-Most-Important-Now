@@ -115,6 +115,10 @@ footer a:hover {
     font-family: "Finger Paint", monospace;
 }
 
+.navbar form {
+    float: none;
+}
+
 .navbar .nav {
     margin-top: 4px;
 }
