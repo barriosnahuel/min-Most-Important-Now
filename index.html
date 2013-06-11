@@ -113,6 +113,7 @@
 <script type="text/javascript" src="js/lib/jsrender.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">google.load("feeds", "1");</script>
+<script type="text/javascript" src="js/lib/jquery.isotope.min.js"></script>
 
 <!--Templates-->
 <script id="menuItemTemplate" type="text/x-jsrender">
@@ -142,11 +143,11 @@
 </script>
 
 <script id="flickrNewsTemplate" type="text/x-jsrender">
-    <li class="flickr">
-        <h4>{{:title}}</h4>
-        <p>{{:contentSnippet}}</p>
-        <a href="{{url:link}}" target="_blank">View complete</a>
-    </li>
+    <div>
+        {{for photos}}
+            <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}"></a>
+        {{/for}}
+    </div>
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
