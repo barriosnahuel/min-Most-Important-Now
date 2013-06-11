@@ -36,7 +36,7 @@ app.service.google.gplus = (function () {
     var findNews = function (keyword, onSuccess) {
         var apiKey = 'AIzaSyCNQ1slAxWLz8pg6MCPXJDVdeozgQBYxz8';
 
-        var url = 'https://www.googleapis.com/plus/v1/activities?key=' + apiKey + '&query=' + keyword;
+        var url = 'https://www.googleapis.com/plus/v1/activities?key=' + apiKey + '&query=' + keyword + '&maxResults=15&orderBy=best&language=' + navigator.language;
 
         $.getJSON(url, onSuccess);
     };
