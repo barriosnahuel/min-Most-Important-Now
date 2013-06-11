@@ -57,6 +57,7 @@
 
     <div class="row">
 
+        <!--Menu-->
         <div class="span3">
             <div id="navbar" class="affix">
                 <form class="form-inline">
@@ -71,7 +72,16 @@
             </div>
         </div>
 
+        <!--Main content-->
         <div class="span9">
+            <hr>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div id="instagramPopularPhotos">
+                        <h5><a href="http://instagram.com/" target="_blank">Instagram</a> popular photos</h5>
+                    </div>
+                </div>
+            </div>
 
             <div class="row-fluid">
                 <div class="span12">
@@ -118,9 +128,6 @@
     <li>
         <a href="#{{:trendNameElementId}}"><i class="icon-chevron-right "></i>{{:topicName}}</a>
     </li>
-
-
-
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -129,18 +136,18 @@
         <ul></ul>
     </section>
 
-
-
 </script>
+
+<script id="instagramNewsTemplate" type="text/x-jsrender">
+    <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}"></a>
+</script>
+
 <script id="rssFeedTemplate" type="text/x-jsrender">
     <li class="rss">
         <h4>{{:title}}</h4>
         <p>{{:contentSnippet}}</p>
         <a href="{{url:link}}" target="_blank">View complete</a>
     </li>
-
-
-
 </script>
 
 <script id="flickrNewsTemplate" type="text/x-jsrender">
@@ -149,22 +156,18 @@
         <p>{{:contentSnippet}}</p>
         <a href="{{url:link}}" target="_blank">View complete</a>
     </li>
-
-
-
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
 <li class="twitter">
     <a href="http://twitter.com/{{:user}}" rel="me" target="_blank">@{{:user}}</a> said: {{:text}}
 </li>
-
-
-
 </script>
 
 <!--Scripts propios de los que dependo-->
+<script type="text/javascript" src="js/app/service/newsFinder.js"></script>
 <script type="text/javascript" src="js/app/service/twitter.js"></script>
+<script type="text/javascript" src="js/app/service/instagram.js"></script>
 <script type="text/javascript" src="js/app/service/flickr.js"></script>
 <script type="text/javascript" src="js/app/service/facebook.js"></script>
 <script type="text/javascript" src="js/app/service/google/search.js"></script>

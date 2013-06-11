@@ -56,6 +56,10 @@ footer {
 
 /*************************** Own classes ***************************/
 
+#instagramPopularPhotos {
+    text-align: left;
+}
+
 /***    Menu    ***/
 .nav li {
     border: solid 1px;
