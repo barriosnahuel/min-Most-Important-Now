@@ -73,31 +73,6 @@ footer a:hover {
     text-align: left;
 }
 
-/***    Menu    ***/
-.nav li {
-    border: solid 1px;
-    border-radius: 5px;
-    margin: 1px 0;
-    padding: 2px 0 2px 5px;
-    background-color: rgba(238, 255, 89, 0.41);
-    list-style: none;
-}
-
-.nav li a {
-    color: black;
-    transition: 0.5s;
-}
-
-.nav li a:hover {
-    color: rgb(206, 0, 0);
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.nav li i {
-    float: right;
-    margin-top: 3px;
-}
-
 /***    News (per each social network    ***/
 .flickr {
     background: url("../img/1370749307_flickr 02.png") no-repeat right;
@@ -130,9 +105,43 @@ footer a:hover {
 
 /*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/
 
-/* Start: Recommended Isotope styles */
-/**** Isotope Filtering ****/
+/***    Menu    ***/
+.navbar-inner {
+    padding-right: 10px;
+    padding-left: 10px;
+}
 
+.brand {
+    font-family: "Finger Paint", monospace;
+}
+
+.navbar form {
+    float: none;
+}
+
+.navbar .nav {
+    margin-top: 4px;
+}
+
+.navbar .nav>li {
+    float: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar .nav>li>a {
+    float: none;
+    margin: 0;
+    padding: 4px;
+}
+
+.nav li i {
+    float: right;
+    margin: 3px 0 0 15px;
+}
+
+/******************* Start: Recommended Isotope styles *******************/
+/**** Isotope Filtering ****/
 .isotope-item {
     z-index: 2;
 }
@@ -181,4 +190,4 @@ footer a:hover {
     transition-duration: 0s;
 }
 
-/* End: Recommended Isotope styles */
+/******************* End: Recommended Isotope styles *******************/
