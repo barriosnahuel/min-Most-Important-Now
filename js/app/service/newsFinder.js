@@ -24,11 +24,13 @@
 var app = app || {};
 app.service = app.service || {};
 
+/**
+ * Module that acts like a facade and calls every source of information.
+ */
 app.service.newsFinder = (function () {
     'use strict';
 
     /**
-     *
      * @param keywords An array of tags/keywords
      * @param googleFeedsCallback The callback to execute after retrieve Google feeds.
      * @param flickrCallback The callback to execute after retrieve Flickr posts.
@@ -40,10 +42,10 @@ app.service.newsFinder = (function () {
     var findNews = function (keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback) {
         var index;
 
-        app.service.flickr.findNews(keywords, flickrCallback);
+        app.service.socialNetworks.flickr.findNews(keywords, flickrCallback);
 
         for (index = 0; index < keywords.length; index++) {
-            app.service.instagram.findNews(keywords[index].replace(/ /g, ''), instagramCallback);
+            app.service.socialNetworks.instagram.findNews(keywords[index].replace(/ /g, ''), instagramCallback);
         }
 
         for (index = 0; index < keywords.length; index++) {
@@ -51,15 +53,15 @@ app.service.newsFinder = (function () {
         }
 
         for (index = 0; index < keywords.length; index++) {
-            app.service.twitter.findNews(keywords[index], twitterCallback);
+            app.service.socialNetworks.twitter.findNews(keywords[index], twitterCallback);
         }
 
         for (index = 0; index < keywords.length; index++) {
-            app.service.google.gplus.findNews(keywords[index], googlePlusCallback);
+            app.service.socialNetworks.gplus.findNews(keywords[index], googlePlusCallback);
         }
 
         for (index = 0; index < keywords.length; index++) {
-            app.service.facebook.findNews(keywords[index], facebookCallback);
+            app.service.socialNetworks.facebook.findNews(keywords[index], facebookCallback);
         }
 
         //  TODO : Add Flipboard! (they haven't got an API yet)

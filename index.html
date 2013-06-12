@@ -119,7 +119,7 @@
 
     <div class="row-fluid">
         <div class="span12">
-        <footer>
+            <footer>
                 <hr>
                 This site was created by <a href="https://docs.google.com/document/d/1Bb5ApFV9tcF-IDgelTLGpCM9xQ_ZCRM19OpchOB8gvU/edit?usp=sharing"
                                             target="_blank" title="My resume">Nahuel Barrios</a>
@@ -153,6 +153,7 @@
     <li>
         <a href="#{{:trendNameElementId}}"><i class="icon-chevron-right "></i>{{:topicName}}</a>
     </li>
+
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -160,10 +161,12 @@
         <h2>{{:topicName}}</h2>
         <ul></ul>
     </section>
+
 </script>
 
 <script id="instagramNewsTemplate" type="text/x-jsrender">
     <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}" class="st-thumbnail" title="Navigate to the original post at Instagram"></a>
+
 </script>
 
 <script id="rssFeedTemplate" type="text/x-jsrender">
@@ -171,6 +174,7 @@
         <h4>{{:title}}</h4>
         <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a></p>
     </li>
+
 </script>
 
 <script id="facebookNewsTemplate" type="text/x-jsrender">
@@ -179,6 +183,7 @@
         <span> said: </span>{{:text}} -
         <a href="http://facebook.com/{{:id}}" target="_blank"><span>[Original post]</span></a>
     </li>
+
 </script>
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
@@ -187,6 +192,7 @@
         <span> said: </span>{{:text}} -
         <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a>
     </li>
+
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
@@ -195,6 +201,7 @@
         <span> said: </span>{{:text}} -
         <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank"><span>[Original post]</span></a>
     </li>
+
 </script>
 
 <script id="flickrNewsTemplate" type="text/x-jsrender">
@@ -203,16 +210,13 @@
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="Navigate to the original post"></a>
         {{/for}}
     </div>
+
 </script>
 
 <!--Scripts propios de los que dependo-->
 <script type="text/javascript" src="js/app/service/newsFinder.js"></script>
-<script type="text/javascript" src="js/app/service/twitter.js"></script>
-<script type="text/javascript" src="js/app/service/instagram.js"></script>
-<script type="text/javascript" src="js/app/service/flickr.js"></script>
-<script type="text/javascript" src="js/app/service/facebook.js"></script>
-<script type="text/javascript" src="js/app/service/google/search.js"></script>
-<script type="text/javascript" src="js/app/service/google/gplus.js"></script>
+<script type="text/javascript" src="js/app/service/socialNetworks.js"></script>
+<script type="text/javascript" src="js/app/service/google.js"></script>
 
 <script type="text/javascript" src="js/app/util/strings.js"></script>
 
