@@ -73,9 +73,12 @@ footer a:hover {
     text-align: left;
 }
 
+.st-thumbnail {
+    border-radius: 20px;
+}
+
 /***    News (per each social network    ***/
 .flickr {
-    background: url("../img/1370749307_flickr 02.png") no-repeat right;
 }
 
 .twitter {
