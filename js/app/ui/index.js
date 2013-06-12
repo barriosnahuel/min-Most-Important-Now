@@ -127,11 +127,11 @@ $(document).ready(function () {
      */
     var scrollTo = function (jQuerySelector) {
         $('html, body').stop().animate({
-            scrollTop: $(jQuerySelector).offset().top
+            scrollTop: $(jQuerySelector).offset().top - 100
         }, 1500);
     };
 
-    var createNewTopic = function (topicName, atBegin) {
+    var createNewTopic = function (containerQuerySelector, topicName, atBegin) {
         //  TODO : Use a template instead of this horrible script!
         //  TODO : Split this function into others two: createMenuEntry() and createSection()
 
@@ -141,15 +141,10 @@ $(document).ready(function () {
         var templateData = {trendNameElementId: trendNameElementId, topicName: topicName};
         var menuHTML = $('#menuItemTemplate').render(templateData);
 
-        if (atBegin) {
-            $('.nav').prepend(menuHTML);
-        } else {
-            $('.nav').append(menuHTML);
-        }
-
+        $(containerQuerySelector).append(menuHTML);
 
         var trendNameElementSelector = '#' + trendNameElementId;
-        $('.nav a[href=' + trendNameElementSelector + ']').on('click', function () {
+        $(containerQuerySelector + ' a[href=' + trendNameElementSelector + ']').on('click', function () {
             scrollTo(trendNameElementSelector);
         });
 
@@ -168,7 +163,7 @@ $(document).ready(function () {
      */
     var findNewsForCustomTopic = function () {
         var userQuery = $('form input').val();
-        var sectionIdSelector = createNewTopic(userQuery, true);
+        var sectionIdSelector = createNewTopic('#queries', userQuery, true);
 
         findNewsForQuery(userQuery, $(sectionIdSelector + ' ul'));
         scrollTo(sectionIdSelector);
@@ -177,7 +172,7 @@ $(document).ready(function () {
     var findNewsForTrends = function (index, eachItem) {
         var trendName = app.util.strings.getKeywordWithoutPreffix(eachItem.name);
 
-        var eachSectionList = $(createNewTopic(trendName) + ' ul');
+        var eachSectionList = $(createNewTopic('#globalTrends', trendName) + ' ul');
 
         findNewsForQuery(eachItem.keywords, eachSectionList);
     };
@@ -189,9 +184,6 @@ $(document).ready(function () {
         event.preventDefault();
         findNewsForCustomTopic();
     });
-
-    $('#navbar').affix();
-
 
     //    ************************************************
     //    Load trends, then news for those trending topics
