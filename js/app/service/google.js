@@ -36,8 +36,11 @@ app.service.google.search = (function () {
      * @param onSuccess
      */
     var findTrends = function (onSuccess) {
+        var feed = new google.feeds.Feed("http://www.google.com/trends/hottrends/atom/feed?pn=p1");
+        feed.setNumEntries(10);
+
         return $.Deferred(function (dfd) {
-            new google.feeds.Feed("http://www.google.com/trends/hottrends/atom/feed?pn=p1").load(onSuccess || dfd.resolve);
+            feed.load(onSuccess || dfd.resolve);
         });
     };
 
