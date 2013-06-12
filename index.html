@@ -49,65 +49,71 @@
 </head>
 <body>
 
-<header>
-    <h1>Spoken Today <span>(the top things...)</span></h1>
-</header>
 
-<div class="container-fluid">
+<div class="container">
 
     <div class="row">
+        <div class="span12">
 
-        <!--Menu column-->
-        <div class="span3">
+            <header>
+                <div class="navbar navbar-fixed-top">
+                    <div class="navbar-inner">
+                        <div class="container">
 
-            <!--Menu-->
-            <div class="navbar affix">
-                <div class="navbar-inner">
-                    <div class="container">
+                            <h1>Spoken Today <span>(the top things...)</span></h1>
 
-                        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </a>
+                            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </a>
 
-                        <a class="brand" href="#">Spoken Today</a>
+                            <!-- Everything you want hidden at 940px or less, place within here -->
+                            <div class="nav-collapse collapse">
+                                <!-- .nav, .navbar-search, .navbar-form, etc -->
 
-                        <!-- Everything you want hidden at 940px or less, place within here -->
-                        <div class="nav-collapse collapse">
-                            <!-- .nav, .navbar-search, .navbar-form, etc -->
+                                <form class="navbar-search">
+                                    <input type="text" class="search-query input-medium" placeholder="Wanna know about..." tabindex="1"
+                                           maxlength="30">
+                                </form>
 
-                            <form class="navbar-search">
-                                <input type="text" class="search-query input-medium" placeholder="Wanna know about..." tabindex="1" maxlength="30">
-                            </form>
-                            <div>
-                                <ul class="nav nav-list">
-                                    <li class="nav-header">Global Trends!</li>
+                                <ul id="queries" class="nav">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            Global Trends!
+                                            <b class="caret"></b>
+                                        </a>
+                                        <ul id="globalTrends" class="dropdown-menu">
+                                        </ul>
+                                    </li>
                                 </ul>
                             </div>
 
                         </div>
-
                     </div>
                 </div>
-            </div>
+            </header>
 
         </div>
+    </div>
 
-        <!--Main content column-->
-        <div class="span9">
+    <div class="row">
+        <div class="span12">
+
             <hr>
-            <div class="row-fluid">
+
+            <div class="row">
                 <div class="span12">
                     <div id="instagramPopularPhotos">
-                        <h5><a href="http://instagram.com/" target="_blank" title="Navigate to Instagram official site">Instagram</a> popular photos
+                        <h5>
+                            <a href="http://instagram.com/" target="_blank" title="Navigate to Instagram official site">Instagram</a> popular photos
                         </h5>
                     </div>
                 </div>
             </div>
 
-            <div class="row-fluid">
+            <div class="row">
                 <div class="span12">
                     <div class="content">
                     </div>
@@ -117,7 +123,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="span12">
             <footer>
                 <hr>
@@ -144,7 +150,6 @@
     <li>
         <a href="#{{:trendNameElementId}}"><i class="icon-chevron-right "></i>{{:topicName}}</a>
     </li>
-
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -152,12 +157,10 @@
         <h2>{{:topicName}}</h2>
         <ul></ul>
     </section>
-
 </script>
 
 <script id="instagramNewsTemplate" type="text/x-jsrender">
     <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}" class="st-thumbnail" title="Navigate to the original post at Instagram"></a>
-
 </script>
 
 <script id="rssFeedTemplate" type="text/x-jsrender">
@@ -165,7 +168,6 @@
         <h4>{{:title}}</h4>
         <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a></p>
     </li>
-
 </script>
 
 <script id="facebookNewsTemplate" type="text/x-jsrender">
@@ -174,7 +176,6 @@
         <span> said: </span>{{:text}} -
         <a href="http://facebook.com/{{:id}}" target="_blank"><span>[Original post]</span></a>
     </li>
-
 </script>
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
@@ -183,7 +184,6 @@
         <span> said: </span>{{:text}} -
         <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a>
     </li>
-
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
@@ -192,7 +192,6 @@
         <span> said: </span>{{:text}} -
         <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank"><span>[Original post]</span></a>
     </li>
-
 </script>
 
 <script id="flickrNewsTemplate" type="text/x-jsrender">
@@ -201,7 +200,6 @@
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="Navigate to the original post"></a>
         {{/for}}
     </div>
-
 </script>
 
 <!--Scripts propios de los que dependo-->

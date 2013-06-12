@@ -16,9 +16,12 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/***************************************************************************************************/
 /*************************** Estilos por default para los elementos HTML ***************************/
 
 header h1 {
+    margin-top: 8px;
+    margin-bottom: 0;
     text-align: center;
     font-family: 'Finger Paint', cursive;
     text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
@@ -27,10 +30,12 @@ header h1 {
 
 header h1 span {
     font-size: large;
+    display: inline-block;
 }
 
 body {
     background: url('../img/hexellence.png') repeat;
+    padding-top: 60px;
 }
 
 div {
@@ -45,7 +50,6 @@ section ul li {
     border: solid 1px black;
     padding: 5px 10px;
     margin: 10px 0;
-    background-color: rgb(240, 255, 240);
     border-radius: 5px;
     list-style: none;
 }
@@ -67,6 +71,7 @@ footer a:hover {
     color: black;
 }
 
+/*******************************************************************/
 /*************************** Own classes ***************************/
 
 #instagramPopularPhotos {
@@ -106,41 +111,29 @@ footer a:hover {
     background-size: 20px;
 }
 
+/*********************************************************************************************************************************************/
 /*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/
 
-/***    Menu    ***/
-.navbar-inner {
-    padding-right: 10px;
-    padding-left: 10px;
+/*  To trigger dropdown on mouse over   */
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
 }
 
-.brand {
-    font-family: "Finger Paint", monospace;
-}
-
-.navbar form {
-    float: none;
-}
-
-.navbar .nav {
-    margin-top: 4px;
-}
-
-.navbar .nav>li {
-    float: none;
-    margin: 0;
-    padding: 0;
+.navbar-search {
+    margin-right: 10px;
 }
 
 .navbar .nav>li>a {
-    float: none;
-    margin: 0;
-    padding: 4px;
+    padding: 10px;
 }
 
-.nav li i {
-    float: right;
-    margin: 3px 0 0 15px;
+.navbar .nav li.dropdown.open>.dropdown-toggle,
+.navbar .nav li.dropdown.active>.dropdown-toggle,
+.navbar .nav li.dropdown.open.active>.dropdown-toggle,
+.navbar .nav>li>a:hover {
+    color: #555;
+    background-color: rgb(233, 233, 233);
+    border-radius: 10px;
 }
 
 /******************* Start: Recommended Isotope styles *******************/
@@ -155,7 +148,6 @@ footer a:hover {
 }
 
 /**** Isotope CSS3 transitions ****/
-
 .isotope,
 .isotope .isotope-item {
     -webkit-transition-duration: 0.8s;
@@ -194,3 +186,25 @@ footer a:hover {
 }
 
 /******************* End: Recommended Isotope styles *******************/
+
+/********************************************************************************************/
+/*************************** Responsive styles and customizations ***************************/
+@media (max-width: 979px) {
+    .navbar-fixed-top,
+    .navbar-fixed-bottom {
+        position: fixed;
+    }
+
+    h1 span {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .navbar-fixed-top,
+    .navbar-fixed-bottom,
+    .navbar-static-top {
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
