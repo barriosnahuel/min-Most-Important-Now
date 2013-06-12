@@ -99,7 +99,6 @@ $(document).ready(function () {
 
                     templateData.photos[index] = {photo: eachItem.images.thumbnail.url, link: eachItem.link};
                 }
-                console.log('hay ' + index + ' items..');
 
                 var li = container.find('li[class=flickr]');
 
@@ -115,6 +114,7 @@ $(document).ready(function () {
                 });
             } else {
                 console.log('Ocurrió un error al recuperar las noticias de Instagram: ' + data.meta.code);
+                //  TODO : Send this error to Google Analytics
             }
         };
 
@@ -214,7 +214,15 @@ $(document).ready(function () {
         var googleTrends = result.feed.entries;
         for (index = 0; index < googleTrends.length; index++) {
             eachTrend = googleTrends[index];
-            trends[index] = {name: eachTrend.title, keywords: eachTrend.content.split(', ')};
+
+            var keywords = [];
+            if (eachTrend.content !== '') {
+                keywords = eachTrend.content.split(', ');
+            } else {
+                keywords[0] = eachTrend.title;
+            }
+
+            trends[index] = {name: eachTrend.title, keywords: keywords};
         }
 
         $.each(trends, findNewsForTrends);

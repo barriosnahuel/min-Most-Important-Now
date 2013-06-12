@@ -41,7 +41,10 @@ app.service.newsFinder = (function () {
         var index;
 
         app.service.flickr.findNews(keywords, flickrCallback);
-        app.service.instagram.findNews(keywords, instagramCallback);
+
+        for (index = 0; index < keywords.length; index++) {
+            app.service.instagram.findNews(keywords[index].replace(/ /g, ''), instagramCallback);
+        }
 
         for (index = 0; index < keywords.length; index++) {
             google.feeds.findFeeds(keywords[index], googleFeedsCallback);
@@ -59,9 +62,9 @@ app.service.newsFinder = (function () {
             app.service.facebook.findNews(keywords[index], facebookCallback);
         }
 
-        //  TODO : Add Instagram!
         //  TODO : Add Flipboard! (they haven't got an API yet)
         //  TODO : Add Pinterest!
+        //  TODO : Add Tumblr!
         //  TODO : Add Youtube! (and other video sources)
     };
 
