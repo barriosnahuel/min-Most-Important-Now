@@ -196,7 +196,7 @@ $(document).ready(function () {
     //    ************************************************
     //    Load trends, then news for those trending topics
 
-    app.service.instagram.findTrends(function (data) {
+    app.service.socialNetworks.instagram.findTrends(function (data) {
         var instagramDiv = $('#instagramPopularPhotos');
         var index;
 
@@ -228,7 +228,7 @@ $(document).ready(function () {
         $.each(trends, findNewsForTrends);
     });
 
-    $.when(app.service.twitter.findTrends()).done(function (data) {
+    $.when(app.service.socialNetworks.twitter.findTrends()).done(function (data) {
         var index, eachTrend, trends = [];
 
         var twitterTrends = data[0].trends;

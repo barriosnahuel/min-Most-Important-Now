@@ -42,11 +42,11 @@ app.util.strings = (function () {
      * @returns The truncated (or not) String.
      */
     var truncate = function (aString) {
-        var result = aString
+        var result = aString || ''
             , maxLength = 140
             , suffix = '...';
 
-        if (aString.length > maxLength) {
+        if (result.length > maxLength) {
             result = result.substring(0, maxLength - suffix.length).concat(suffix);
         }
 
