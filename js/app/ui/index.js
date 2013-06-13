@@ -196,19 +196,35 @@ $(document).ready(function () {
         } else {
             nextTrendToLoad = nextTrendToLoad + 1;
         }
-
     };
 
     //    ********************************************
     //    Bind events and customize controls behavior.
 
-    $('footer').waypoint(function (direction) {
-        console.log('entro a la función!!');
-        console.log('next vale: ' + nextTrendToLoad);
-        if (nextTrendToLoad > 0 && 'down' === direction) {
-            findNewsForTrends(trends[nextTrendToLoad]);
+    function loadNews(jQueryElementWithWaypoint) {
+        findNewsForTrends(trends[nextTrendToLoad]);
+
+        if (nextTrendToLoad < trends.length) {
+            //  Waits 5 seconds till call to destroy-->create the waypoint because if not then loads all topics before append the second one.
+            setTimeout(addWaypoint, 4000);
+        } else {
+            jQueryElementWithWaypoint.waypoint('destroy');
         }
-    }, { offset: '99%' });
+    }
+
+    var addWaypoint = function (containerSelector) {
+        var container = $(containerSelector);
+        container.waypoint('destroy');
+        container.waypoint(loadNewsOnScroll, { offset: '125%' });
+
+        function loadNewsOnScroll(direction) {
+            if ('down' === direction && nextTrendToLoad) {
+                loadNews(container);
+            }
+        }
+    };
+
+    addWaypoint('footer');
 
     $('form').submit(function (event) {
         event.preventDefault();
