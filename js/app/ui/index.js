@@ -24,6 +24,9 @@
 $(document).ready(function () {
     'use strict';
 
+    var GLOBAL_TRENDS_LIST_ID = '#globalTrends';
+    var trends = [], nextTrendToLoad;
+
     var findNewsForQuery = function (query, container) {
 
         var googleFeedsCallback = function (result) {
@@ -130,22 +133,27 @@ $(document).ready(function () {
         }, 1500);
     };
 
-    var createNewTopic = function (containerQuerySelector, topicName, atBegin) {
-        //  TODO : Use a template instead of this horrible script!
-        //  TODO : Split this function into others two: createMenuEntry() and createSection()
 
-        var trendNameElementId = topicName.replace(/ /g, '');
-        var content = $('.content');
+    var createMenuEntry = function (containerQuerySelector, topicName) {
+        var trendNameElementId = topicName.replace(/ /g, '').replace(/\./g, '');
 
         var templateData = {trendNameElementId: trendNameElementId, topicName: topicName};
         var menuHTML = $('#menuItemTemplate').render(templateData);
 
         $(containerQuerySelector).append(menuHTML);
 
-        var trendNameElementSelector = '#' + trendNameElementId;
+        return templateData;
+    };
+
+
+    var createNewSection = function (containerQuerySelector, templateData, atBegin) {
+
+        var trendNameElementSelector = '#' + templateData.trendNameElementId;
         $(containerQuerySelector + ' a[href=' + trendNameElementSelector + ']').on('click', function () {
             scrollTo(trendNameElementSelector);
         });
+
+        var content = $('.content');
 
         var sectionHTML = $('#newsSectionTemplate').render(templateData);
         if (atBegin) {
@@ -162,22 +170,60 @@ $(document).ready(function () {
      */
     var findNewsForCustomTopic = function () {
         var userQuery = $('form input').val();
-        var sectionIdSelector = createNewTopic('#queries', userQuery, true);
+
+        var containerQuerySelector = '#queries';
+        var templateData = createMenuEntry(containerQuerySelector, userQuery);
+
+        var sectionIdSelector = createNewSection(containerQuerySelector, templateData, true);
 
         findNewsForQuery(userQuery, $(sectionIdSelector + ' ul'));
         scrollTo(sectionIdSelector);
     };
 
-    var findNewsForTrends = function (index, eachItem) {
+    var findNewsForTrends = function (eachItem) {
         var trendName = app.util.strings.getKeywordWithoutPreffix(eachItem.name);
 
-        var eachSectionList = $(createNewTopic('#globalTrends', trendName) + ' ul');
+        var trendNameElementId = trendName.replace(/ /g, '').replace(/\./g, '');
+        var templateData = {trendNameElementId: trendNameElementId, topicName: trendName};
+
+        var eachSectionList = $(createNewSection(GLOBAL_TRENDS_LIST_ID, templateData) + ' ul');
 
         findNewsForQuery(eachItem.keywords, eachSectionList);
+
+        if (nextTrendToLoad == undefined) {
+            nextTrendToLoad = 1;
+        } else {
+            nextTrendToLoad = nextTrendToLoad + 1;
+        }
     };
 
     //    ********************************************
     //    Bind events and customize controls behavior.
+
+    function loadNews(jQueryElementWithWaypoint) {
+        findNewsForTrends(trends[nextTrendToLoad]);
+
+        if (nextTrendToLoad < trends.length) {
+            //  Waits 5 seconds till call to destroy-->create the waypoint because if not then loads all topics before append the second one.
+            setTimeout(addWaypoint, 4000);
+        } else {
+            jQueryElementWithWaypoint.waypoint('destroy');
+        }
+    }
+
+    var addWaypoint = function (containerSelector) {
+        var container = $(containerSelector);
+        container.waypoint('destroy');
+        container.waypoint(loadNewsOnScroll, { offset: '125%' });
+
+        function loadNewsOnScroll(direction) {
+            if ('down' === direction && nextTrendToLoad) {
+                loadNews(container);
+            }
+        }
+    };
+
+    addWaypoint('footer');
 
     $('form').submit(function (event) {
         event.preventDefault();
@@ -200,7 +246,7 @@ $(document).ready(function () {
     });
 
     $.when(app.service.google.search.findTrends()).done(function (result) {
-        var index, eachTrend, trends = [];
+        var index, eachTrend;
 
         var googleTrends = result.feed.entries;
         for (index = 0; index < googleTrends.length; index++) {
@@ -216,19 +262,23 @@ $(document).ready(function () {
             trends[index] = {name: eachTrend.title, keywords: keywords};
         }
 
-        $.each(trends, findNewsForTrends);
-    });
-
-    $.when(app.service.socialNetworks.twitter.findTrends()).done(function (data) {
-        var index, eachTrend, trends = [];
-
-        var twitterTrends = data[0].trends;
-        for (index = 0; index < twitterTrends.length; index++) {
-            eachTrend = twitterTrends[index];
-            trends[index] = {name: eachTrend.name, keywords: [eachTrend.name]};
+        for (index = 0; index < trends.length; index++) {
+            createMenuEntry(GLOBAL_TRENDS_LIST_ID, trends[index].name);
         }
 
-        $.each(trends, findNewsForTrends);
+        findNewsForTrends(trends[0]);
     });
+
+    //    $.when(app.service.socialNetworks.twitter.findTrends()).done(function (data) {
+    //        var index, eachTrend, trends = [];
+    //
+    //        var twitterTrends = data[0].trends;
+    //        for (index = 0; index < twitterTrends.length; index++) {
+    //            eachTrend = twitterTrends[index];
+    //            trends[index] = {name: eachTrend.name, keywords: [eachTrend.name]};
+    //        }
+    //
+    //        $.each(trends, findNewsForTrends);
+    //    });
 
 });
