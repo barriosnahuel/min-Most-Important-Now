@@ -42,19 +42,19 @@ app.service.newsFinder = (function () {
     var findNews = function (keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback) {
         var index;
 
-        app.service.socialNetworks.flickr.findNews(keywords, flickrCallback);
-
-        for (index = 0; index < keywords.length; index++) {
-            app.service.socialNetworks.instagram.findNews(keywords[index].replace(/ /g, ''), instagramCallback);
-        }
-
-        for (index = 0; index < keywords.length; index++) {
-            google.feeds.findFeeds(keywords[index], googleFeedsCallback);
-        }
-
-        for (index = 0; index < keywords.length; index++) {
-            app.service.socialNetworks.twitter.findNews(keywords[index], twitterCallback);
-        }
+        //        app.service.socialNetworks.flickr.findNews(keywords, flickrCallback);
+        //
+        //        for (index = 0; index < keywords.length; index++) {
+        //            app.service.socialNetworks.instagram.findNews(keywords[index].replace(/ /g, ''), instagramCallback);
+        //        }
+        //
+        //        for (index = 0; index < keywords.length; index++) {
+        //            google.feeds.findFeeds(keywords[index], googleFeedsCallback);
+        //        }
+        //
+        //        for (index = 0; index < keywords.length; index++) {
+        //            app.service.socialNetworks.twitter.findNews(keywords[index], twitterCallback);
+        //        }
 
         for (index = 0; index < keywords.length; index++) {
             app.service.socialNetworks.gplus.findNews(keywords[index], googlePlusCallback);
