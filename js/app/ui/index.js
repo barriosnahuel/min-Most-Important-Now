@@ -27,13 +27,12 @@ $(document).ready(function () {
     var findNewsForQuery = function (query, container) {
 
         var googleFeedsCallback = function (result) {
-            var index;
-            var eachEntry;
+            var index, eachEntry, templateData;
 
             if (!result.error) {
                 for (index = 0; index < result.entries.length; index++) {
                     eachEntry = result.entries[index];
-                    var templateData = {title: eachEntry.title, contentSnippet: eachEntry.contentSnippet, link: eachEntry.link};
+                    templateData = {title: eachEntry.title, contentSnippet: eachEntry.contentSnippet, link: eachEntry.link};
                     container.append($('#rssFeedTemplate').render(templateData));
                 }
             }
@@ -65,16 +64,16 @@ $(document).ready(function () {
         };
 
         var flickrCallback = function (data) {
-            var templateData = {}, index;
+            var templateData = {}, index, eachItem, imagesContainer, li;
 
             templateData.photos = [];
 
             for (index = 0; index < data.items.length; index++) {
-                var eachItem = data.items[index];
+                eachItem = data.items[index];
                 templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link};
             }
 
-            var li = container.find('li[class=flickr]');
+            li = container.find('li[class=flickr]');
 
             if (li.length === 0) {
                 li = container.append('<li class="flickr"></li>').find('li[class=flickr]');
@@ -82,25 +81,25 @@ $(document).ready(function () {
 
             li.append($('#flickrNewsTemplate').render(templateData));
 
-            var imagesContainer = li.find('div');
+            imagesContainer = li.find('div');
             imagesContainer.imagesLoaded(function () {
                 imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
             });
         };
 
         var instagramCallback = function (data) {
-            var templateData = {}, index;
+            var templateData = {}, index, eachItem, imagesContainer, li;
 
             templateData.photos = [];
 
             if (data.meta.code === 200) {
                 for (index = 0; index < data.data.length; index++) {
-                    var eachItem = data.data[index];
+                    eachItem = data.data[index];
 
                     templateData.photos[index] = {photo: eachItem.images.thumbnail.url, link: eachItem.link};
                 }
 
-                var li = container.find('li[class=flickr]');
+                li = container.find('li[class=flickr]');
 
                 if (li.length === 0) {
                     li = container.append('<li class="flickr"></li>').find('li[class=flickr]');
@@ -108,7 +107,7 @@ $(document).ready(function () {
 
                 li.append($('#flickrNewsTemplate').render(templateData));
 
-                var imagesContainer = li.find('div');
+                imagesContainer = li.find('div');
                 imagesContainer.imagesLoaded(function () {
                     imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
                 });
