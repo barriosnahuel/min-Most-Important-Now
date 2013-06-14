@@ -32,12 +32,10 @@ $(document).ready(function () {
 
         function callCallbacks() {
             if (onSuccess) {
-                console.log('ejecuto el onSuccess!');
                 onSuccess();
             }
 
             if (onlyOnce && !executed) {
-                console.log('ejecuto el onlyOnce!!');
                 onlyOnce();
                 executed = true;
             }
@@ -52,8 +50,6 @@ $(document).ready(function () {
                     templateData = {title: eachEntry.title, contentSnippet: eachEntry.contentSnippet, link: eachEntry.link};
                     container.append($('#rssFeedTemplate').render(templateData));
                 }
-
-                console.log('ya meti el HTML');
 
                 callCallbacks();
             }
@@ -189,7 +185,6 @@ $(document).ready(function () {
                 }
 
                 loadNews(index >= 0 ? index : -1, undefined, scrollTo.bind(null, trendNameElementSelector), function () {
-                    console.log('actualizo los waypoints en la anonima en onmenuitemselected');
                     $.waypoints('refresh');
                 });
             } else {
@@ -226,7 +221,6 @@ $(document).ready(function () {
         var sectionIdSelector = createNewSection(templateData, true);
 
         findNewsForQuery(userQuery, $(sectionIdSelector + ' ul'), scrollTo.bind(null, sectionIdSelector));
-        console.log('scrolleo en findnewsforcustomtopic');
         scrollTo(sectionIdSelector);
     };
 
@@ -239,7 +233,6 @@ $(document).ready(function () {
         var eachSectionList = $(createNewSection(templateData) + ' ul');
 
         findNewsForQuery(trend.keywords, eachSectionList, onlyOnce, onSuccess);
-        console.log('ya fui a buscar noticias para ' + trend.name);
         trend.loaded = true;
     };
 
@@ -247,7 +240,6 @@ $(document).ready(function () {
     //    Bind events and customize controls behavior.
 
     function loadNews(indexTrendToLoad, jQueryElementWithWaypoint, onlyOnce, onSuccess) {
-        console.log('entro a load news para ' + trends[indexTrendToLoad].name);
         if (indexTrendToLoad >= 0) {
             findNewsForTrend(trends[indexTrendToLoad], onlyOnce, onSuccess);
 
@@ -263,7 +255,6 @@ $(document).ready(function () {
         var index;
         for (index = 0; index < trends.length; index++) {
             if (!trends[index].loaded) {
-                console.log(trends[index].name + ' deberia estar false: ' + trends[index].loaded);
                 break;
             }
         }
@@ -272,22 +263,17 @@ $(document).ready(function () {
     }
 
     var addWaypoint = function (containerSelector) {
-        console.log('addWaypoint');
         var footer = $(containerSelector);
         footer.waypoint(loadNewsOnScroll, { offset: '150%'});
 
         function loadNewsOnScroll(direction) {
-            console.log('se disparo el waypoint y entre a loadNewsOnScroll');
 
             if ('down' === direction && loadedTrendsCount) {
-                console.log('se disparo el waypoint, y además entro!');
 
                 loadNews(findUnloadedTrend(), footer, function () {
-                    console.log('actualizo los waypoints');
                     $.waypoints('refresh');
                 });
             } else {
-                console.log('entro al waypoint pero no cargo noticias');
             }
         }
     };
