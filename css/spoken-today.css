@@ -103,6 +103,10 @@ footer a:hover {
     font-size: small;
 }
 
+.twitter>a>span, .facebook>a>span, .gplus>a>span, .rss>a>span {
+    display: inline-block;
+}
+
 .gplus {
     background: url("../img/g+29.png") no-repeat right;
 }

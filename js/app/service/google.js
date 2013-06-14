@@ -37,7 +37,7 @@ app.service.google.search = (function () {
      */
     var findTrends = function (onSuccess) {
         var feed = new google.feeds.Feed("http://www.google.com/trends/hottrends/atom/feed?pn=p1");
-        feed.setNumEntries(10);
+        feed.setNumEntries(4);
 
         return $.Deferred(function (dfd) {
             feed.load(onSuccess || dfd.resolve);
