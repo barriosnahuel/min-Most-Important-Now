@@ -26,7 +26,22 @@ $(document).ready(function () {
 
     var trends = [], loadedTrendsCount;
 
-    var findNewsForQuery = function (query, container, onSuccess, onSuccessParameter) {
+    var findNewsForQuery = function (query, container, onlyOnce, onSuccess) {
+
+        var executed = false;
+
+        function callCallbacks() {
+            if (onSuccess) {
+                console.log('ejecuto el onSuccess!');
+                onSuccess();
+            }
+
+            if (onlyOnce && !executed) {
+                console.log('ejecuto el onlyOnce!!');
+                onlyOnce();
+                executed = true;
+            }
+        }
 
         var googleFeedsCallback = function (result) {
             var index, eachEntry, templateData;
@@ -37,10 +52,10 @@ $(document).ready(function () {
                     templateData = {title: eachEntry.title, contentSnippet: eachEntry.contentSnippet, link: eachEntry.link};
                     container.append($('#rssFeedTemplate').render(templateData));
                 }
-            }
 
-            if (onSuccess) {
-                onSuccess(onSuccessParameter);
+                console.log('ya meti el HTML');
+
+                callCallbacks();
             }
         };
 
@@ -50,6 +65,8 @@ $(document).ready(function () {
                     var templateData = {userName: eachItem.from_user, text: eachItem.text, id: eachItem.id_str};
                     container.append($('#twitterNewsTemplate').render(templateData));
                 });
+
+                callCallbacks();
             }
         };
 
@@ -58,6 +75,8 @@ $(document).ready(function () {
                 var templateData = {userId: eachItem.from.id, userName: eachItem.from.name, text: app.util.strings.truncate(eachItem.message), id: eachItem.id};
                 container.append($('#facebookNewsTemplate').render(templateData));
             });
+
+            callCallbacks();
         };
 
         var googlePlusCallback = function (data) {
@@ -67,6 +86,8 @@ $(document).ready(function () {
                     container.append($('#googlePlusNewsTemplate').render(templateData));
                 }
             });
+
+            callCallbacks();
         };
 
         var flickrCallback = function (data) {
@@ -91,6 +112,8 @@ $(document).ready(function () {
             imagesContainer.imagesLoaded(function () {
                 imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
             });
+
+            callCallbacks();
         };
 
         var instagramCallback = function (data) {
@@ -117,6 +140,8 @@ $(document).ready(function () {
                 imagesContainer.imagesLoaded(function () {
                     imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
                 });
+
+                callCallbacks();
             } else {
                 console.log('Ocurrió un error al recuperar las noticias de Instagram: ' + data.meta.code);
                 //  TODO : Send this error to Google Analytics
@@ -136,7 +161,6 @@ $(document).ready(function () {
         }, 1500);
     };
 
-
     var createMenuEntry = function (containerSelector, topicName) {
         var trendNameElementId = topicName.replace(/ /g, '').replace(/\./g, '');
 
@@ -149,15 +173,14 @@ $(document).ready(function () {
 
         $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', onMenuItemSelected);
 
-        //  Needed functions
-        function onMenuItemSelected() {
+        function onMenuItemSelected(event) {
+            event.preventDefault();
+
             //  If section doesn't exists, then create it.
             if ($(trendNameElementSelector).length === 0) {
-                createNewSection(templateData);
 
                 // If topic is in trends list, then load news from that trend object.
                 // I'm sure that the topic is in trends list because if it's not, then the flow mustn't enter to this IF statement.
-
                 var index;
                 for (index = 0; index < trends.length; index++) {
                     if (trends[index].name === topicName) {
@@ -165,13 +188,13 @@ $(document).ready(function () {
                     }
                 }
 
-                loadNews(index >= 0 ? index : -1, undefined, scrollTo, trendNameElementSelector);
+                loadNews(index >= 0 ? index : -1, undefined, scrollTo.bind(null, trendNameElementSelector), function () {
+                    console.log('actualizo los waypoints en la anonima en onmenuitemselected');
+                    $.waypoints('refresh');
+                });
             } else {
-                console.log('scrolleo!');
                 scrollTo(trendNameElementSelector);
             }
-
-
         }
 
         return templateData;
@@ -202,11 +225,12 @@ $(document).ready(function () {
 
         var sectionIdSelector = createNewSection(templateData, true);
 
-        findNewsForQuery(userQuery, $(sectionIdSelector + ' ul'));
+        findNewsForQuery(userQuery, $(sectionIdSelector + ' ul'), scrollTo.bind(null, sectionIdSelector));
+        console.log('scrolleo en findnewsforcustomtopic');
         scrollTo(sectionIdSelector);
     };
 
-    var findNewsForTrend = function (trend, onSuccess, onSuccessParameter) {
+    var findNewsForTrend = function (trend, onlyOnce, onSuccess) {
         var trendName = app.util.strings.getKeywordWithoutPreffix(trend.name);
 
         var trendNameElementId = trendName.replace(/ /g, '').replace(/\./g, '');
@@ -214,26 +238,23 @@ $(document).ready(function () {
 
         var eachSectionList = $(createNewSection(templateData) + ' ul');
 
-        findNewsForQuery(trend.keywords, eachSectionList, onSuccess, onSuccessParameter);
-        console.log('pongo en true a ' + trendName);
+        findNewsForQuery(trend.keywords, eachSectionList, onlyOnce, onSuccess);
+        console.log('ya fui a buscar noticias para ' + trend.name);
         trend.loaded = true;
     };
 
     //    ********************************************
     //    Bind events and customize controls behavior.
 
-    function loadNews(indexTrendToLoad, jQueryElementWithWaypoint, onSuccess, onSuccessParameter) {
-        console.log('loadNews');
+    function loadNews(indexTrendToLoad, jQueryElementWithWaypoint, onlyOnce, onSuccess) {
+        console.log('entro a load news para ' + trends[indexTrendToLoad].name);
         if (indexTrendToLoad >= 0) {
-            findNewsForTrend(trends[indexTrendToLoad], onSuccess, onSuccessParameter);
+            findNewsForTrend(trends[indexTrendToLoad], onlyOnce, onSuccess);
 
             loadedTrendsCount = loadedTrendsCount + 1;
         }
 
-        if (loadedTrendsCount < trends.length) {
-            //  Waits 5 seconds till call to destroy-->create the waypoint because if not then loads all topics before append the second one.
-            setTimeout(addWaypoint, 4000);
-        } else {
+        if (loadedTrendsCount === trends.length) {
             jQueryElementWithWaypoint.waypoint('destroy');
         }
     }
@@ -252,14 +273,19 @@ $(document).ready(function () {
 
     var addWaypoint = function (containerSelector) {
         console.log('addWaypoint');
-        var container = $(containerSelector);
-        container.waypoint('destroy');
-        container.waypoint(loadNewsOnScroll, { offset: '150%' });
+        var footer = $(containerSelector);
+        footer.waypoint(loadNewsOnScroll, { offset: '150%'});
 
         function loadNewsOnScroll(direction) {
-            if ('down' === direction && loadedTrendsCount) {
+            console.log('se disparo el waypoint y entre a loadNewsOnScroll');
 
-                loadNews(findUnloadedTrend(), container);
+            if ('down' === direction && loadedTrendsCount) {
+                console.log('se disparo el waypoint, y además entro!');
+
+                loadNews(findUnloadedTrend(), footer, function () {
+                    console.log('actualizo los waypoints');
+                    $.waypoints('refresh');
+                });
             } else {
                 console.log('entro al waypoint pero no cargo noticias');
             }
@@ -276,17 +302,17 @@ $(document).ready(function () {
     //    ************************************************
     //    Load trends, then news for those trending topics
 
-    //    app.service.socialNetworks.instagram.findTrends(function (data) {
-    //        var instagramDiv = $('#instagramPopularPhotos');
-    //        var index;
-    //
-    //        for (index = 0; index < data.data.length; index++) {
-    //            var templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
-    //            instagramDiv.append($('#instagramNewsTemplate').render(templateData));
-    //        }
-    //
-    //        //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
-    //    });
+    app.service.socialNetworks.instagram.findTrends(function (data) {
+        var instagramDiv = $('#instagramPopularPhotos');
+        var index;
+
+        for (index = 0; index < data.data.length; index++) {
+            var templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
+            instagramDiv.append($('#instagramNewsTemplate').render(templateData));
+        }
+
+        //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
+    });
 
     $.when(app.service.google.search.findTrends()).done(function (result) {
         var index, eachTrend;
