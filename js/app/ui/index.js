@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     var trends = [], loadedTrendsCount;
 
-    var findNewsForQuery = function (query, container, onlyOnce, onSuccess) {
+    var findNewsForQuery = function (keywords, container, onlyOnce, onSuccess) {
 
         var executed = false;
 
@@ -144,7 +144,7 @@ $(document).ready(function () {
             }
         };
 
-        app.service.newsFinder.findNews(query, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback);
+        app.service.newsFinder.findNews(keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback);
     };
 
     /**
@@ -220,7 +220,7 @@ $(document).ready(function () {
 
         var sectionIdSelector = createNewSection(templateData, true);
 
-        findNewsForQuery(userQuery, $(sectionIdSelector + ' ul'), scrollTo.bind(null, sectionIdSelector));
+        findNewsForQuery([userQuery], $(sectionIdSelector + ' ul'), scrollTo.bind(null, sectionIdSelector));
         scrollTo(sectionIdSelector);
     };
 
