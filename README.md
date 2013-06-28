@@ -1,7 +1,7 @@
 Spoken Today
 ============
 
-What people around the world are saying when you want to listen.
+The things that are spoken today, from all points of view, and in one place.
 
 It's a web app that joins most important news from social networks and newspapers to let user read all those news from one simple site.
 
@@ -10,7 +10,7 @@ It's a web app that joins most important news from social networks and newspaper
 License
 =======
 
-    Epic Moments - What people all around the world are saying when you want to hear them.
+    Spoken Today - The things that are spoken today, from all points of view, and in one place.
     Copyright (C) 2013 Nahuel Barrios <barrios.nahuel@gmail.com>.
 
     This program is free software: you can redistribute it and/or modify
