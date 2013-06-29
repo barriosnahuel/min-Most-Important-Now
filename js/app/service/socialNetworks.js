@@ -55,12 +55,8 @@ app.service.socialNetworks.twitter = (function () {
         });
     };
 
-    var findGlobalTrends = function (onSuccess) {
-        findTrends(1, onSuccess);
-    };
-
     return {
-        findNews: findNews, findTrends: findTrends, findGlobalTrends: findGlobalTrends
+        findNews: findNews, findTrends: findTrends, findGlobalTrends: findTrends.bind(null, 1)
     };
 
 }());

@@ -338,7 +338,7 @@ $(document).ready(function () {
         }
     });
 
-    $.when(app.service.socialNetworks.twitter.findTrends(1)).done(function (data) {
+    $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(function (data) {
         var index, eachTrend;
 
         var twitterTrends = data[0].trends;
