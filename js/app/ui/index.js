@@ -369,7 +369,6 @@ $(document).ready(function () {
 
         if (geo_position_js.init()) {
             geo_position_js.getCurrentPosition(function (position) {
-//            navigator.geolocation.getCurrentPosition(function (position) {
 
                 app.service.socialNetworks.twitter.findClosestTrends(position.coords, function (locations) {
 
