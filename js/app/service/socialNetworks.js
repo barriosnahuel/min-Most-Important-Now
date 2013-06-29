@@ -41,9 +41,7 @@ app.service.socialNetworks.twitter = (function () {
      * @param onSuccess
      */
     var findNews = function (keyword, onSuccess) {
-        var url = 'http://search.twitter.com/search.json?callback=?&q="' + keyword + '"';
-
-        $.getJSON(url, onSuccess);
+        cb.__call('search_tweets', 'q=' + keyword + '&count=10', onSuccess);
     };
 
     /**
@@ -57,12 +55,8 @@ app.service.socialNetworks.twitter = (function () {
         });
     };
 
-    var findGlobalTrends = function (onSuccess) {
-        findTrends(1, onSuccess);
-    };
-
     return {
-        findNews: findNews, findTrends: findTrends, findGlobalTrends: findGlobalTrends
+        findNews: findNews, findTrends: findTrends, findGlobalTrends: findTrends.bind(null, 1)
     };
 
 }());
@@ -144,7 +138,7 @@ app.service.socialNetworks.gplus = (function () {
     var findNews = function (keyword, onSuccess) {
         var apiKey = 'AIzaSyCNQ1slAxWLz8pg6MCPXJDVdeozgQBYxz8';
 
-        var url = 'https://www.googleapis.com/plus/v1/activities?key=' + apiKey + '&query=' + keyword + '&maxResults=15&orderBy=best&language=' + navigator.language;
+        var url = 'https://www.googleapis.com/plus/v1/activities?key=' + apiKey + '&query=' + keyword + '&maxResults=10&orderBy=best&language=' + navigator.language;
 
         $.getJSON(url, onSuccess);
     };

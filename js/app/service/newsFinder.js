@@ -52,9 +52,9 @@ app.service.newsFinder = (function () {
             google.feeds.findFeeds(keywords[index], googleFeedsCallback);
         }
 
-        //        for (index = 0; index < keywords.length; index++) {
-        //            app.service.socialNetworks.twitter.findNews(keywords[index], twitterCallback);
-        //        }
+        for (index = 0; index < keywords.length; index++) {
+            app.service.socialNetworks.twitter.findNews(keywords[index], twitterCallback);
+        }
 
         for (index = 0; index < keywords.length; index++) {
             app.service.socialNetworks.gplus.findNews(keywords[index], googlePlusCallback);
