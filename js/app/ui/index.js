@@ -338,7 +338,7 @@ $(document).ready(function () {
         var relativeGlobalTrendsIndex = globalTrendsIndex;
         for (index = 0; index < twitterTrends.length; index++, globalTrendsIndex++) {
             eachTrend = twitterTrends[index];
-            globalTrends[globalTrendsIndex] = {name: eachTrend.name, keywords: [eachTrend.name]};
+            globalTrends[globalTrendsIndex] = {name: eachTrend.name, keywords: [eachTrend.name.replace(/#/, '')]};
         }
 
         for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
