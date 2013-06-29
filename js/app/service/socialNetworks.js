@@ -30,6 +30,11 @@ app.service.socialNetworks = app.service.socialNetworks || {};
 app.service.socialNetworks.twitter = (function () {
     'use strict';
 
+
+    var cb = new Codebird();
+    cb.setConsumerKey('oy1KRFv0w7vnJgYV9MnzQ', 'p5DOWK5W8PfPSGEjufFR0MI2U2896aDM5mbiYFGLQ');
+    cb.setToken('167430903-rPvxBdNZ83PMnT12Mbx5yr667U0G70NeHMTMkJeH', '9rwdRtYWJFlELnougEa6hla25Xxik8miURGNCkR4nw');
+
     /**
      * https://dev.twitter.com/docs/api/1/get/search
      * @param keyword
@@ -43,16 +48,21 @@ app.service.socialNetworks.twitter = (function () {
 
     /**
      * https://dev.twitter.com/docs/api/1/get/trends/%3Awoeid
-     * @param onSuccess
+     * @param woeid The <a href="http://developer.yahoo.com/geo/geoplanet/">Yahoo Where On Earth ID</a> of a specific location to retrieve Trending topics.
+     * @param onSuccess Callback to execute after on success.
      */
-    var findTrends = function (onSuccess) {
+    var findTrends = function (woeid, onSuccess) {
         return $.Deferred(function (dfd) {
-            $.getJSON('https://api.twitter.com/1/trends/1.json?callback=?', onSuccess || dfd.resolve);
+            cb.__call('trends_place', 'id=' + woeid, onSuccess || dfd.resolve);
         });
     };
 
+    var findGlobalTrends = function (onSuccess) {
+        findTrends(1, onSuccess);
+    };
+
     return {
-        findNews: findNews, findTrends: findTrends
+        findNews: findNews, findTrends: findTrends, findGlobalTrends: findGlobalTrends
     };
 
 }());
