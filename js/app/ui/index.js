@@ -24,8 +24,6 @@
 $(document).ready(function () {
     'use strict';
 
-    var trends = [], loadedTrendsCount;
-
     var findNewsForQuery = function (keywords, container, onlyOnce, onSuccess) {
 
         var executed = false;
@@ -154,11 +152,11 @@ $(document).ready(function () {
     var scrollTo = function (jQuerySelector) {
         $('html, body').stop().animate({
             scrollTop: $(jQuerySelector).offset().top - 100
-        }, 1500);
+        }, 1000);
     };
 
     var createMenuEntry = function (containerSelector, topicName) {
-        var trendNameElementId = topicName.replace(/ /g, '').replace(/\./g, '');
+        var trendNameElementId = topicName.replace(/ /g, '').replace(/\./g, '').replace(/#/, '');
 
         var templateData = {trendNameElementId: trendNameElementId, topicName: topicName};
         var menuItemHTML = $('#menuItemTemplate').render(templateData);
@@ -178,8 +176,8 @@ $(document).ready(function () {
                 // If topic is in trends list, then load news from that trend object.
                 // I'm sure that the topic is in trends list because if it's not, then the flow mustn't enter to this IF statement.
                 var index;
-                for (index = 0; index < trends.length; index++) {
-                    if (trends[index].name === topicName) {
+                for (index = 0; index < globalTrends.length; index++) {
+                    if (globalTrends[index].name === topicName) {
                         break;
                     }
                 }
@@ -241,25 +239,25 @@ $(document).ready(function () {
 
     function loadNews(indexTrendToLoad, jQueryElementWithWaypoint, onlyOnce, onSuccess) {
         if (indexTrendToLoad >= 0) {
-            findNewsForTrend(trends[indexTrendToLoad], onlyOnce, onSuccess);
+            findNewsForTrend(globalTrends[indexTrendToLoad], onlyOnce, onSuccess);
 
             loadedTrendsCount = loadedTrendsCount + 1;
         }
 
-        if (loadedTrendsCount === trends.length) {
+        if (loadedTrendsCount === globalTrends.length) {
             jQueryElementWithWaypoint.waypoint('destroy');
         }
     }
 
     function findUnloadedTrend() {
         var index;
-        for (index = 0; index < trends.length; index++) {
-            if (!trends[index].loaded) {
+        for (index = 0; index < globalTrends.length; index++) {
+            if (!globalTrends[index].loaded) {
                 break;
             }
         }
 
-        return index < trends.length ? index : -1;
+        return index < globalTrends.length ? index : -1;
     }
 
     var addWaypoint = function (containerSelector) {
@@ -300,11 +298,16 @@ $(document).ready(function () {
         //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
     });
 
+    var loadedTrendsCount;
+    var alreadyLoaded, globalTrends = [], globalTrendsIndex = 0;
+
     $.when(app.service.google.search.findTrends()).done(function (result) {
         var index, eachTrend;
 
+        var relativeGlobalTrendsIndex = globalTrendsIndex;
+
         var googleTrends = result.feed.entries;
-        for (index = 0; index < googleTrends.length; index++) {
+        for (index = 0; index < googleTrends.length; index++, globalTrendsIndex++) {
             eachTrend = googleTrends[index];
 
             var keywords = [];
@@ -314,29 +317,39 @@ $(document).ready(function () {
                 keywords[0] = eachTrend.title;
             }
 
-            trends[index] = {name: eachTrend.title, keywords: keywords, loaded: false};
+            globalTrends[globalTrendsIndex] = {name: eachTrend.title, keywords: keywords, loaded: false};
         }
 
-        for (index = 0; index < trends.length; index++) {
-            createMenuEntry('#globalTrends', trends[index].name);
+        for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
+            createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name);
         }
 
-
-        findNewsForTrend(trends[0]);
-        loadedTrendsCount = 1;
+        if (!alreadyLoaded) {
+            findNewsForTrend(globalTrends[0]);
+            loadedTrendsCount = 1;
+            alreadyLoaded = true;
+        }
     });
 
-    //    $.when(app.service.socialNetworks.twitter.findTrends()).done(function (data) {
-    //        var index, eachTrend, trends = [];
-    //
-    //        var twitterTrends = data[0].trends;
-    //        for (index = 0; index < twitterTrends.length; index++) {
-    //            eachTrend = twitterTrends[index];
-    //            trends[index] = {name: eachTrend.name, keywords: [eachTrend.name]};
-    //        }
-    //
-    //        $.each(trends, findNewsForTrend);
-    //    });
+    $.when(app.service.socialNetworks.twitter.findTrends(1)).done(function (data) {
+        var index, eachTrend;
 
-})
-;
+        var twitterTrends = data[0].trends;
+        var relativeGlobalTrendsIndex = globalTrendsIndex;
+        for (index = 0; index < twitterTrends.length; index++, globalTrendsIndex++) {
+            eachTrend = twitterTrends[index];
+            globalTrends[globalTrendsIndex] = {name: eachTrend.name, keywords: [eachTrend.name.replace(/#/, '')]};
+        }
+
+        for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
+            createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name);
+        }
+
+        if (!alreadyLoaded) {
+            findNewsForTrend(globalTrends[0]);
+            loadedTrendsCount = 1;
+            alreadyLoaded = true;
+        }
+    });
+
+});
