@@ -403,6 +403,7 @@ $(document).ready(function () {
             }, {maximumAge: 1000000, timeout: 20000});
         } else {
             //  TODO : Functionality : Do something when there's no location source method available.
+            ga('send', 'event', 'Geolocation API', 'init', 'ERROR', 'There isn\'t any geolocation capabilities');
         }
 
     };
