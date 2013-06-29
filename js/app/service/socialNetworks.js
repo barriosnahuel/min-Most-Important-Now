@@ -55,8 +55,12 @@ app.service.socialNetworks.twitter = (function () {
         });
     };
 
+    var findClosestTrends = function (coordinates, onSuccess) {
+        cb.__call('trends_closest', 'lat=' + coordinates.latitude + '&long=' + coordinates.longitude, onSuccess);
+    };
+
     return {
-        findNews: findNews, findTrends: findTrends, findGlobalTrends: findTrends.bind(null, 1)
+        findNews: findNews, findTrends: findTrends, findGlobalTrends: findTrends.bind(null, 1), findClosestTrends: findClosestTrends
     };
 
 }());
@@ -67,6 +71,7 @@ app.service.socialNetworks.instagram = (function () {
     var CLIENT_ID = 'cb1d643d638842518c90b63c6c3ea7a0';
 
     var findNews = function (keyword, onSuccess) {
+        //  TODO : Functionality : Replace each meta character (tested with & and it fails) for something specific (or not) for Instagram API.
         var url = 'https://api.instagram.com/v1/tags/' + keyword + '/media/recent?client_id=&client_id=' + CLIENT_ID + '&callback=?';
 
         $.getJSON(url, onSuccess);

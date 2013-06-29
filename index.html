@@ -83,10 +83,19 @@
                                            maxlength="30">
                                 </form>
 
+                                <!--TODO : Refactor : remove queries ID and use .nav style instead-->
                                 <ul id="queries" class="nav">
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            Global Trends!
+                                            Local Trends!
+                                            <b class="caret"></b>
+                                        </a>
+                                        <ul id="localTrends" class="dropdown-menu">
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Global Trends!
                                             <b class="caret"></b>
                                         </a>
                                         <ul id="globalTrends" class="dropdown-menu">
@@ -136,6 +145,7 @@
                                             target="_blank" title="My resume">Nahuel Barrios</a>
                 | <a href="mailto:barrios.nahuel@gmail.com" target="_blank" title="Send me an email">barrios.nahuel@gmail.com</a>
                 | <a href="https://github.com/barriosnahuel/spoken-today" target="_blank" title="Navigate to the project main site">Project site</a>
+                | <a href="https://github.com/barriosnahuel/spoken-today/issues" target="_blank" title="Report an issue">Report an issue</a>
             </footer>
         </div>
     </div>
@@ -154,6 +164,7 @@
 
 <!--Bibliotecas-->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/geo-min.js"></script>
 <script type="text/javascript" src="js/lib/codebird-js-2.4.1/sha1.js"></script>
 <script type="text/javascript" src="js/lib/codebird-js-2.4.1/codebird.js"></script>
 <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
