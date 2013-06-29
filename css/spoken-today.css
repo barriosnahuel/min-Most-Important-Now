@@ -46,6 +46,10 @@ ul {
     text-align: left;
 }
 
+i {
+    margin-right: 3px;
+}
+
 section ul li {
     border: solid 1px black;
     padding: 5px 10px;
