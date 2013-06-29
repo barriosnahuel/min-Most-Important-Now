@@ -176,8 +176,8 @@ $(document).ready(function () {
                 // If topic is in trends list, then load news from that trend object.
                 // I'm sure that the topic is in trends list because if it's not, then the flow mustn't enter to this IF statement.
                 var index;
-                for (index = 0; index < trends.length; index++) {
-                    if (trends[index].name === topicName) {
+                for (index = 0; index < globalTrends.length; index++) {
+                    if (globalTrends[index].name === topicName) {
                         break;
                     }
                 }
@@ -239,25 +239,25 @@ $(document).ready(function () {
 
     function loadNews(indexTrendToLoad, jQueryElementWithWaypoint, onlyOnce, onSuccess) {
         if (indexTrendToLoad >= 0) {
-            findNewsForTrend(trends[indexTrendToLoad], onlyOnce, onSuccess);
+            findNewsForTrend(globalTrends[indexTrendToLoad], onlyOnce, onSuccess);
 
             loadedTrendsCount = loadedTrendsCount + 1;
         }
 
-        if (loadedTrendsCount === trends.length) {
+        if (loadedTrendsCount === globalTrends.length) {
             jQueryElementWithWaypoint.waypoint('destroy');
         }
     }
 
     function findUnloadedTrend() {
         var index;
-        for (index = 0; index < trends.length; index++) {
-            if (!trends[index].loaded) {
+        for (index = 0; index < globalTrends.length; index++) {
+            if (!globalTrends[index].loaded) {
                 break;
             }
         }
 
-        return index < trends.length ? index : -1;
+        return index < globalTrends.length ? index : -1;
     }
 
     var addWaypoint = function (containerSelector) {
