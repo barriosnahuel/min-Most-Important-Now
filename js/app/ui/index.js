@@ -399,6 +399,7 @@ $(document).ready(function () {
                 });
             }, function (positionError) {
                 //  TODO : Functionality : Do something when locations sources returns a positionError
+                _gaq.push(['_trackEvent', 'Errors', 'Geolocation API', positionError.message]);
             }, {maximumAge: 1000000, timeout: 20000});
         } else {
             //  TODO : Functionality : Do something when there's no location source method available.
