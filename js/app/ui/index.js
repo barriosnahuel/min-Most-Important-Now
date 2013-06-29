@@ -24,6 +24,13 @@
 $(document).ready(function () {
     'use strict';
 
+    /**
+     * TODO : Javadoc for findNewsForQuery
+     * @param keywords
+     * @param container
+     * @param onlyOnce A callback to execute only once after a successfull news look up.
+     * @param onSuccess
+     */
     var findNewsForQuery = function (keywords, container, onlyOnce, onSuccess) {
 
         var executed = false;
@@ -46,7 +53,7 @@ $(document).ready(function () {
                 for (index = 0; index < result.entries.length; index++) {
                     eachEntry = result.entries[index];
                     templateData = {title: eachEntry.title, contentSnippet: eachEntry.contentSnippet, link: eachEntry.link};
-                    container.append($('#rssFeedTemplate').render(templateData));
+                    container.prepend($('#rssFeedTemplate').render(templateData));
                 }
 
                 callCallbacks();
@@ -65,7 +72,7 @@ $(document).ready(function () {
                     var eachTweet = data.statuses[index];
 
                     var templateData = {userName: eachTweet.user.screen_name, text: eachTweet.text, id: eachTweet.id_str};
-                    container.append($('#twitterNewsTemplate').render(templateData));
+                    container.prepend($('#twitterNewsTemplate').render(templateData));
                 }
 
                 callCallbacks();
@@ -75,7 +82,7 @@ $(document).ready(function () {
         var facebookCallback = function (data) {
             $.each(data.data, function (index, eachItem) {
                 var templateData = {userId: eachItem.from.id, userName: eachItem.from.name, text: app.util.strings.truncate(eachItem.message), id: eachItem.id};
-                container.append($('#facebookNewsTemplate').render(templateData));
+                container.prepend($('#facebookNewsTemplate').render(templateData));
             });
 
             callCallbacks();
@@ -85,7 +92,7 @@ $(document).ready(function () {
             $.each(data.items, function (index, eachItem) {
                 if (eachItem.title !== '') {
                     var templateData = {userId: eachItem.actor.id, userName: eachItem.actor.displayName, text: app.util.strings.truncate(eachItem.title), link: eachItem.object.url};
-                    container.append($('#googlePlusNewsTemplate').render(templateData));
+                    container.prepend($('#googlePlusNewsTemplate').render(templateData));
                 }
             });
 
@@ -164,7 +171,7 @@ $(document).ready(function () {
     };
 
     var createMenuEntry = function (containerSelector, topicName) {
-        var trendNameElementId = topicName.replace(/ /g, '').replace(/\./g, '').replace(/#/, '');
+        var trendNameElementId = app.util.strings.removeMetaCharacters(topicName.replace(/ /g, ''));
 
         var templateData = {trendNameElementId: trendNameElementId, topicName: topicName};
         var menuItemHTML = $('#menuItemTemplate').render(templateData);
@@ -173,7 +180,7 @@ $(document).ready(function () {
 
         var trendNameElementSelector = '#' + trendNameElementId;
 
-        $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', onMenuItemSelected);
+        $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', {containerSelector: containerSelector}, onMenuItemSelected);
 
         function onMenuItemSelected(event) {
             event.preventDefault();
@@ -183,14 +190,25 @@ $(document).ready(function () {
 
                 // If topic is in trends list, then load news from that trend object.
                 // I'm sure that the topic is in trends list because if it's not, then the flow mustn't enter to this IF statement.
-                var index;
-                for (index = 0; index < globalTrends.length; index++) {
-                    if (globalTrends[index].name === topicName) {
+                //  TODO : Functionality : Check this!!
+                var index, found;
+
+                for (index = 0; index < localTrends.length; index++) {
+                    if (localTrends[index].name === topicName) {
+                        found = true;
                         break;
                     }
                 }
 
-                loadNews(index >= 0 ? index : -1, undefined, scrollTo.bind(null, trendNameElementSelector), function () {
+                if (!found) {
+                    for (index = 0; index < globalTrends.length; index++) {
+                        if (globalTrends[index].name === topicName) {
+                            break;
+                        }
+                    }
+                }
+
+                loadNews(event.data.containerSelector, index >= 0 ? index : -1, undefined, scrollTo.bind(null, trendNameElementSelector), function () {
                     $.waypoints('refresh');
                 });
             } else {
@@ -230,10 +248,16 @@ $(document).ready(function () {
         scrollTo(sectionIdSelector);
     };
 
+    /**
+     * TODO : Javadoc for findNewsForTrend
+     * @param trend
+     * @param onlyOnce A callback to execute only once after a successfull news look up.
+     * @param onSuccess
+     */
     var findNewsForTrend = function (trend, onlyOnce, onSuccess) {
         var trendName = app.util.strings.getKeywordWithoutPreffix(trend.name);
 
-        var trendNameElementId = trendName.replace(/ /g, '').replace(/\./g, '');
+        var trendNameElementId = app.util.strings.removeMetaCharacters(trendName.replace(/ /g, ''));
         var templateData = {trendNameElementId: trendNameElementId, topicName: trendName};
 
         var eachSectionList = $(createNewSection(templateData) + ' ul');
@@ -245,38 +269,63 @@ $(document).ready(function () {
     //    ********************************************
     //    Bind events and customize controls behavior.
 
-    function loadNews(indexTrendToLoad, jQueryElementWithWaypoint, onlyOnce, onSuccess) {
+    /**
+     * TODO : Javadoc for loadNews
+     * @param containerSelector
+     * @param indexTrendToLoad
+     * @param jQueryElementWithWaypoint
+     * @param onlyOnce A callback to execute only once after a successfull news look up.
+     * @param onSuccess
+     */
+    function loadNews(containerSelector, indexTrendToLoad, jQueryElementWithWaypoint, onlyOnce, onSuccess) {
+        //  TODO : Refactor :  method loadNews. Improve parameters!!
+        var trends = localTrends;
+
+        if (containerSelector === '#globalTrends') {
+            trends = globalTrends;
+        }
+
         if (indexTrendToLoad >= 0) {
-            findNewsForTrend(globalTrends[indexTrendToLoad], onlyOnce, onSuccess);
+            findNewsForTrend(trends[indexTrendToLoad], onlyOnce, onSuccess);
 
             loadedTrendsCount = loadedTrendsCount + 1;
         }
 
-        if (loadedTrendsCount === globalTrends.length) {
+        if (loadedTrendsCount === trends.length) {
             jQueryElementWithWaypoint.waypoint('destroy');
         }
     }
 
-    function findUnloadedTrend() {
+    function findUnloadedTrend(trends) {
         var index;
-        for (index = 0; index < globalTrends.length; index++) {
-            if (!globalTrends[index].loaded) {
+
+        for (index = 0; index < trends.length; index++) {
+            if (!trends[index].loaded) {
                 break;
             }
         }
 
-        return index < globalTrends.length ? index : -1;
+        return index < trends.length ? index : -1;
     }
 
     var addWaypoint = function (containerSelector) {
         var footer = $(containerSelector);
-        footer.waypoint(loadNewsOnScroll, { offset: '150%'});
+        footer.waypoint(loadNewsOnScroll, { offset: '200%'});
 
         function loadNewsOnScroll(direction) {
+            var containerSelector = '#localTrends', trendToLoad;
+
 
             if ('down' === direction && loadedTrendsCount) {
 
-                loadNews(findUnloadedTrend(), footer, function () {
+                trendToLoad = findUnloadedTrend(localTrends);
+
+                if (trendToLoad < 0) {
+                    trendToLoad = findUnloadedTrend(globalTrends);
+                    containerSelector = '#globalTrends';
+                }
+
+                loadNews(containerSelector, trendToLoad, footer, function () {
                     $.waypoints('refresh');
                 });
             }
@@ -287,6 +336,9 @@ $(document).ready(function () {
 
     $('form').submit(function (event) {
         event.preventDefault();
+
+        //  TODO : Functionality : Check what to do if the custom query contains only meta characters.
+
         findNewsForCustomTopic();
     });
 
@@ -297,6 +349,11 @@ $(document).ready(function () {
         var instagramDiv = $('#instagramPopularPhotos');
         var index;
 
+
+        if (data.data.length > 0) {
+            instagramDiv.show();
+        }
+
         for (index = 0; index < data.data.length; index++) {
             var templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
             instagramDiv.append($('#instagramNewsTemplate').render(templateData));
@@ -305,10 +362,60 @@ $(document).ready(function () {
         //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
     });
 
-    var loadedTrendsCount;
-    var alreadyLoaded, globalTrends = [], globalTrendsIndex = 0;
 
-    $.when(app.service.google.search.findTrends()).done(function (result) {
+    var alreadyLoaded, loadedTrendsCount, localTrends = [];
+
+    var findLocalTrends = function () {
+
+        if (geo_position_js.init()) {
+            geo_position_js.getCurrentPosition(function (position) {
+//            navigator.geolocation.getCurrentPosition(function (position) {
+
+                app.service.socialNetworks.twitter.findClosestTrends(position.coords, function (locations) {
+
+                    if (locations.length > 0) {
+                        $.when(app.service.socialNetworks.twitter.findTrends(locations[0].woeid)).done(function (data) {
+                            var index, eachTrend;
+
+                            var twitterTrends = data[0].trends;
+                            for (index = 0; index < twitterTrends.length; index++) {
+                                eachTrend = twitterTrends[index];
+                                localTrends[index] = {name: eachTrend.name, keywords: [eachTrend.name.replace(/#/, '')]};
+                            }
+
+                            for (index = 0; index < localTrends.length; index++) {
+                                createMenuEntry('#localTrends', localTrends[index].name);
+                            }
+                            $('#localTrends').parent().show();
+
+                            if (!alreadyLoaded) {
+                                findNewsForTrend(localTrends[0], undefined, undefined);
+                                loadedTrendsCount = 1;
+                                alreadyLoaded = true;
+                            }
+                        });
+                    } else {
+                        console.log('devolvio 0 locations!!');
+                    }
+
+                });
+            }, function (positionError) {
+                //  TODO : Functionality : Do something when locations sources returns a positionError
+                console.log('no se puro recuperar');
+                console.dir(positionError);
+            }, {maximumAge: 1000000, timeout: 20000});
+        } else {
+            //  TODO : Functionality : Do something when there's no location source method available.
+            console.log('ver qué hacer cuando no hay forma de saber la geolocalización');
+        }
+
+    };
+
+    findLocalTrends();
+
+    var globalTrends = [], globalTrendsIndex = 0;
+
+    $.when(app.service.google.search.findTrends(undefined)).done(function (result) {
         var index, eachTrend;
 
         var relativeGlobalTrendsIndex = globalTrendsIndex;
@@ -331,8 +438,10 @@ $(document).ready(function () {
             createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name);
         }
 
+        $('#globalTrends').parent().show();
+
         if (!alreadyLoaded) {
-            findNewsForTrend(globalTrends[0]);
+            findNewsForTrend(globalTrends[0], undefined, undefined);
             loadedTrendsCount = 1;
             alreadyLoaded = true;
         }
@@ -353,7 +462,7 @@ $(document).ready(function () {
         }
 
         if (!alreadyLoaded) {
-            findNewsForTrend(globalTrends[0]);
+            findNewsForTrend(globalTrends[0], undefined, undefined);
             loadedTrendsCount = 1;
             alreadyLoaded = true;
         }

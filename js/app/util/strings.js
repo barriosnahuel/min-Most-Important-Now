@@ -53,7 +53,17 @@ app.util.strings = (function () {
         return result;
     };
 
+    /**
+     * Remove each <code>#;?%&,.+*~\':"!^$[\]()=>|\/@</code> that appears in <code>aString</code>.
+     * @param aString The string to parse.
+     * @returns string with the new string without meta characters.
+     */
+    var removeMetaCharacters = function (aString) {
+//        return aString.replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1');
+        return aString.replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g, '');
+    };
+
     return {
-        getKeywordWithoutPreffix: getKeywordWithoutPreffix, truncate: truncate
+        getKeywordWithoutPreffix: getKeywordWithoutPreffix, truncate: truncate, removeMetaCharacters: removeMetaCharacters
     };
 }());

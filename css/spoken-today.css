@@ -75,6 +75,11 @@ footer a:hover {
 /*************************** Own classes ***************************/
 
 #instagramPopularPhotos {
+    text-align: center;
+    display: none;
+}
+
+#instagramPopularPhotos h5 {
     text-align: left;
 }
 
@@ -121,6 +126,11 @@ footer a:hover {
 /*  To trigger dropdown on mouse over   */
 ul.nav li.dropdown:hover > ul.dropdown-menu {
     display: block;
+    margin-top: 0;
+}
+
+ul.nav li.dropdown {
+    display: none;
 }
 
 .navbar-search {
