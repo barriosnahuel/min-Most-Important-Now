@@ -53,12 +53,20 @@ $(document).ready(function () {
             }
         };
 
+        /**
+         * Callback for Twitter found trends.
+         * @param data Response obtained using <a href="https://github.com/mynetx/codebird-js">codebird-js</a>.
+         */
         var twitterCallback = function (data) {
-            if (!data.error) {
-                $.each(data.results, function (index, eachItem) {
-                    var templateData = {userName: eachItem.from_user, text: eachItem.text, id: eachItem.id_str};
+            var index;
+
+            if (data.httpstatus === 200) {
+                for (index = 0; index < data.statuses.length; index++) {
+                    var eachTweet = data.statuses[index];
+
+                    var templateData = {userName: eachTweet.user.screen_name, text: eachTweet.text, id: eachTweet.id_str};
                     container.append($('#twitterNewsTemplate').render(templateData));
-                });
+                }
 
                 callCallbacks();
             }
@@ -271,7 +279,6 @@ $(document).ready(function () {
                 loadNews(findUnloadedTrend(), footer, function () {
                     $.waypoints('refresh');
                 });
-            } else {
             }
         }
     };

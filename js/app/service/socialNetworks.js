@@ -41,9 +41,7 @@ app.service.socialNetworks.twitter = (function () {
      * @param onSuccess
      */
     var findNews = function (keyword, onSuccess) {
-        var url = 'http://search.twitter.com/search.json?callback=?&q="' + keyword + '"';
-
-        $.getJSON(url, onSuccess);
+        cb.__call('search_tweets', 'q=' + keyword + '&count=10', onSuccess);
     };
 
     /**
