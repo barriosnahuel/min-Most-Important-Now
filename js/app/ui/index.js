@@ -370,6 +370,7 @@ $(document).ready(function () {
         if (geo_position_js.init()) {
             geo_position_js.getCurrentPosition(function (position) {
 //            navigator.geolocation.getCurrentPosition(function (position) {
+                _gaq.push(['_trackEvent', 'Info', 'Geolocation API', 'Worked for lat: ' + position.coords.latitude + ' and long: ' + position.coords.longitude]);
 
                 app.service.socialNetworks.twitter.findClosestTrends(position.coords, function (locations) {
 
