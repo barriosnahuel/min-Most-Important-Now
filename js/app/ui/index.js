@@ -370,7 +370,7 @@ $(document).ready(function () {
         if (geo_position_js.init()) {
             geo_position_js.getCurrentPosition(function (position) {
 //            navigator.geolocation.getCurrentPosition(function (position) {
-                _gaq.push(['_trackEvent', 'Info', 'Geolocation API', 'Worked for lat: ' + position.coords.latitude + ' and long: ' + position.coords.longitude]);
+//                _gaq.push(['_trackEvent', 'Info', 'Geolocation API', 'Worked for lat: ' + position.coords.latitude + ' and long: ' + position.coords.longitude]);
 
                 app.service.socialNetworks.twitter.findClosestTrends(position.coords, function (locations) {
 
@@ -400,7 +400,7 @@ $(document).ready(function () {
                 });
             }, function (positionError) {
                 //  TODO : Functionality : Do something when locations sources returns a positionError
-                _gaq.push(['_trackEvent', 'Errors', 'Geolocation API', positionError.message]);
+//                _gaq.push(['_trackEvent', 'Errors', 'Geolocation API', positionError.message]);
             }, {maximumAge: 1000000, timeout: 20000});
         } else {
             //  TODO : Functionality : Do something when there's no location source method available.
