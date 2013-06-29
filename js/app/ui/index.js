@@ -286,17 +286,17 @@ $(document).ready(function () {
     //    ************************************************
     //    Load trends, then news for those trending topics
 
-//    app.service.socialNetworks.instagram.findTrends(function (data) {
-//        var instagramDiv = $('#instagramPopularPhotos');
-//        var index;
-//
-//        for (index = 0; index < data.data.length; index++) {
-//            var templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
-//            instagramDiv.append($('#instagramNewsTemplate').render(templateData));
-//        }
-//
-//        //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
-//    });
+    app.service.socialNetworks.instagram.findTrends(function (data) {
+        var instagramDiv = $('#instagramPopularPhotos');
+        var index;
+
+        for (index = 0; index < data.data.length; index++) {
+            var templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
+            instagramDiv.append($('#instagramNewsTemplate').render(templateData));
+        }
+
+        //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
+    });
 
     var loadedTrendsCount;
     var alreadyLoaded, globalTrends = [], globalTrendsIndex = 0;
@@ -321,12 +321,10 @@ $(document).ready(function () {
         }
 
         for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
-            console.log('adding menu entry for google trends');
             createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name);
         }
 
         if (!alreadyLoaded) {
-            console.log('google trends loaded first');
             findNewsForTrend(globalTrends[0]);
             loadedTrendsCount = 1;
             alreadyLoaded = true;
@@ -344,12 +342,10 @@ $(document).ready(function () {
         }
 
         for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
-            console.log('adding menu entry for twitter trends');
             createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name);
         }
 
         if (!alreadyLoaded) {
-            console.log('twitter trends loaded first');
             findNewsForTrend(globalTrends[0]);
             loadedTrendsCount = 1;
             alreadyLoaded = true;
