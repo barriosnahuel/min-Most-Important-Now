@@ -152,11 +152,11 @@ $(document).ready(function () {
     var scrollTo = function (jQuerySelector) {
         $('html, body').stop().animate({
             scrollTop: $(jQuerySelector).offset().top - 100
-        }, 1500);
+        }, 1000);
     };
 
     var createMenuEntry = function (containerSelector, topicName) {
-        var trendNameElementId = topicName.replace(/ /g, '').replace(/\./g, '');
+        var trendNameElementId = topicName.replace(/ /g, '').replace(/\./g, '').replace(/#/, '');
 
         var templateData = {trendNameElementId: trendNameElementId, topicName: topicName};
         var menuItemHTML = $('#menuItemTemplate').render(templateData);
