@@ -369,6 +369,7 @@ $(document).ready(function () {
 
         if (geo_position_js.init()) {
             geo_position_js.getCurrentPosition(function (position) {
+                ga('send', 'event', 'Geolocation API', 'getCurrentPosition', 'INFO', 'Retrieved lat: ' + position.coords.latitude + '; long: ' + position.coords.longitude);
 
                 app.service.socialNetworks.twitter.findClosestTrends(position.coords, function (locations) {
 
@@ -398,7 +399,7 @@ $(document).ready(function () {
                 });
             }, function (positionError) {
                 //  TODO : Functionality : Do something when locations sources returns a positionError
-//                _gaq.push(['_trackEvent', 'Errors', 'Geolocation API', positionError.message]);
+                ga('send', 'event', 'Geolocation API', 'getCurrentPosition', 'ERROR', positionError.message);
             }, {maximumAge: 1000000, timeout: 20000});
         } else {
             //  TODO : Functionality : Do something when there's no location source method available.
