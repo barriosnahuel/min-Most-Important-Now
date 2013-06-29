@@ -394,19 +394,14 @@ $(document).ready(function () {
                                 alreadyLoaded = true;
                             }
                         });
-                    } else {
-                        console.log('devolvio 0 locations!!');
                     }
 
                 });
             }, function (positionError) {
                 //  TODO : Functionality : Do something when locations sources returns a positionError
-                console.log('no se puro recuperar');
-                console.dir(positionError);
             }, {maximumAge: 1000000, timeout: 20000});
         } else {
             //  TODO : Functionality : Do something when there's no location source method available.
-            console.log('ver qué hacer cuando no hay forma de saber la geolocalización');
         }
 
     };
