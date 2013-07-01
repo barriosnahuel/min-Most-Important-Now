@@ -170,13 +170,23 @@ $(document).ready(function () {
         }, 1000);
     };
 
-    var createMenuEntry = function (containerSelector, topicName) {
+    var createMenuEntry = function (containerSelector, topicName, closeable) {
         var trendNameElementId = app.util.strings.removeMetaCharacters(topicName.replace(/ /g, ''));
 
-        var templateData = {trendNameElementId: trendNameElementId, topicName: topicName};
+        var templateData = {trendNameElementId: trendNameElementId, topicName: topicName, closeable: closeable};
         var menuItemHTML = $('#menuItemTemplate').render(templateData);
 
-        $(containerSelector).append(menuItemHTML);
+        var menu = $(containerSelector);
+
+        menu.append(menuItemHTML);
+
+        if (closeable) {
+            var entry = menu.find('li>a[href=#' + templateData.trendNameElementId + ']').parent();
+            entry.find('>i').on('click', function (event) {
+                entry.remove();
+                $('section[id=' + templateData.trendNameElementId + ']').remove();
+            });
+        }
 
         var trendNameElementSelector = '#' + trendNameElementId;
 
@@ -240,7 +250,7 @@ $(document).ready(function () {
         var userQuery = $('form input').val();
 
         var containerQuerySelector = '#queries';
-        var templateData = createMenuEntry(containerQuerySelector, userQuery);
+        var templateData = createMenuEntry(containerQuerySelector, userQuery, true);
 
         var sectionIdSelector = createNewSection(templateData, true);
 
@@ -384,7 +394,7 @@ $(document).ready(function () {
                             }
 
                             for (index = 0; index < localTrends.length; index++) {
-                                createMenuEntry('#localTrends', localTrends[index].name);
+                                createMenuEntry('#localTrends', localTrends[index].name, false);
                             }
                             $('#localTrends').parent().show();
 
@@ -432,7 +442,7 @@ $(document).ready(function () {
         }
 
         for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
-            createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name);
+            createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
         }
 
         $('#globalTrends').parent().show();
@@ -455,7 +465,7 @@ $(document).ready(function () {
         }
 
         for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
-            createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name);
+            createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
         }
 
         if (!alreadyLoaded) {
@@ -464,5 +474,4 @@ $(document).ready(function () {
             alreadyLoaded = true;
         }
     });
-
 });
