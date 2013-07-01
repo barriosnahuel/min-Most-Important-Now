@@ -24,6 +24,8 @@
 $(document).ready(function () {
     'use strict';
 
+    var input = $('form input');
+
     /**
      * TODO : Javadoc for findNewsForQuery
      * @param keywords
@@ -247,7 +249,7 @@ $(document).ready(function () {
      * Find news from all configured sources for a specific topic that has been choosed for the user in the search box of the left side menu.
      */
     var findNewsForCustomTopic = function () {
-        var userQuery = $('form input').val();
+        var userQuery = input.val();
 
         var containerQuerySelector = '#queries';
         var templateData = createMenuEntry(containerQuerySelector, userQuery, true);
@@ -350,6 +352,8 @@ $(document).ready(function () {
         //  TODO : Functionality : Check what to do if the custom query contains only meta characters.
 
         findNewsForCustomTopic();
+
+        input.val('');
     });
 
     //    ************************************************
