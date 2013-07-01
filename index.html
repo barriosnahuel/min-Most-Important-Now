@@ -167,7 +167,10 @@
 <!--Templates-->
 <script id="menuItemTemplate" type="text/x-jsrender">
     <li>
-        <a href="#{{:trendNameElementId}}"><i class="icon-chevron-right "></i>{{:topicName}}</a>
+        <a href="#{{:trendNameElementId}}"><i class="icon-circle-blank"></i>{{:topicName}}</a>
+        {{if closeable}}
+            <i class="icon-remove-sign"></i>
+        {{/if}}
     </li>
 </script>
 
