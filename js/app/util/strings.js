@@ -1,5 +1,5 @@
 /*
- * Epic Moments - What people all around the world are saying when you want to hear them.
+ * Spoken Today - The things that are spoken today, from all points of view, and in one place.
  * Copyright (C) 2013 Nahuel Barrios <barrios.nahuel@gmail.com>.
  *
  *     This program is free software: you can redistribute it and/or modify

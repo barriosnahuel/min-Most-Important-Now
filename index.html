@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  ~ Epic Moments - What people all around the world are saying when you want to hear them.
+  ~ Spoken Today - The things that are spoken today, from all points of view, and in one place.
   ~ Copyright (C) 2013 Nahuel Barrios <barrios.nahuel@gmail.com>.
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,8 @@
     <meta name="designer" content="Nahuel Barrios <barrios.nahuel@gmail.com>">
     <meta name="email" content="barrios.nahuel@gmail.com">
     <meta name="copyright" content="Copyright © 2013">
-    <meta name="keywords" content="news,today,today news,spoken today,spokentoday,Twitter,Facebook,Google+,Instagram,Flickr,Google,Trends,Trending topics,Hot searches,nahuel,nahuel barrios, newspapers,social networks,social,real time">
+    <meta name="keywords"
+          content="news,today,today news,spoken today,spokentoday,Twitter,Facebook,Google+,Instagram,Flickr,Google,Trends,Trending topics,Hot searches,nahuel,nahuel barrios, newspapers,social networks,social,real time">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta name="viewport" content="width=device-width">
@@ -95,7 +96,7 @@
                                     </li>
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        Global Trends!
+                                            Global Trends!
                                             <b class="caret"></b>
                                         </a>
                                         <ul id="globalTrends" class="dropdown-menu">
@@ -172,6 +173,7 @@
             <i class="icon-remove-sign"></i>
         {{/if}}
     </li>
+
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -179,10 +181,12 @@
         <h2>{{:topicName}}</h2>
         <ul></ul>
     </section>
+
 </script>
 
 <script id="instagramNewsTemplate" type="text/x-jsrender">
     <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}" class="st-thumbnail" title="View on Instagram"></a>
+
 </script>
 
 <script id="rssFeedTemplate" type="text/x-jsrender">
@@ -190,6 +194,7 @@
         <h4>{{:title}}</h4>
         <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a></p>
     </li>
+
 </script>
 
 <script id="facebookNewsTemplate" type="text/x-jsrender">
@@ -198,6 +203,7 @@
         <span> said: </span>{{:text}} -
         <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span>[Original post]</span></a>
     </li>
+
 </script>
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
@@ -206,6 +212,7 @@
         <span> said: </span>{{:text}} -
         <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span>[Original post]</span></a>
     </li>
+
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
@@ -214,6 +221,7 @@
         <span> said: </span>{{:text}} -
         <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank" title="View original tweet on Twitter"><span>[Original post]</span></a>
     </li>
+
 </script>
 
 <script id="flickrNewsTemplate" type="text/x-jsrender">
@@ -222,6 +230,7 @@
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on Flickr"></a>
         {{/for}}
     </div>
+
 </script>
 
 <!--Scripts propios de los que dependo-->
