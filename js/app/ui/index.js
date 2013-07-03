@@ -326,7 +326,12 @@ app.ui.index = (function () {
         };
 
         var flickrCallback = function (data) {
-            var templateData = {}, index, eachItem, imagesContainer, li;
+            var templateData = {},
+                index,
+                eachItem,
+                imagesContainer,
+                li,
+                liSelector = 'li[class=flickr]';
 
             templateData.photos = [];
 
@@ -335,13 +340,13 @@ app.ui.index = (function () {
                 templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link};
             }
 
-            li = container.find('li[class=flickr]');
+            li = container.find(liSelector);
 
             if (li.length === 0) {
-                li = container.append('<li class="flickr"></li>').find('li[class=flickr]');
+                li = container.append('<li class="flickr"></li>').find(liSelector);
             }
 
-            li.append($('#flickrNewsTemplate').render(templateData));
+            li.append($('#flickrAndInstagramNewsTemplate').render(templateData));
 
             imagesContainer = li.find('div');
             imagesContainer.imagesLoaded(function () {
@@ -352,7 +357,12 @@ app.ui.index = (function () {
         };
 
         var instagramCallback = function (data) {
-            var templateData = {}, index, eachItem, imagesContainer, li;
+            var templateData = {},
+                index,
+                eachItem,
+                imagesContainer,
+                li,
+                liSelector = 'li[class=flickr]';
 
             templateData.photos = [];
 
@@ -363,13 +373,13 @@ app.ui.index = (function () {
                     templateData.photos[index] = {photo: eachItem.images.thumbnail.url, link: eachItem.link};
                 }
 
-                li = container.find('li[class=flickr]');
+                li = container.find(liSelector);
 
                 if (li.length === 0) {
-                    li = container.append('<li class="flickr"></li>').find('li[class=flickr]');
+                    li = container.append('<li class="flickr"></li>').find(liSelector);
                 }
 
-                li.append($('#flickrNewsTemplate').render(templateData));
+                li.append($('#flickrAndInstagramNewsTemplate').render(templateData));
 
                 imagesContainer = li.find('div');
                 imagesContainer.imagesLoaded(function () {
@@ -384,15 +394,27 @@ app.ui.index = (function () {
         };
 
         var youtubeCallback = function (data) {
-            for (var index = 0; index < data.items.length; index++) {
-                var eachItem = data.items[index];
+            var templateData = {}
+                , li
+                , liSelector = 'li[class=youtube]'
+                , index;
 
-                var templateData = {thumbnail: eachItem.snippet.thumbnails.default.url, title: eachItem.snippet.title, id: eachItem.id.videoId};
-                container.prepend($('#youTubeNewsTemplate').render(templateData));
+            //  TODO : Refactor encapsulate functionality to render YouTube, Instagram and Flickr results.
+
+            templateData.videos = [];
+            for (index = 0; index < data.items.length; index++) {
+                templateData.videos[index] = {id: data.items[index].id.videoId};
             }
 
+            li = container.find(liSelector);
+            if (li.length === 0) {
+                li = container.append('<li class="youtube"></li>').find(liSelector);
+            }
+
+            li.append($('#youTubeNewsTemplate').render(templateData));
+
             callCallbacks();
-        }
+        };
 
         app.service.newsFinder.findNews(keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback, youtubeCallback);
     };
