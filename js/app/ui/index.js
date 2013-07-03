@@ -537,7 +537,7 @@ app.ui.index = (function () {
     var scrollTo = function (jQuerySelector) {
         $('html, body').stop().animate({
             scrollTop: $(jQuerySelector).offset().top - 100
-        }, 1000);
+        }, 500);
     };
 
     /**

@@ -113,6 +113,10 @@ footer a:hover {
     border-radius: 20px;
 }
 
+.st-close {
+    cursor: pointer;
+}
+
 /***    News (per each social network    ***/
 
 .twitter {
