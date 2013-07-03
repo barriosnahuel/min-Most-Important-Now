@@ -76,7 +76,7 @@ section ul li {
     list-style: none;
 }
 
-section ul li.youtube {
+section ul li.youtube, section ul li.flickr {
     border: none;
 }
 
