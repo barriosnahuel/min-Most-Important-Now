@@ -76,6 +76,10 @@ section ul li {
     list-style: none;
 }
 
+section ul li.youtube {
+    border: none;
+}
+
 section h2 {
     text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
     filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
@@ -110,15 +114,6 @@ footer a:hover {
 }
 
 /***    News (per each social network    ***/
-
-.youtube {
-    background: url("http://www.youtube.com/yt/brand/media/image/yt-brand-standard-logo-95x40.png") no-repeat right;
-    background-size: 48px;
-}
-
-.youtube a {
-    margin-right: 10px;
-}
 
 .twitter {
     background: url("../img/twitter-bird-white-on-blue.png") no-repeat right;

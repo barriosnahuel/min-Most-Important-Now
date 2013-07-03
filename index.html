@@ -184,6 +184,7 @@
         {{/if}}
     </li>
 
+
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -192,10 +193,12 @@
         <ul></ul>
     </section>
 
+
 </script>
 
 <script id="instagramNewsTemplate" type="text/x-jsrender">
     <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}" class="st-thumbnail" title="View on Instagram"></a>
+
 
 </script>
 
@@ -204,6 +207,7 @@
         <h4>{{:title}}</h4>
         <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a></p>
     </li>
+
 
 </script>
 
@@ -214,6 +218,7 @@
         <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span>[Original post]</span></a>
     </li>
 
+
 </script>
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
@@ -222,6 +227,7 @@
         <span> said: </span>{{:text}} -
         <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span>[Original post]</span></a>
     </li>
+
 
 </script>
 
@@ -232,26 +238,30 @@
         <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank" title="View original tweet on Twitter"><span>[Original post]</span></a>
     </li>
 
+
 </script>
 
 <script id="youTubeNewsTemplate" type="text/x-jsrender">
-    <li class="youtube">
-        <a href="http://www.youtube.com/watch?v={{:id}}" target="_blank" title="Watch on YouTube">
-            <img src="{{url:thumbnail}}" title="Watch on YouTube">
-        </a>
-        <a href="http://www.youtube.com/watch?v={{:id}}" target="_blank" title="Watch on YouTube">
-            <span>{{:title}}</span>
-        </a>
-    </li>
+    <div>
+        {{for videos}}
+            <object width="300" height="168.75">
+                <param name="movie" value="https://www.youtube.com/v/{{:id}}"></param>
+                <param name="allowFullScreen" value="true"></param>
+                <param name="allowScriptAccess" value="always"></param>
+                <embed src="https://www.youtube.com/v/{{:id}}" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="300" height="168.75"></embed>
+            </object>
+        {{/for}}
+    </div>
 
 </script>
 
-<script id="flickrNewsTemplate" type="text/x-jsrender">
+<script id="flickrAndInstagramNewsTemplate" type="text/x-jsrender">
     <div>
         {{for photos}}
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on Flickr"></a>
         {{/for}}
     </div>
+
 
 </script>
 
