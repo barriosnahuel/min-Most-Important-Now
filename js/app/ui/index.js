@@ -159,7 +159,18 @@ $(document).ready(function () {
             }
         };
 
-        app.service.newsFinder.findNews(keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback);
+        var youtubeCallback = function (data) {
+            for (var index = 0; index < data.items.length; index++) {
+                var eachItem = data.items[index];
+
+                var templateData = {thumbnail: eachItem.snippet.thumbnails.default.url, title: eachItem.snippet.title, id: eachItem.id.videoId};
+                container.prepend($('#youTubeNewsTemplate').render(templateData));
+            }
+
+            callCallbacks();
+        }
+
+        app.service.newsFinder.findNews(keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback, youtubeCallback);
     };
 
     /**
@@ -375,7 +386,6 @@ $(document).ready(function () {
 
         //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
     });
-
 
     var alreadyLoaded, loadedTrendsCount, localTrends = [];
 

@@ -110,7 +110,14 @@ footer a:hover {
 }
 
 /***    News (per each social network    ***/
-.flickr {
+
+.youtube {
+    background: url("http://www.youtube.com/yt/brand/media/image/yt-brand-standard-logo-95x40.png") no-repeat right;
+    background-size: 48px;
+}
+
+.youtube a {
+    margin-right: 10px;
 }
 
 .twitter {

@@ -39,10 +39,14 @@ app.service.newsFinder = (function () {
      * @param facebookCallback The callback to execute after retrieve Facebook posts.
      * @param instagramCallback The callback to execute after retrieve Instagram posts.
      */
-    var findNews = function (keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback) {
+    var findNews = function (keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback, youTubeCallback) {
         var index;
 
         app.service.socialNetworks.flickr.findNews(keywords, flickrCallback);
+
+        for (index = 0; index < keywords.length; index++) {
+            app.service.socialNetworks.youtube.findNews(keywords[index].replace(/ /g, '+'), youTubeCallback);
+        }
 
         for (index = 0; index < keywords.length; index++) {
             app.service.socialNetworks.instagram.findNews(keywords[index].replace(/ /g, ''), instagramCallback);
@@ -67,7 +71,7 @@ app.service.newsFinder = (function () {
         //  TODO : Add Flipboard! (they haven't got an API yet)
         //  TODO : Add Pinterest!
         //  TODO : Add Tumblr!
-        //  TODO : Add Youtube! (and other video sources)
+        //  TODO : Add Vimeo/Screenr and other video sources!
     };
 
     return {
