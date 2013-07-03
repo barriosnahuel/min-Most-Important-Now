@@ -153,3 +153,32 @@ app.service.socialNetworks.gplus = (function () {
     };
 
 }());
+
+/**
+ * Module for accessing Youtube API V3: https://developers.google.com/youtube/v3/
+ */
+app.service.socialNetworks.youtube = (function () {
+    'use strict';
+
+    /**
+     * https://developers.google.com/+/api/latest/activities#resource
+     * @param keyword
+     * @param onSuccess
+     */
+    var findNews = function (keyword, onSuccess) {
+
+        //  TODO : Join Google+ and YouTube into Google script.
+        var apiKey = 'AIzaSyCNQ1slAxWLz8pg6MCPXJDVdeozgQBYxz8';
+
+        var parameters = 'part=snippet&q=' + keyword + '&type=video&order=viewCount';
+
+        var url = 'https://www.googleapis.com/youtube/v3/search?' + parameters + '&key=' + apiKey;
+
+        $.getJSON(url, onSuccess);
+    };
+
+    return {
+        findNews: findNews
+    };
+
+}());
