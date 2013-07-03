@@ -26,7 +26,11 @@ app.ui = app.ui || {};
 app.ui.index = (function () {
     "use strict";
 
-    var localTrends = [], globalTrends = [], globalTrendsIndex = 0, alreadyLoaded, loadedTrendsCount;
+    var localTrends = []
+        , globalTrends = []
+        , globalTrendsIndex = 0
+        , alreadyLoaded
+        , loadedTrendsCount;
 
     /**
      * Module that represents and manage the navigation menu
@@ -37,19 +41,16 @@ app.ui.index = (function () {
          * Module that represents and manage the form that user will use to find custom topics.
          */
         var form = (function () {
-            var $form = $('form');
-            var $input = $form.find('input');
+            var $form = $('form'), $input = $form.find('input');
 
             /**
              * Find news from all configured sources for a specific topic that has been choosed for the user in the search box of the left side menu.
              */
             var findNewsForCustomTopic = function () {
-                var userQuery = form.input.val();
-
-                var containerQuerySelector = '#queries';
-                var templateData = menu.createMenuEntry(containerQuerySelector, userQuery, true);
-
-                var sectionIdSelector = createNewSection(templateData, true);
+                var userQuery = $input.val()
+                    , containerQuerySelector = '#queries'
+                    , templateData = menu.createEntry(containerQuerySelector, userQuery, true)
+                    , sectionIdSelector = createNewSection(templateData, true);
 
                 findNewsForQuery([userQuery], $(sectionIdSelector + ' ul'), scrollTo.bind(null, sectionIdSelector), undefined);
                 scrollTo(sectionIdSelector);
@@ -75,25 +76,26 @@ app.ui.index = (function () {
         }());
 
 
-        var createMenuEntry = function (containerSelector, topicName, closeable) {
-            var trendNameElementId = app.util.strings.removeMetaCharacters(topicName.replace(/ /g, ''));
+        var createEntry = function (containerSelector, topicName, closeable) {
 
-            var templateData = {trendNameElementId: trendNameElementId, topicName: topicName, closeable: closeable};
-            var menuItemHTML = $('#menuItemTemplate').render(templateData);
-
-            var menu = $(containerSelector);
+            var trendNameElementId = app.util.strings.removeMetaCharacters(topicName.replace(/ /g, ''))
+                , templateData = {trendNameElementId: trendNameElementId, topicName: topicName, closeable: closeable}
+                , menuItemHTML = $('#menuItemTemplate').render(templateData)
+                , menu = $(containerSelector)
+                , trendNameElementSelector
+                , entry;
 
             menu.append(menuItemHTML);
 
             if (closeable) {
-                var entry = menu.find('li>a[href=#' + templateData.trendNameElementId + ']').parent();
+                entry = menu.find('li>a[href=#' + templateData.trendNameElementId + ']').parent();
                 entry.find('>i').on('click', function (event) {
                     entry.remove();
                     $('section[id=' + templateData.trendNameElementId + ']').remove();
                 });
             }
 
-            var trendNameElementSelector = '#' + trendNameElementId;
+            trendNameElementSelector = '#' + trendNameElementId;
 
             $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', {containerSelector: containerSelector}, onMenuItemSelected);
 
@@ -139,16 +141,16 @@ app.ui.index = (function () {
             var findLocalTrends = function () {
 
                 var onSuccessTwitterLocalTrends = function (data) {
-                    var index, eachTrend;
+                    var index, eachTrend, twitterTrends;
 
-                    var twitterTrends = data[0].trends;
+                    twitterTrends = data[0].trends;
                     for (index = 0; index < twitterTrends.length; index++) {
                         eachTrend = twitterTrends[index];
                         localTrends[index] = {name: eachTrend.name, keywords: [eachTrend.name.replace(/#/, '')]};
                     }
 
                     for (index = 0; index < localTrends.length; index++) {
-                        createMenuEntry('#localTrends', localTrends[index].name, false);
+                        createEntry('#localTrends', localTrends[index].name, false);
                     }
                     $('#localTrends').parent().show();
 
@@ -181,15 +183,16 @@ app.ui.index = (function () {
             };
 
             var onSuccessGoogleGlobalSearch = function (result) {
-                var index, eachTrend;
+                var index
+                    , eachTrend
+                    , keywords
+                    , relativeGlobalTrendsIndex = globalTrendsIndex
+                    , googleTrends = result.feed.entries;
 
-                var relativeGlobalTrendsIndex = globalTrendsIndex;
-
-                var googleTrends = result.feed.entries;
                 for (index = 0; index < googleTrends.length; index++, globalTrendsIndex++) {
                     eachTrend = googleTrends[index];
 
-                    var keywords = [];
+                    keywords = [];
                     if (eachTrend.content !== '') {
                         keywords = eachTrend.content.split(', ');
                     } else {
@@ -200,7 +203,7 @@ app.ui.index = (function () {
                 }
 
                 for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
-                    createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
+                    createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
                 }
 
                 $('#globalTrends').parent().show();
@@ -213,17 +216,18 @@ app.ui.index = (function () {
             };
 
             var onSuccessTwitterGlobalSearch = function (data) {
-                var index, eachTrend;
+                var index
+                    , eachTrend
+                    , twitterTrends = data[0].trends
+                    , relativeGlobalTrendsIndex = globalTrendsIndex;
 
-                var twitterTrends = data[0].trends;
-                var relativeGlobalTrendsIndex = globalTrendsIndex;
                 for (index = 0; index < twitterTrends.length; index++, globalTrendsIndex++) {
                     eachTrend = twitterTrends[index];
                     globalTrends[globalTrendsIndex] = {name: eachTrend.name, keywords: [eachTrend.name.replace(/#/, '')]};
                 }
 
                 for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
-                    createMenuEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
+                    createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
                 }
 
                 if (!alreadyLoaded) {
@@ -241,7 +245,8 @@ app.ui.index = (function () {
         };
 
         return {
-            init: init, createMenuEntry: createMenuEntry
+            init: init,
+            createEntry: createEntry
         };
     }());
 
@@ -268,12 +273,12 @@ app.ui.index = (function () {
         }
 
         var googleFeedsCallback = function (result) {
-            var index, eachEntry;
+            var index, eachEntry, templateData;
 
             if (!result.error) {
                 for (index = 0; index < result.entries.length; index++) {
                     eachEntry = result.entries[index];
-                    var templateData = {title: eachEntry.title, contentSnippet: eachEntry.contentSnippet, link: eachEntry.link};
+                    templateData = {title: eachEntry.title, contentSnippet: eachEntry.contentSnippet, link: eachEntry.link};
                     container.prepend($('#rssFeedTemplate').render(templateData));
                 }
 
@@ -286,13 +291,13 @@ app.ui.index = (function () {
          * @param data Response obtained using <a href="https://github.com/mynetx/codebird-js">codebird-js</a>.
          */
         var twitterCallback = function (data) {
-            var index;
+            var index, eachTweet, templateData;
 
             if (data.httpstatus === 200) {
                 for (index = 0; index < data.statuses.length; index++) {
-                    var eachTweet = data.statuses[index];
+                    eachTweet = data.statuses[index];
 
-                    var templateData = {userName: eachTweet.user.screen_name, text: eachTweet.text, id: eachTweet.id_str};
+                    templateData = {userName: eachTweet.user.screen_name, text: eachTweet.text, id: eachTweet.id_str};
                     container.prepend($('#twitterNewsTemplate').render(templateData));
                 }
 
@@ -388,12 +393,10 @@ app.ui.index = (function () {
      * @param onSuccess
      */
     var findNewsForTrend = function (trend, onlyOnce, onSuccess) {
-        var trendName = app.util.strings.getKeywordWithoutPreffix(trend.name);
-
-        var trendNameElementId = app.util.strings.removeMetaCharacters(trendName.replace(/ /g, ''));
-        var templateData = {trendNameElementId: trendNameElementId, topicName: trendName};
-
-        var eachSectionList = $(createNewSection(templateData) + ' ul');
+        var trendName = app.util.strings.getKeywordWithoutPreffix(trend.name)
+            , trendNameElementId = app.util.strings.removeMetaCharacters(trendName.replace(/ /g, ''))
+            , templateData = {trendNameElementId: trendNameElementId, topicName: trendName}
+            , eachSectionList = $(createNewSection(templateData) + ' ul');
 
         findNewsForQuery(trend.keywords, eachSectionList, onlyOnce, onSuccess);
         trend.loaded = true;
@@ -424,7 +427,7 @@ app.ui.index = (function () {
         if (loadedTrendsCount === trends.length) {
             jQueryElementWithWaypoint.waypoint('destroy');
         }
-    }
+    };
 
 
     /**
@@ -434,11 +437,13 @@ app.ui.index = (function () {
 
         var init = function (options) {
 
-            var containerSelector = options.waypointContainerSelector;
-
-            var $footer = $(containerSelector);
+            var containerSelector = options.waypointContainerSelector
+                , $footer = $(containerSelector);
 
             var loadNewsOnScroll = function (direction) {
+
+                var trendToLoad
+                    , containerSelector = '#localTrends';
 
                 var findUnloadedTrend = function (trends) {
                     var index;
@@ -449,11 +454,9 @@ app.ui.index = (function () {
                         }
                     }
                     return index < trends.length ? index : -1;
-                }
+                };
 
                 //  End of method definitions.
-                var trendToLoad, containerSelector = '#localTrends';
-
                 if ('down' === direction && loadedTrendsCount) {
 
                     trendToLoad = findUnloadedTrend(localTrends);
@@ -468,7 +471,7 @@ app.ui.index = (function () {
                         $.waypoints('refresh');
                     }, undefined);
                 }
-            }
+            };
 
             //  End of method definitions.
             $footer.waypoint(loadNewsOnScroll, { offset: '150%'});
@@ -481,9 +484,9 @@ app.ui.index = (function () {
     }());
 
     var createNewSection = function (templateData, atBegin) {
-        var content = $('.content');
+        var content = $('.content')
+            , sectionHTML = $('#newsSectionTemplate').render(templateData);
 
-        var sectionHTML = $('#newsSectionTemplate').render(templateData);
         if (atBegin) {
             content.prepend(sectionHTML);
         } else {
@@ -512,8 +515,9 @@ app.ui.index = (function () {
 
         //  TODO : Put instagram initialization into container module.
         app.service.socialNetworks.instagram.findTrends(function (data) {
-            var instagramDiv = $('#instagramPopularPhotos');
-            var index;
+            var instagramDiv = $('#instagramPopularPhotos')
+                , index
+                , templateData;
 
 
             if (data.data.length > 0) {
@@ -521,7 +525,7 @@ app.ui.index = (function () {
             }
 
             for (index = 0; index < data.data.length; index++) {
-                var templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
+                templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
                 instagramDiv.append($('#instagramNewsTemplate').render(templateData));
             }
 
