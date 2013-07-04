@@ -38,6 +38,7 @@ app.service.newsFinder = (function () {
      * @param googlePlusCallback The callback to execute after retrieve Google Plus posts.
      * @param facebookCallback The callback to execute after retrieve Facebook posts.
      * @param instagramCallback The callback to execute after retrieve Instagram posts.
+     * @param youTubeCallback The callback to execute after retrieve YouTube videos.
      */
     var findNews = function (keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback, youTubeCallback) {
         var index;

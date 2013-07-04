@@ -128,9 +128,8 @@ app.ui.index = (function () {
                         }
                     }
 
-                    loadNews(event.data.containerSelector, index >= 0 ? index : -1, undefined, scrollTo.bind(null, trendNameElementSelector), function () {
+                    loadNews(event.data.containerSelector, index >= 0 ? index : -1, scrollTo.bind(null, trendNameElementSelector), function () {
                         showSection(trendNameElementId);
-                        $.waypoints('refresh');
                     });
                 } else {
                     showSection(trendNameElementId);
@@ -444,11 +443,10 @@ app.ui.index = (function () {
      * TODO : Javadoc for loadNews
      * @param containerSelector
      * @param indexTrendToLoad
-     * @param jQueryElementWithWaypoint
      * @param onlyOnce A callback to execute only once after a successfull news look up.
      * @param onSuccess
      */
-    var loadNews = function (containerSelector, indexTrendToLoad, jQueryElementWithWaypoint, onlyOnce, onSuccess) {
+    var loadNews = function (containerSelector, indexTrendToLoad, onlyOnce, onSuccess) {
         //  TODO : Refactor :  method loadNews. Improve parameters!!
         var trends = localTrends;
 
@@ -461,66 +459,7 @@ app.ui.index = (function () {
 
             loadedTrendsCount = loadedTrendsCount + 1;
         }
-
-        if (loadedTrendsCount === trends.length) {
-            jQueryElementWithWaypoint.waypoint('destroy');
-        }
     };
-
-
-    /**
-     * Module that represents and manage the footer of the page.
-     */
-    var footer = (function (options) {
-
-        var init = function (options) {
-
-            var containerSelector = options.waypointContainerSelector
-                , $footer = $(containerSelector);
-
-            var loadNewsOnScroll = function (direction) {
-
-                var trendToLoad
-                    , containerSelector = '#localTrends';
-
-                var findUnloadedTrend = function (trends) {
-                    var index;
-
-                    for (index = 0; index < trends.length; index++) {
-                        if (!trends[index].loaded) {
-                            break;
-                        }
-                    }
-                    return index < trends.length ? index : -1;
-                };
-
-                //  End of method definitions.
-                if ('down' === direction && loadedTrendsCount) {
-
-                    trendToLoad = findUnloadedTrend(localTrends);
-
-                    if (trendToLoad < 0) {
-                        trendToLoad = findUnloadedTrend(globalTrends);
-                        containerSelector = '#globalTrends';
-                    }
-
-//                loadNews(containerSelector, trendToLoad, footer, $.waypoints.bind(undefined, 'refresh'), undefined);
-                    loadNews(containerSelector, trendToLoad, $footer, function () {
-                        $.waypoints('refresh');
-                    }, undefined);
-                }
-            };
-
-
-            //  End of method definitions.
-            $footer.waypoint(loadNewsOnScroll, { offset: '150%'});
-
-        };
-
-        return {
-            init: init
-        };
-    }());
 
     var createNewSection = function (templateData, atBegin) {
         var content = $('.content')
@@ -575,8 +514,6 @@ app.ui.index = (function () {
 
             //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
         });
-
-//        footer.init({waypointContainerSelector: 'footer'});
     };
 
     return {

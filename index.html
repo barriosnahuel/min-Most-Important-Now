@@ -161,7 +161,6 @@
 <script type="text/javascript" src="js/lib/codebird-js-2.4.1/codebird.js"></script>
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/lib/jsrender.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.2/waypoints.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">google.load("feeds", "1");</script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/1.5.25/jquery.isotope.min.js"></script>
@@ -174,6 +173,7 @@
             <i class="icon-remove st-close"></i>
         {{/if}}
     </li>
+
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -181,10 +181,12 @@
         <h2>{{:topicName}}</h2>
         <ul></ul>
     </section>
+
 </script>
 
 <script id="instagramNewsTemplate" type="text/x-jsrender">
     <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}" class="st-thumbnail" title="View on Instagram"></a>
+
 </script>
 
 <script id="rssFeedTemplate" type="text/x-jsrender">
@@ -192,6 +194,7 @@
         <h4>{{:title}}</h4>
         <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a></p>
     </li>
+
 </script>
 
 <script id="facebookNewsTemplate" type="text/x-jsrender">
@@ -200,6 +203,7 @@
         <span> said: </span>{{:text}} -
         <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span>[Original post]</span></a>
     </li>
+
 </script>
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
@@ -208,6 +212,7 @@
         <span> said: </span>{{:text}} -
         <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span>[Original post]</span></a>
     </li>
+
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
@@ -216,6 +221,7 @@
         <span> said: </span>{{:text}} -
         <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank" title="View original tweet on Twitter"><span>[Original post]</span></a>
     </li>
+
 </script>
 
 <script id="youTubeNewsTemplate" type="text/x-jsrender">
@@ -229,6 +235,7 @@
             </object>
         {{/for}}
     </div>
+
 </script>
 
 <script id="flickrAndInstagramNewsTemplate" type="text/x-jsrender">
@@ -237,6 +244,7 @@
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on Flickr"></a>
         {{/for}}
     </div>
+
 </script>
 
 <!--Scripts propios de los que dependo-->
