@@ -50,7 +50,10 @@ app.ui.index = (function () {
                 var userQuery = $input.val()
                     , containerQuerySelector = '#queries'
                     , templateData = menu.createEntry(containerQuerySelector, userQuery, true)
-                    , sectionIdSelector = createNewSection(templateData, true);
+                    , sectionId = createNewSection(templateData, true)
+                    , sectionIdSelector = '#' + sectionId;
+
+                showSection(sectionId);
 
                 findNewsForQuery([userQuery], $(sectionIdSelector + ' ul'), scrollTo.bind(null, sectionIdSelector), undefined);
                 scrollTo(sectionIdSelector);
@@ -126,9 +129,11 @@ app.ui.index = (function () {
                     }
 
                     loadNews(event.data.containerSelector, index >= 0 ? index : -1, undefined, scrollTo.bind(null, trendNameElementSelector), function () {
+                        showSection(trendNameElementId);
                         $.waypoints('refresh');
                     });
                 } else {
+                    showSection(trendNameElementId);
                     scrollTo(trendNameElementSelector);
                 }
             }
@@ -429,7 +434,7 @@ app.ui.index = (function () {
         var trendName = app.util.strings.getKeywordWithoutPreffix(trend.name)
             , trendNameElementId = app.util.strings.removeMetaCharacters(trendName.replace(/ /g, ''))
             , templateData = {trendNameElementId: trendNameElementId, topicName: trendName}
-            , eachSectionList = $(createNewSection(templateData) + ' ul');
+            , eachSectionList = $('#' + createNewSection(templateData) + ' ul');
 
         findNewsForQuery(trend.keywords, eachSectionList, onlyOnce, onSuccess);
         trend.loaded = true;
@@ -527,7 +532,7 @@ app.ui.index = (function () {
             content.append(sectionHTML);
         }
 
-        return '#' + templateData.trendNameElementId;
+        return templateData.trendNameElementId;
     };
 
     /**
@@ -540,6 +545,11 @@ app.ui.index = (function () {
         }, 500);
     };
 
+    var showSection = function (sectionId) {
+        $('.content>section[id=' + sectionId + ']').show();
+        $('.content>section:not([ID=' + sectionId + '])').hide();
+    };
+
     /**
      * Load trends, then news for those trending topics
      */
@@ -547,7 +557,7 @@ app.ui.index = (function () {
 
         menu.init();
 
-        //  TODO : Put instagram initialization into container module.
+//          TODO : Put instagram initialization into container module.
         app.service.socialNetworks.instagram.findTrends(function (data) {
             var instagramDiv = $('#instagramPopularPhotos')
                 , index
@@ -566,7 +576,7 @@ app.ui.index = (function () {
             //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
         });
 
-        footer.init({waypointContainerSelector: 'footer'});
+//        footer.init({waypointContainerSelector: 'footer'});
     };
 
     return {
