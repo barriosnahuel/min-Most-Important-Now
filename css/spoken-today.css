@@ -76,9 +76,17 @@ section ul li {
     list-style: none;
 }
 
+section ul li.youtube, section ul li.flickr {
+    border: none;
+}
+
 section h2 {
     text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
     filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
+    font-family: Permanent Marker;
+    background-color: rgba(0, 173, 255, 0.69);
+    border-radius: 40px 40px 0 0;
+    box-shadow: 0 2px 10px;
 }
 
 footer {
@@ -91,6 +99,10 @@ footer a {
 
 footer a:hover {
     color: black;
+}
+
+footer hr {
+    margin: 3px 0;
 }
 
 /*******************************************************************/
@@ -109,16 +121,11 @@ footer a:hover {
     border-radius: 20px;
 }
 
+.st-close {
+    cursor: pointer;
+}
+
 /***    News (per each social network    ***/
-
-.youtube {
-    background: url("http://www.youtube.com/yt/brand/media/image/yt-brand-standard-logo-95x40.png") no-repeat right;
-    background-size: 48px;
-}
-
-.youtube a {
-    margin-right: 10px;
-}
 
 .twitter {
     background: url("../img/twitter-bird-white-on-blue.png") no-repeat right;
@@ -149,6 +156,13 @@ footer a:hover {
     background-size: 20px;
 }
 
+.navbar-inner>.container>h6 {
+    float: right;
+    font-style: italic;
+    font-family: Lato;
+    color: rgb(129, 129, 129);
+}
+
 /*********************************************************************************************************************************************/
 /*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/
 
@@ -175,6 +189,10 @@ ul.nav li.dropdown {
     float: right;
     font-size: 0.7em;
     margin-left: -10px;
+}
+
+section ul, section ol {
+    margin: 0;
 }
 
 li>a>i {

@@ -52,9 +52,9 @@ app.service.newsFinder = (function () {
             app.service.socialNetworks.instagram.findNews(keywords[index].replace(/ /g, ''), instagramCallback);
         }
 
-        for (index = 0; index < keywords.length; index++) {
-            google.feeds.findFeeds(keywords[index], googleFeedsCallback);
-        }
+//        for (index = 0; index < keywords.length; index++) {
+//            google.feeds.findFeeds(keywords[index], googleFeedsCallback);
+//        }
 
         for (index = 0; index < keywords.length; index++) {
             app.service.socialNetworks.twitter.findNews(keywords[index], twitterCallback);

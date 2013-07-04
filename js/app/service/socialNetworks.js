@@ -170,7 +170,7 @@ app.service.socialNetworks.youtube = (function () {
         //  TODO : Join Google+ and YouTube into Google script.
         var apiKey = 'AIzaSyCNQ1slAxWLz8pg6MCPXJDVdeozgQBYxz8';
 
-        var parameters = 'part=snippet&q=' + keyword + '&type=video&order=viewCount';
+        var parameters = 'part=snippet&q=' + keyword + '&type=video&order=viewCount&maxResults=6';
 
         var url = 'https://www.googleapis.com/youtube/v3/search?' + parameters + '&key=' + apiKey;
 
