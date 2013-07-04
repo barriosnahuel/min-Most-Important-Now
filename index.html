@@ -23,7 +23,7 @@
 
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Finger+Paint">
+    <link href="http://fonts.googleapis.com/css?family=Finger+Paint|Permanent+Marker|Lato:100,400" rel="stylesheet" type="text/css">
 
     <link rel="icon" type="image/png" href="img/1370895148_rss.png">
 
@@ -67,6 +67,7 @@
                         <div class="container">
 
                             <h1>Spoken Today <span>(the top things...)</span></h1>
+                            <h6>"... that are spoken today, from all points of view, and in just one place."</h6>
 
                             <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
                             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -81,7 +82,7 @@
 
                                 <form class="navbar-search">
                                     <input type="text" class="search-query input-medium" placeholder="Wanna know about..." tabindex="1"
-                                           maxlength="30">
+                                           maxlength="25">
                                 </form>
 
                                 <!--TODO : Refactor : remove queries ID and use .nav style instead-->
@@ -173,8 +174,6 @@
             <i class="icon-remove-sign st-close"></i>
         {{/if}}
     </li>
-
-
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -182,14 +181,10 @@
         <h2>{{:topicName}}</h2>
         <ul></ul>
     </section>
-
-
 </script>
 
 <script id="instagramNewsTemplate" type="text/x-jsrender">
     <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}" class="st-thumbnail" title="View on Instagram"></a>
-
-
 </script>
 
 <script id="rssFeedTemplate" type="text/x-jsrender">
@@ -197,8 +192,6 @@
         <h4>{{:title}}</h4>
         <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a></p>
     </li>
-
-
 </script>
 
 <script id="facebookNewsTemplate" type="text/x-jsrender">
@@ -207,8 +200,6 @@
         <span> said: </span>{{:text}} -
         <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span>[Original post]</span></a>
     </li>
-
-
 </script>
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
@@ -217,8 +208,6 @@
         <span> said: </span>{{:text}} -
         <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span>[Original post]</span></a>
     </li>
-
-
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
@@ -227,8 +216,6 @@
         <span> said: </span>{{:text}} -
         <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank" title="View original tweet on Twitter"><span>[Original post]</span></a>
     </li>
-
-
 </script>
 
 <script id="youTubeNewsTemplate" type="text/x-jsrender">
@@ -242,7 +229,6 @@
             </object>
         {{/for}}
     </div>
-
 </script>
 
 <script id="flickrAndInstagramNewsTemplate" type="text/x-jsrender">
@@ -251,8 +237,6 @@
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on Flickr"></a>
         {{/for}}
     </div>
-
-
 </script>
 
 <!--Scripts propios de los que dependo-->
