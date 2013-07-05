@@ -84,10 +84,15 @@ app.ui.index = (function () {
                 , templateData = {trendNameElementId: trendNameElementId, topicName: topicName, closeable: closeable}
                 , menuItemHTML = $('#menuItemTemplate').render(templateData)
                 , menu = $(containerSelector)
-                , trendNameElementSelector
+                , trendNameElementSelector = '#' + trendNameElementId
                 , entry;
 
             menu.append(menuItemHTML);
+
+
+            $('a[href="' + trendNameElementSelector + '"]').on('shown', function (e) {
+                scrollTo(trendNameElementSelector);
+            })
 
             if (closeable) {
                 entry = menu.find('li>a[href=#' + templateData.trendNameElementId + ']').parent();
@@ -96,8 +101,6 @@ app.ui.index = (function () {
                     $('section[id=' + templateData.trendNameElementId + ']').remove();
                 });
             }
-
-            trendNameElementSelector = '#' + trendNameElementId;
 
             $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', {containerSelector: containerSelector}, onMenuItemSelected);
 
@@ -127,7 +130,7 @@ app.ui.index = (function () {
                         }
                     }
 
-                    loadNews(event.data.containerSelector, index >= 0 ? index : -1, undefined, undefined, showSection.bind(null, trendNameElementId));
+                    loadNews(event.data.containerSelector, index >= 0 ? index : -1, undefined, showSection.bind(null, trendNameElementId));
                 } else {
                     showSection(trendNameElementId);
                 }
@@ -457,66 +460,7 @@ app.ui.index = (function () {
 
             loadedTrendsCount = loadedTrendsCount + 1;
         }
-
-        if (loadedTrendsCount === trends.length) {
-            jQueryElementWithWaypoint.waypoint('destroy');
-        }
     };
-
-
-    /**
-     * Module that represents and manage the footer of the page.
-     */
-    var footer = (function (options) {
-
-        var init = function (options) {
-
-            var containerSelector = options.waypointContainerSelector
-                , $footer = $(containerSelector);
-
-            var loadNewsOnScroll = function (direction) {
-
-                var trendToLoad
-                    , containerSelector = '#localTrends';
-
-                var findUnloadedTrend = function (trends) {
-                    var index;
-
-                    for (index = 0; index < trends.length; index++) {
-                        if (!trends[index].loaded) {
-                            break;
-                        }
-                    }
-                    return index < trends.length ? index : -1;
-                };
-
-                //  End of method definitions.
-                if ('down' === direction && loadedTrendsCount) {
-
-                    trendToLoad = findUnloadedTrend(localTrends);
-
-                    if (trendToLoad < 0) {
-                        trendToLoad = findUnloadedTrend(globalTrends);
-                        containerSelector = '#globalTrends';
-                    }
-
-//                loadNews(containerSelector, trendToLoad, footer, $.waypoints.bind(undefined, 'refresh'), undefined);
-                    loadNews(containerSelector, trendToLoad, $footer, function () {
-                        $.waypoints('refresh');
-                    }, undefined);
-                }
-            };
-
-
-            //  End of method definitions.
-            $footer.waypoint(loadNewsOnScroll, { offset: '150%'});
-
-        };
-
-        return {
-            init: init
-        };
-    }());
 
     var createNewSection = function (templateData, atBegin) {
         var content = $('#myTabContent')
@@ -533,6 +477,16 @@ app.ui.index = (function () {
 
     var showSection = function (sectionId) {
         $('#queries a[href="#' + sectionId + '"]').tab('show');
+    };
+
+    /**
+     * Scroll to the specified {@code jQuerySelector}.
+     * @param jQuerySelector A jQuery selector to scroll the entire page.
+     */
+    var scrollTo = function (jQuerySelector) {
+        $('html, body').stop().animate({
+            scrollTop: $(jQuerySelector).offset().top - 150
+        }, 0);
     };
 
     /**
@@ -561,7 +515,6 @@ app.ui.index = (function () {
             //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
         });
 
-//        footer.init({waypointContainerSelector: 'footer'});
     };
 
     return {
