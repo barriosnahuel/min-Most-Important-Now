@@ -55,8 +55,7 @@ app.ui.index = (function () {
 
                 showSection(sectionId);
 
-                findNewsForQuery([userQuery], $(sectionIdSelector + ' ul'), scrollTo.bind(null, sectionIdSelector), undefined);
-                scrollTo(sectionIdSelector);
+                findNewsForQuery([userQuery], $(sectionIdSelector + ' ul'), undefined, undefined);
             };
 
             var onSubmit = function (event) {
@@ -85,10 +84,15 @@ app.ui.index = (function () {
                 , templateData = {trendNameElementId: trendNameElementId, topicName: topicName, closeable: closeable}
                 , menuItemHTML = $('#menuItemTemplate').render(templateData)
                 , menu = $(containerSelector)
-                , trendNameElementSelector
+                , trendNameElementSelector = '#' + trendNameElementId
                 , entry;
 
             menu.append(menuItemHTML);
+
+
+            $('a[href="' + trendNameElementSelector + '"]').on('shown', function (e) {
+                scrollTo(trendNameElementSelector);
+            })
 
             if (closeable) {
                 entry = menu.find('li>a[href=#' + templateData.trendNameElementId + ']').parent();
@@ -97,8 +101,6 @@ app.ui.index = (function () {
                     $('section[id=' + templateData.trendNameElementId + ']').remove();
                 });
             }
-
-            trendNameElementSelector = '#' + trendNameElementId;
 
             $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', {containerSelector: containerSelector}, onMenuItemSelected);
 
@@ -128,13 +130,9 @@ app.ui.index = (function () {
                         }
                     }
 
-                    loadNews(event.data.containerSelector, index >= 0 ? index : -1, undefined, scrollTo.bind(null, trendNameElementSelector), function () {
-                        showSection(trendNameElementId);
-                        $.waypoints('refresh');
-                    });
+                    loadNews(event.data.containerSelector, index >= 0 ? index : -1, undefined, showSection.bind(null, trendNameElementId));
                 } else {
                     showSection(trendNameElementId);
-                    scrollTo(trendNameElementSelector);
                 }
             }
 
@@ -160,6 +158,7 @@ app.ui.index = (function () {
                     $('#localTrends').parent().show();
 
                     if (!alreadyLoaded) {
+                        //  TODO : Performance : remove remaining calls to lazyload. Clear the entire JS!
                         findNewsForTrend(localTrends[0], undefined, undefined);
                         loadedTrendsCount = 1;
                         alreadyLoaded = true;
@@ -184,7 +183,6 @@ app.ui.index = (function () {
                     //  TODO : Functionality : Do something when there's no location source method available.
                 }
 
-                form.init();
             };
 
             var onSuccessGoogleGlobalSearch = function (result) {
@@ -243,6 +241,8 @@ app.ui.index = (function () {
             };
 
             //  End method definitions
+
+            form.init();
 
             findLocalTrends();
             $.when(app.service.google.search.findTrends(undefined)).done(onSuccessGoogleGlobalSearch);
@@ -444,11 +444,10 @@ app.ui.index = (function () {
      * TODO : Javadoc for loadNews
      * @param containerSelector
      * @param indexTrendToLoad
-     * @param jQueryElementWithWaypoint
      * @param onlyOnce A callback to execute only once after a successfull news look up.
      * @param onSuccess
      */
-    var loadNews = function (containerSelector, indexTrendToLoad, jQueryElementWithWaypoint, onlyOnce, onSuccess) {
+    var loadNews = function (containerSelector, indexTrendToLoad, onlyOnce, onSuccess) {
         //  TODO : Refactor :  method loadNews. Improve parameters!!
         var trends = localTrends;
 
@@ -461,69 +460,10 @@ app.ui.index = (function () {
 
             loadedTrendsCount = loadedTrendsCount + 1;
         }
-
-        if (loadedTrendsCount === trends.length) {
-            jQueryElementWithWaypoint.waypoint('destroy');
-        }
     };
 
-
-    /**
-     * Module that represents and manage the footer of the page.
-     */
-    var footer = (function (options) {
-
-        var init = function (options) {
-
-            var containerSelector = options.waypointContainerSelector
-                , $footer = $(containerSelector);
-
-            var loadNewsOnScroll = function (direction) {
-
-                var trendToLoad
-                    , containerSelector = '#localTrends';
-
-                var findUnloadedTrend = function (trends) {
-                    var index;
-
-                    for (index = 0; index < trends.length; index++) {
-                        if (!trends[index].loaded) {
-                            break;
-                        }
-                    }
-                    return index < trends.length ? index : -1;
-                };
-
-                //  End of method definitions.
-                if ('down' === direction && loadedTrendsCount) {
-
-                    trendToLoad = findUnloadedTrend(localTrends);
-
-                    if (trendToLoad < 0) {
-                        trendToLoad = findUnloadedTrend(globalTrends);
-                        containerSelector = '#globalTrends';
-                    }
-
-//                loadNews(containerSelector, trendToLoad, footer, $.waypoints.bind(undefined, 'refresh'), undefined);
-                    loadNews(containerSelector, trendToLoad, $footer, function () {
-                        $.waypoints('refresh');
-                    }, undefined);
-                }
-            };
-
-
-            //  End of method definitions.
-            $footer.waypoint(loadNewsOnScroll, { offset: '150%'});
-
-        };
-
-        return {
-            init: init
-        };
-    }());
-
     var createNewSection = function (templateData, atBegin) {
-        var content = $('.content')
+        var content = $('#myTabContent')
             , sectionHTML = $('#newsSectionTemplate').render(templateData);
 
         if (atBegin) {
@@ -535,19 +475,18 @@ app.ui.index = (function () {
         return templateData.trendNameElementId;
     };
 
+    var showSection = function (sectionId) {
+        $('#queries a[href="#' + sectionId + '"]').tab('show');
+    };
+
     /**
      * Scroll to the specified {@code jQuerySelector}.
      * @param jQuerySelector A jQuery selector to scroll the entire page.
      */
     var scrollTo = function (jQuerySelector) {
         $('html, body').stop().animate({
-            scrollTop: $(jQuerySelector).offset().top - 100
-        }, 500);
-    };
-
-    var showSection = function (sectionId) {
-        $('.content>section[id=' + sectionId + ']').show();
-        $('.content>section:not([ID=' + sectionId + '])').hide();
+            scrollTop: $(jQuerySelector).offset().top - 150
+        }, 0);
     };
 
     /**
@@ -576,7 +515,6 @@ app.ui.index = (function () {
             //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
         });
 
-//        footer.init({waypointContainerSelector: 'footer'});
     };
 
     return {
