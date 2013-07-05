@@ -86,24 +86,22 @@
                                 </form>
 
                                 <!--TODO : Refactor : remove queries ID and use .nav style instead-->
-                                <ul id="queries" class="nav">
+                                <ul id="queries" class="nav nav-tabs">
+                                    <li class="active"><a href="#top" data-toggle="tab">Top</a></li>
+
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            Local Trends!
-                                            <b class="caret"></b>
-                                        </a>
-                                        <ul id="localTrends" class="dropdown-menu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Local news! <b class="caret"></b></a>
+                                        <ul class="dropdown-menu" id="localTrends">
                                         </ul>
                                     </li>
+
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            Global Trends!
-                                            <b class="caret"></b>
-                                        </a>
-                                        <ul id="globalTrends" class="dropdown-menu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Global news! <b class="caret"></b></a>
+                                        <ul class="dropdown-menu" id="globalTrends">
                                         </ul>
                                     </li>
                                 </ul>
+
                             </div>
 
                         </div>
@@ -121,17 +119,17 @@
 
             <div class="row">
                 <div class="span12">
-                    <div id="instagramPopularPhotos">
-                        <h5>
-                            <a href="http://instagram.com/" target="_blank" title="Navigate to Instagram official site">Instagram</a> popular photos
-                        </h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="span12">
                     <div class="content">
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="top">
+                                <div id="instagramPopularPhotos">
+                                    <h5>
+                                        <a href="http://instagram.com/" target="_blank" title="Navigate to Instagram official site">Instagram</a>
+                                        popular photos
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -168,7 +166,7 @@
 <!--Templates-->
 <script id="menuItemTemplate" type="text/x-jsrender">
     <li>
-        <a href="#{{:trendNameElementId}}"><i class="icon-ok"></i>{{:topicName}}</a>
+        <a href="#{{:trendNameElementId}}" data-toggle="tab"><i class="icon-ok"></i>{{:topicName}}</a>
         {{if closeable}}
             <i class="icon-remove st-close"></i>
         {{/if}}
@@ -177,7 +175,7 @@
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
-    <section id="{{:trendNameElementId}}">
+    <section class="tab-pane fade" id="{{:trendNameElementId}}">
         <h2>{{:topicName}}</h2>
         <ul></ul>
     </section>
