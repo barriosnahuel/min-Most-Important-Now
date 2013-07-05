@@ -85,8 +85,9 @@ section h2 {
     filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
     font-family: Permanent Marker;
     background-color: rgba(0, 173, 255, 0.69);
-    border-radius: 40px 40px 0 0;
+    border-radius: 40px 40px 4px 4px;
     box-shadow: 0 2px 10px;
+    margin: 0px 5px;
 }
 
 footer {
@@ -172,12 +173,13 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
     margin-top: 0;
 }
 
+/*  By default, dropdowns aren't visible because it hasn't got any topic    */
 ul.nav li.dropdown {
     display: none;
 }
 
-.navbar-search {
-    margin-right: 10px;
+.navbar .nav {
+    margin: 0;
 }
 
 .navbar .nav>li>a {
