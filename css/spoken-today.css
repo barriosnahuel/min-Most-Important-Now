@@ -187,10 +187,17 @@ ul.nav li.dropdown {
     float: left;
 }
 
+/*  Customize the close icon for custom searches    */
 .navbar .nav>li>i {
     float: right;
     font-size: 0.7em;
-    margin-left: -10px;
+    margin-left: -11px;
+}
+
+/*  Customize icons in the menu */
+.nav>li>a>i {
+    font-size: 1.3em;
+    margin-left: 0.2em;
 }
 
 section ul, section ol {

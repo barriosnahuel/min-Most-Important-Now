@@ -87,16 +87,16 @@
 
                                 <!--TODO : Refactor : remove queries ID and use .nav style instead-->
                                 <ul id="queries" class="nav nav-tabs">
-                                    <li class="active"><a href="#top" data-toggle="tab">Top</a></li>
+                                    <li class="active"><a href="#top" data-toggle="tab">Top<i class="icon-star-empty"></i></a></li>
 
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Local news! <b class="caret"></b></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
                                         <ul class="dropdown-menu" id="localTrends">
                                         </ul>
                                     </li>
 
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Global news! <b class="caret"></b></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Global news!<b class="caret"></b></a>
                                         <ul class="dropdown-menu" id="globalTrends">
                                         </ul>
                                     </li>
@@ -176,7 +176,12 @@
 <!--Templates-->
 <script id="menuItemTemplate" type="text/x-jsrender">
     <li>
-        <a href="#{{:trendNameElementId}}" data-toggle="tab"><i class="icon-ok"></i>{{:topicName}}</a>
+        <a href="#{{:trendNameElementId}}" data-toggle="tab">
+            {{if !closeable}}
+                <i class="icon-ok"></i>
+            {{/if}}
+            {{:topicName}}
+        </a>
         {{if closeable}}
             <i class="icon-remove st-close"></i>
         {{/if}}
@@ -249,7 +254,7 @@
 <script id="flickrAndInstagramNewsTemplate" type="text/x-jsrender">
     <div>
         {{for photos}}
-            <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on Flickr"></a>
+            <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on {{:socialNetworkName}}"></a>
         {{/for}}
     </div>
 

@@ -32,41 +32,55 @@ app.service.newsFinder = (function () {
 
     /**
      * @param keywords An array of tags/keywords
-     * @param googleFeedsCallback The callback to execute after retrieve Google feeds.
-     * @param flickrCallback The callback to execute after retrieve Flickr posts.
-     * @param twitterCallback The callback to execute after retrieve tweets.
-     * @param googlePlusCallback The callback to execute after retrieve Google Plus posts.
-     * @param facebookCallback The callback to execute after retrieve Facebook posts.
-     * @param instagramCallback The callback to execute after retrieve Instagram posts.
-     * @param youTubeCallback The callback to execute after retrieve YouTube videos.
+     * @param callbacks object with <br><b> googleFeeds </b>The callback to execute after retrieve Google feeds.
+     * <p/><b> flickr </b>The callback to execute after retrieve Flickr posts.
+     * <p/><b> twitter </b>The callback to execute after retrieve tweets.
+     * <p/><b> googlePlus </b>The callback to execute after retrieve Google Plus posts.
+     * <p/><b> facebook </b>The callback to execute after retrieve Facebook posts.
+     * <p/><b> instagram </b>The callback to execute after retrieve Instagram posts.
+     * <p/><b> youTube </b>The callback to execute after retrieve YouTube videos.
      */
-    var findNews = function (keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback, youTubeCallback) {
+    var findNews = function (keywords, callbacks) {
         var index;
 
-        app.service.socialNetworks.flickr.findNews(keywords, flickrCallback);
-
-        for (index = 0; index < keywords.length; index++) {
-            app.service.socialNetworks.youtube.findNews(keywords[index].replace(/ /g, '+'), youTubeCallback);
+        if (callbacks.flickr) {
+            app.service.socialNetworks.flickr.findNews(keywords, callbacks.flickr);
         }
 
-        for (index = 0; index < keywords.length; index++) {
-            app.service.socialNetworks.instagram.findNews(keywords[index].replace(/ /g, ''), instagramCallback);
+        if (callbacks.youTube) {
+            for (index = 0; index < keywords.length; index++) {
+                app.service.socialNetworks.youtube.findNews(keywords[index].replace(/ /g, '+'), callbacks.youTube);
+            }
         }
 
-//        for (index = 0; index < keywords.length; index++) {
-//            google.feeds.findFeeds(keywords[index], googleFeedsCallback);
-//        }
-
-        for (index = 0; index < keywords.length; index++) {
-            app.service.socialNetworks.twitter.findNews(keywords[index], twitterCallback);
+        if (callbacks.instagram) {
+            for (index = 0; index < keywords.length; index++) {
+                app.service.socialNetworks.instagram.findNews(keywords[index].replace(/ /g, ''), callbacks.instagram);
+            }
         }
 
-        for (index = 0; index < keywords.length; index++) {
-            app.service.socialNetworks.gplus.findNews(keywords[index], googlePlusCallback);
+        if (callbacks.googleFeeds) {
+            for (index = 0; index < keywords.length; index++) {
+                google.feeds.findFeeds(keywords[index], callbacks.googleFeeds);
+            }
         }
 
-        for (index = 0; index < keywords.length; index++) {
-            app.service.socialNetworks.facebook.findNews(keywords[index], facebookCallback);
+        if (callbacks.twitter) {
+            for (index = 0; index < keywords.length; index++) {
+                app.service.socialNetworks.twitter.findNews(keywords[index], callbacks.twitter);
+            }
+        }
+
+        if (callbacks.googlePlus) {
+            for (index = 0; index < keywords.length; index++) {
+                app.service.socialNetworks.gplus.findNews(keywords[index], callbacks.googlePlus);
+            }
+        }
+
+        if (callbacks.facebook) {
+            for (index = 0; index < keywords.length; index++) {
+                app.service.socialNetworks.facebook.findNews(keywords[index], callbacks.facebook);
+            }
         }
 
         //  TODO : Add Flipboard! (they haven't got an API yet)

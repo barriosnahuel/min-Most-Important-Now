@@ -102,7 +102,8 @@ app.ui.index = (function () {
                 });
             }
 
-            $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', {containerSelector: containerSelector}, onMenuItemSelected);
+            $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', {containerSelector: containerSelector},
+                                                                                  onMenuItemSelected);
 
             function onMenuItemSelected(event) {
                 event.preventDefault();
@@ -143,8 +144,12 @@ app.ui.index = (function () {
 
             var findLocalTrends = function () {
 
-                var onSuccessTwitterLocalTrends = function (data) {
-                    var index, eachTrend, twitterTrends;
+                var onSuccessTwitterLocalTrends = function (countryName, data) {
+                    var index
+                        , eachTrend
+                        , twitterTrends
+                        , $localTrendsLIParent
+                        , $dropdownLabel;
 
                     twitterTrends = data[0].trends;
                     for (index = 0; index < twitterTrends.length; index++) {
@@ -155,7 +160,12 @@ app.ui.index = (function () {
                     for (index = 0; index < localTrends.length; index++) {
                         createEntry('#localTrends', localTrends[index].name, false);
                     }
-                    $('#localTrends').parent().show();
+
+                    $localTrendsLIParent = $('#localTrends').parent();
+                    $dropdownLabel = $localTrendsLIParent.find('>a');
+                    $dropdownLabel.html(countryName + $dropdownLabel.html());
+
+                    $localTrendsLIParent.show();
 
                     if (!alreadyLoaded) {
                         //  TODO : Performance : remove remaining calls to lazyload. Clear the entire JS!
@@ -172,7 +182,11 @@ app.ui.index = (function () {
 
                         app.service.socialNetworks.twitter.findClosestTrends(position.coords, function (locations) {
                             if (locations.length > 0) {
-                                $.when(app.service.socialNetworks.twitter.findTrends(locations[0].woeid)).done(onSuccessTwitterLocalTrends);
+                                var currentLocation = locations[0];
+
+                                $.when(app.service.socialNetworks.twitter.findTrends(currentLocation.woeid,
+                                                                                     undefined)).done(onSuccessTwitterLocalTrends.bind(null,
+                                                                                                                                       currentLocation.country));
                             }
                         });
 
@@ -331,18 +345,17 @@ app.ui.index = (function () {
         };
 
         var flickrCallback = function (data) {
-            var templateData = {},
-                index,
-                eachItem,
-                imagesContainer,
-                li,
-                liSelector = 'li[class=flickr]';
+            var templateData = {}
+                , index, eachItem
+                , imagesContainer
+                , li
+                , liSelector = 'li[class=flickr]';
 
             templateData.photos = [];
 
             for (index = 0; index < data.items.length; index++) {
                 eachItem = data.items[index];
-                templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link};
+                templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link, socialNetworkName: 'Flickr'};
             }
 
             li = container.find(liSelector);
@@ -362,12 +375,12 @@ app.ui.index = (function () {
         };
 
         var instagramCallback = function (data) {
-            var templateData = {},
-                index,
-                eachItem,
-                imagesContainer,
-                li,
-                liSelector = 'li[class=flickr]';
+            var templateData = {}
+                , index
+                , eachItem
+                , imagesContainer
+                , li
+                , liSelector = 'li[class=flickr]';
 
             templateData.photos = [];
 
@@ -375,7 +388,7 @@ app.ui.index = (function () {
                 for (index = 0; index < data.data.length; index++) {
                     eachItem = data.data[index];
 
-                    templateData.photos[index] = {photo: eachItem.images.thumbnail.url, link: eachItem.link};
+                    templateData.photos[index] = {photo: eachItem.images.thumbnail.url, link: eachItem.link, socialNetworkName: 'Instagram'};
                 }
 
                 li = container.find(liSelector);
@@ -398,7 +411,7 @@ app.ui.index = (function () {
             }
         };
 
-        var youtubeCallback = function (data) {
+        var youTubeCallback = function (data) {
             var templateData = {}
                 , li
                 , liSelector = 'li[class=youtube]'
@@ -421,7 +434,15 @@ app.ui.index = (function () {
             callCallbacks();
         };
 
-        app.service.newsFinder.findNews(keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback, youtubeCallback);
+        app.service.newsFinder.findNews(keywords, {
+//            googleFeeds: googleFeedsCallback,
+            flickr: flickrCallback,
+            twitter: twitterCallback,
+            googlePlus: googlePlusCallback,
+            facebook: facebookCallback,
+            youTube: youTubeCallback,
+            instagram: instagramCallback
+        });
     };
 
     /**
@@ -485,8 +506,8 @@ app.ui.index = (function () {
      */
     var scrollTo = function (jQuerySelector) {
         $('html, body').stop().animate({
-            scrollTop: $(jQuerySelector).offset().top - 150
-        }, 0);
+                                           scrollTop: $(jQuerySelector).offset().top - 150
+                                       }, 0);
     };
 
     /**
