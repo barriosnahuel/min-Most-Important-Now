@@ -102,7 +102,8 @@ app.ui.index = (function () {
                 });
             }
 
-            $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', {containerSelector: containerSelector}, onMenuItemSelected);
+            $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', {containerSelector: containerSelector},
+                                                                                  onMenuItemSelected);
 
             function onMenuItemSelected(event) {
                 event.preventDefault();
@@ -331,12 +332,11 @@ app.ui.index = (function () {
         };
 
         var flickrCallback = function (data) {
-            var templateData = {},
-                index,
-                eachItem,
-                imagesContainer,
-                li,
-                liSelector = 'li[class=flickr]';
+            var templateData = {}
+                , index, eachItem
+                , imagesContainer
+                , li
+                , liSelector = 'li[class=flickr]';
 
             templateData.photos = [];
 
@@ -362,12 +362,12 @@ app.ui.index = (function () {
         };
 
         var instagramCallback = function (data) {
-            var templateData = {},
-                index,
-                eachItem,
-                imagesContainer,
-                li,
-                liSelector = 'li[class=flickr]';
+            var templateData = {}
+                , index
+                , eachItem
+                , imagesContainer
+                , li
+                , liSelector = 'li[class=flickr]';
 
             templateData.photos = [];
 
@@ -398,7 +398,7 @@ app.ui.index = (function () {
             }
         };
 
-        var youtubeCallback = function (data) {
+        var youTubeCallback = function (data) {
             var templateData = {}
                 , li
                 , liSelector = 'li[class=youtube]'
@@ -421,7 +421,15 @@ app.ui.index = (function () {
             callCallbacks();
         };
 
-        app.service.newsFinder.findNews(keywords, googleFeedsCallback, flickrCallback, twitterCallback, googlePlusCallback, facebookCallback, instagramCallback, youtubeCallback);
+        app.service.newsFinder.findNews(keywords, {
+//            googleFeeds: googleFeedsCallback,
+            flickr: flickrCallback,
+            twitter: twitterCallback,
+            googlePlus: googlePlusCallback,
+            facebook: facebookCallback,
+            instagram: instagramCallback,
+            youTube: youTubeCallback
+        });
     };
 
     /**
@@ -485,8 +493,8 @@ app.ui.index = (function () {
      */
     var scrollTo = function (jQuerySelector) {
         $('html, body').stop().animate({
-            scrollTop: $(jQuerySelector).offset().top - 150
-        }, 0);
+                                           scrollTop: $(jQuerySelector).offset().top - 150
+                                       }, 0);
     };
 
     /**
