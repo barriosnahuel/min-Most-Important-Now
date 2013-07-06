@@ -355,7 +355,7 @@ app.ui.index = (function () {
 
             for (index = 0; index < data.items.length; index++) {
                 eachItem = data.items[index];
-                templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link};
+                templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link, socialNetworkName: 'Flickr'};
             }
 
             li = container.find(liSelector);
@@ -388,7 +388,7 @@ app.ui.index = (function () {
                 for (index = 0; index < data.data.length; index++) {
                     eachItem = data.data[index];
 
-                    templateData.photos[index] = {photo: eachItem.images.thumbnail.url, link: eachItem.link};
+                    templateData.photos[index] = {photo: eachItem.images.thumbnail.url, link: eachItem.link, socialNetworkName: 'Instagram'};
                 }
 
                 li = container.find(liSelector);
