@@ -144,8 +144,12 @@ app.ui.index = (function () {
 
             var findLocalTrends = function () {
 
-                var onSuccessTwitterLocalTrends = function (data) {
-                    var index, eachTrend, twitterTrends;
+                var onSuccessTwitterLocalTrends = function (countryName, data) {
+                    var index
+                        , eachTrend
+                        , twitterTrends
+                        , $localTrendsLIParent
+                        , $dropdownLabel;
 
                     twitterTrends = data[0].trends;
                     for (index = 0; index < twitterTrends.length; index++) {
@@ -156,7 +160,12 @@ app.ui.index = (function () {
                     for (index = 0; index < localTrends.length; index++) {
                         createEntry('#localTrends', localTrends[index].name, false);
                     }
-                    $('#localTrends').parent().show();
+
+                    $localTrendsLIParent = $('#localTrends').parent();
+                    $dropdownLabel = $localTrendsLIParent.find('>a');
+                    $dropdownLabel.html(countryName + $dropdownLabel.html());
+
+                    $localTrendsLIParent.show();
 
                     if (!alreadyLoaded) {
                         //  TODO : Performance : remove remaining calls to lazyload. Clear the entire JS!
@@ -173,7 +182,11 @@ app.ui.index = (function () {
 
                         app.service.socialNetworks.twitter.findClosestTrends(position.coords, function (locations) {
                             if (locations.length > 0) {
-                                $.when(app.service.socialNetworks.twitter.findTrends(locations[0].woeid)).done(onSuccessTwitterLocalTrends);
+                                var currentLocation = locations[0];
+
+                                $.when(app.service.socialNetworks.twitter.findTrends(currentLocation.woeid,
+                                                                                     undefined)).done(onSuccessTwitterLocalTrends.bind(null,
+                                                                                                                                       currentLocation.country));
                             }
                         });
 
@@ -427,8 +440,8 @@ app.ui.index = (function () {
             twitter: twitterCallback,
             googlePlus: googlePlusCallback,
             facebook: facebookCallback,
-            instagram: instagramCallback,
-            youTube: youTubeCallback
+            youTube: youTubeCallback,
+            instagram: instagramCallback
         });
     };
 
