@@ -276,10 +276,6 @@ li>a>i {
     .navbar-fixed-bottom {
         position: fixed;
     }
-
-    h1 span {
-        display: none;
-    }
 }
 
 @media (max-width: 767px) {
@@ -288,5 +284,17 @@ li>a>i {
     .navbar-static-top {
         margin-right: 0;
         margin-left: 0;
+    }
+
+    header h1>span, h6 {
+        display: none;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    footer span, footer span>a {
+        display: inline-block;
     }
 }
