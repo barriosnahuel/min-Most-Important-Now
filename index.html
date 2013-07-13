@@ -140,15 +140,67 @@
     <div class="row">
         <div class="span12">
             <footer>
-                <hr>
-                <span>This site was created by <a
-                        href="https://docs.google.com/document/d/1Bb5ApFV9tcF-IDgelTLGpCM9xQ_ZCRM19OpchOB8gvU/edit?usp=sharing"
-                        target="_blank" title="My resume">Nahuel Barrios</a></span>
-                | <span><a href="mailto:barrios.nahuel@gmail.com" target="_blank" title="Send me an email">barrios.nahuel@gmail.com</a></span>
-                | <span><a href="https://github.com/barriosnahuel/spoken-today" target="_blank" title="Navigate to the project main site">Project
-                site</a></span>
-                | <span><a href="https://github.com/barriosnahuel/spoken-today/issues" target="_blank" title="Report an issue">Report an
-                issue</a></span>
+
+                <div class="row">
+                    <div class="span12">
+                        <!-- I got these buttons from simplesharebuttons.com -->
+                        <div class="st-shareSite">
+
+                            <!-- Facebook -->
+                            <a href="http://www.facebook.com/sharer.php?u=http://spokentoday.info" target="_blank"><img
+                                    src="http://www.simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook"/></a>
+
+                            <!-- Twitter -->
+                            <a href="http://twitter.com/share?url=http://spokentoday.info&text=Spoken Today" target="_blank"><img
+                                    src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter"/></a>
+
+                            <!-- Google+ -->
+                            <a href="https://plus.google.com/share?url=http://spokentoday.info" target="_blank"><img
+                                    src="http://www.simplesharebuttons.com/images/somacro/google.png" alt="Google"/></a>
+
+                            <!-- Digg -->
+                            <a href="http://www.digg.com/submit?url=http://spokentoday.info" target="_blank"><img
+                                    src="http://www.simplesharebuttons.com/images/somacro/diggit.png" alt="Digg"/></a>
+
+                            <!-- Reddit -->
+                            <a href="http://reddit.com/submit?url=http://spokentoday.info&title=Spoken Today" target="_blank"><img
+                                    src="http://www.simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit"/></a>
+
+                            <!-- LinkedIn -->
+                            <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://spokentoday.info" target="_blank"><img
+                                    src="http://www.simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn"/></a>
+
+                            <!-- Pinterest -->
+                            <a href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());"><img
+                                    src="http://www.simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest"/></a>
+
+                            <!-- StumbleUpon-->
+                            <a href="http://www.stumbleupon.com/submit?url=http://spokentoday.info&title=Spoken Today" target="_blank"><img
+                                    src="http://www.simplesharebuttons.com/images/somacro/stumbleupon.png" alt="StumbleUpon"/></a>
+
+                            <!-- Email -->
+                            <a href="mailto:?Subject=Spoken Today&Body=Hi, check this awesome site I'm using right now: http://SpokenToday.info"
+                               target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/email.png" alt="Email"/></a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="span12">
+                        <hr>
+
+                        <span>This site was created by <a
+                                href="https://docs.google.com/document/d/1Bb5ApFV9tcF-IDgelTLGpCM9xQ_ZCRM19OpchOB8gvU/edit?usp=sharing"
+                                target="_blank" title="My resume">Nahuel Barrios</a></span>
+                        | <span><a href="mailto:barrios.nahuel@gmail.com" target="_blank" title="Send me an email">barrios.nahuel@gmail.com</a></span>
+                        | <span><a href="https://github.com/barriosnahuel/spoken-today" target="_blank" title="Navigate to the project main site">Project
+                        site</a></span>
+                        | <span><a href="https://github.com/barriosnahuel/spoken-today/issues" target="_blank" title="Report an issue">Report an
+                        issue</a></span>
+                    </div>
+                </div>
+
             </footer>
         </div>
     </div>
@@ -180,6 +232,7 @@
         {{/if}}
     </li>
 
+
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
@@ -188,10 +241,12 @@
         <ul></ul>
     </section>
 
+
 </script>
 
 <script id="instagramNewsTemplate" type="text/x-jsrender">
     <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}" class="st-thumbnail" title="View on Instagram"></a>
+
 
 </script>
 
@@ -200,6 +255,7 @@
         <h4>{{:title}}</h4>
         <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a></p>
     </li>
+
 
 </script>
 
@@ -210,6 +266,7 @@
         <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span>[Original post]</span></a>
     </li>
 
+
 </script>
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
@@ -219,6 +276,7 @@
         <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span>[Original post]</span></a>
     </li>
 
+
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
@@ -227,6 +285,7 @@
         <span> said: </span>{{:text}} -
         <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank" title="View original tweet on Twitter"><span>[Original post]</span></a>
     </li>
+
 
 </script>
 
@@ -242,6 +301,7 @@
         {{/for}}
     </div>
 
+
 </script>
 
 <script id="flickrAndInstagramNewsTemplate" type="text/x-jsrender">
@@ -250,6 +310,7 @@
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on {{:socialNetworkName}}"></a>
         {{/for}}
     </div>
+
 
 </script>
 
