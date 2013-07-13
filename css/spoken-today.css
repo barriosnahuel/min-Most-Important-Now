@@ -164,6 +164,18 @@ footer hr {
     color: rgb(129, 129, 129);
 }
 
+.st-shareSite {
+    margin-top: 2em;
+}
+
+.st-shareSite img {
+
+    width: 3.4em;
+    padding: 0.5em;
+    border: 0;
+    display: inline;
+}
+
 /*********************************************************************************************************************************************/
 /*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/
 
