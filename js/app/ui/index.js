@@ -435,11 +435,11 @@ app.ui.index = (function () {
         };
 
         app.service.newsFinder.findNews(keywords, {
-//            googleFeeds: googleFeedsCallback,
+            googleFeeds: googleFeedsCallback,
             flickr: flickrCallback,
             twitter: twitterCallback,
             googlePlus: googlePlusCallback,
-            facebook: facebookCallback,
+//            facebook: facebookCallback,
             youTube: youTubeCallback,
             instagram: instagramCallback
         });
