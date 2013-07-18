@@ -114,8 +114,8 @@ app.service.socialNetworks.facebook = (function () {
 
     /**
      * Check <a href="https://developers.facebook.com/docs/reference/api/search/">Facebook Search API Reference</a>
-     * @param keyword
-     * @param onSuccess
+     * @param keyword The keyword to search for.
+     * @param onSuccess The onSuccess callback with parameters: data, textStatus and jqXHR.
      */
     var findNews = function (keyword, onSuccess) {
         var url = 'https://graph.facebook.com/search?type=post&q=' + keyword + '&fields=from,message,id';
@@ -143,7 +143,8 @@ app.service.socialNetworks.gplus = (function () {
     var findNews = function (keyword, onSuccess) {
         var apiKey = 'AIzaSyCNQ1slAxWLz8pg6MCPXJDVdeozgQBYxz8';
 
-        var url = 'https://www.googleapis.com/plus/v1/activities?key=' + apiKey + '&query=' + keyword + '&maxResults=10&orderBy=best&language=' + navigator.language;
+        var url = 'https://www.googleapis.com/plus/v1/activities?key=' + apiKey + '&query=' + keyword + '&maxResults=10&orderBy=best&language='
+            + navigator.language;
 
         $.getJSON(url, onSuccess);
     };
