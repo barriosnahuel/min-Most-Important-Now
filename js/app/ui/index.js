@@ -270,11 +270,12 @@ app.ui.index = (function () {
     }());
 
     /**
-     * TODO : Javadoc for findNewsForQuery
-     * @param keywords
-     * @param container
+     * Finds news from all configured sources (social networks and so on) for the list of specified keywords and load all results to the specified container.
+     *
+     * @param keywords An array of keywords related with a specific topic.
+     * @param container The main container for a specific topic.
      * @param onlyOnce A callback to execute only once after a successfull news look up.
-     * @param onSuccess
+     * @param onSuccess An optional callback function to execute after successfully executed each social network specific callback.
      */
     var findNewsForQuery = function (keywords, container, onlyOnce, onSuccess) {
 
@@ -291,6 +292,10 @@ app.ui.index = (function () {
             }
         }
 
+        /**
+         * Callback to execute after getting news from Google Feeds.
+         * @param result The result in the specified <a href="https://developers.google.com/feed/v1/reference#resultJson">JSON result format of the Google Feed API</a>.
+         */
         var googleFeedsCallback = function (result) {
             var index, eachEntry, templateData;
 
