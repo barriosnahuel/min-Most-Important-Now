@@ -158,6 +158,7 @@ footer hr {
 
 .st-original-post {
     font-variant: small-caps;
+    white-space: nowrap;
 }
 
 .twitter>a>span, .facebook>a>span, .gplus>a>span, .rss>a>span {
