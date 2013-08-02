@@ -414,7 +414,7 @@ app.ui.index = (function () {
 
             li = list.find(liSelector);
             if (li.length === 0) {
-                li = container.append('<li class="youtube"></li>').find(liSelector);
+                li = list.append('<li class="youtube"></li>').find(liSelector);
             }
 
             li.append($('#youTubeNewsTemplate').render(templateData));
