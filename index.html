@@ -55,7 +55,6 @@
 </head>
 <body>
 
-
 <div class="container">
 
     <div class="row">
@@ -231,62 +230,57 @@
             <i class="icon-remove st-close"></i>
         {{/if}}
     </li>
-
-
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
     <section class="tab-pane fade" id="{{:trendNameElementId}}">
         <h2>{{:topicName}}</h2>
-        <ul></ul>
+        <div class="row">
+            <div class="span1 leftColumn"></div>
+
+            <div class="span10">
+                <ul></ul>
+            </div>
+
+            <div class="span1 rightColumn"></div>
+        </div>
     </section>
-
-
 </script>
 
 <script id="instagramNewsTemplate" type="text/x-jsrender">
     <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}" class="st-thumbnail" title="View on Instagram"></a>
-
-
 </script>
 
 <script id="rssFeedTemplate" type="text/x-jsrender">
     <li class="rss">
         <h4>{{:title}}</h4>
-        <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span>[Original post]</span></a></p>
+        <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span class="st-original-post">[Original post]</span></a></p>
+        <h6>{{:source}}</h6>
     </li>
-
-
 </script>
 
 <script id="facebookNewsTemplate" type="text/x-jsrender">
     <li class="facebook">
         <a href="http://facebook.com/{{:userId}}" target="_blank">{{:userName}}</a>
         <span> said: </span>{{:text}} -
-        <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span>[Original post]</span></a>
+        <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span class="st-original-post">[Original post]</span></a>
     </li>
-
-
 </script>
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
     <li class="gplus">
         <a href="http://plus.google.com/{{:userId}}?rel=author" target="_blank">{{:userName}}</a>
         <span> said: </span>{{:text}} -
-        <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span>[Original post]</span></a>
+        <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span class="st-original-post">[Original post]</span></a>
     </li>
-
-
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
     <li class="twitter">
         <a href="http://twitter.com/{{:userName}}" rel="me" target="_blank">@{{:userName}}</a>
         <span> said: </span>{{:text}} -
-        <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank" title="View original tweet on Twitter"><span>[Original post]</span></a>
+        <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank" title="View original tweet on Twitter"><span class="st-original-post">[Original post]</span></a>
     </li>
-
-
 </script>
 
 <script id="youTubeNewsTemplate" type="text/x-jsrender">
@@ -300,8 +294,6 @@
             </object>
         {{/for}}
     </div>
-
-
 </script>
 
 <script id="flickrAndInstagramNewsTemplate" type="text/x-jsrender">
@@ -310,8 +302,6 @@
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on {{:socialNetworkName}}"></a>
         {{/for}}
     </div>
-
-
 </script>
 
 <!--Scripts propios de los que dependo-->

@@ -55,7 +55,7 @@ app.ui.index = (function () {
 
                 showSection(sectionId);
 
-                findNewsForQuery([userQuery], $(sectionIdSelector + ' ul'), undefined, undefined);
+                findNewsForQuery([userQuery], $(sectionIdSelector), undefined, undefined);
             };
 
             var onSubmit = function (event) {
@@ -258,9 +258,9 @@ app.ui.index = (function () {
 
             form.init();
 
-            findLocalTrends();
+//            findLocalTrends();
             $.when(app.service.google.search.findTrends(undefined)).done(onSuccessGoogleGlobalSearch);
-            $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
+//            $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
         };
 
         return {
@@ -278,7 +278,7 @@ app.ui.index = (function () {
      */
     var findNewsForQuery = function (keywords, container, onlyOnce, onSuccess) {
 
-        var executed = false;
+        var list = container.find('ul'), executed = false;
 
         function callCallbacks() {
             if (onSuccess) {
@@ -297,8 +297,14 @@ app.ui.index = (function () {
             if (!result.error) {
                 for (index = 0; index < result.entries.length; index++) {
                     eachEntry = result.entries[index];
-                    templateData = {title: eachEntry.title, contentSnippet: eachEntry.contentSnippet, link: eachEntry.link};
-                    container.prepend($('#rssFeedTemplate').render(templateData));
+
+                    templateData = {
+                        title: eachEntry.title,
+                        contentSnippet: eachEntry.contentSnippet.replace(/<(?:.|\n)*?>/gm, ''),
+                        link: eachEntry.link,
+                        source: app.util.strings.getDomain(eachEntry.link)
+                    };
+                    list.prepend($('#rssFeedTemplate').render(templateData));
                 }
 
                 callCallbacks();
@@ -317,7 +323,7 @@ app.ui.index = (function () {
                     eachTweet = data.statuses[index];
 
                     templateData = {userName: eachTweet.user.screen_name, text: eachTweet.text, id: eachTweet.id_str};
-                    container.prepend($('#twitterNewsTemplate').render(templateData));
+                    list.prepend($('#twitterNewsTemplate').render(templateData));
                 }
 
                 callCallbacks();
@@ -327,7 +333,7 @@ app.ui.index = (function () {
         var facebookCallback = function (data) {
             $.each(data.data, function (index, eachItem) {
                 var templateData = {userId: eachItem.from.id, userName: eachItem.from.name, text: app.util.strings.truncate(eachItem.message), id: eachItem.id};
-                container.prepend($('#facebookNewsTemplate').render(templateData));
+                list.prepend($('#facebookNewsTemplate').render(templateData));
             });
 
             callCallbacks();
@@ -337,7 +343,7 @@ app.ui.index = (function () {
             $.each(data.items, function (index, eachItem) {
                 if (eachItem.title !== '') {
                     var templateData = {userId: eachItem.actor.id, userName: eachItem.actor.displayName, text: app.util.strings.truncate(eachItem.title), link: eachItem.object.url};
-                    container.prepend($('#googlePlusNewsTemplate').render(templateData));
+                    list.prepend($('#googlePlusNewsTemplate').render(templateData));
                 }
             });
 
@@ -348,8 +354,7 @@ app.ui.index = (function () {
             var templateData = {}
                 , index, eachItem
                 , imagesContainer
-                , li
-                , liSelector = 'li[class=flickr]';
+                , columnSelector = '.rightColumn';
 
             templateData.photos = [];
 
@@ -358,15 +363,7 @@ app.ui.index = (function () {
                 templateData.photos[index] = {photo: eachItem.media.m, link: eachItem.link, socialNetworkName: 'Flickr'};
             }
 
-            li = container.find(liSelector);
-
-            if (li.length === 0) {
-                li = container.append('<li class="flickr"></li>').find(liSelector);
-            }
-
-            li.append($('#flickrAndInstagramNewsTemplate').render(templateData));
-
-            imagesContainer = li.find('div');
+            imagesContainer = container.find(columnSelector).append($('#flickrAndInstagramNewsTemplate').render(templateData)).find('div');
             imagesContainer.imagesLoaded(function () {
                 imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
             });
@@ -379,8 +376,7 @@ app.ui.index = (function () {
                 , index
                 , eachItem
                 , imagesContainer
-                , li
-                , liSelector = 'li[class=flickr]';
+                , columnSelector = '.leftColumn';
 
             templateData.photos = [];
 
@@ -391,15 +387,7 @@ app.ui.index = (function () {
                     templateData.photos[index] = {photo: eachItem.images.thumbnail.url, link: eachItem.link, socialNetworkName: 'Instagram'};
                 }
 
-                li = container.find(liSelector);
-
-                if (li.length === 0) {
-                    li = container.append('<li class="flickr"></li>').find(liSelector);
-                }
-
-                li.append($('#flickrAndInstagramNewsTemplate').render(templateData));
-
-                imagesContainer = li.find('div');
+                imagesContainer = container.find(columnSelector).append($('#flickrAndInstagramNewsTemplate').render(templateData)).find('div');
                 imagesContainer.imagesLoaded(function () {
                     imagesContainer.isotope({itemSelector: '.isotopeTest', animationEngine: 'best-available'});
                 });
@@ -424,7 +412,7 @@ app.ui.index = (function () {
                 templateData.videos[index] = {id: data.items[index].id.videoId};
             }
 
-            li = container.find(liSelector);
+            li = list.find(liSelector);
             if (li.length === 0) {
                 li = container.append('<li class="youtube"></li>').find(liSelector);
             }
@@ -455,7 +443,7 @@ app.ui.index = (function () {
         var trendName = app.util.strings.getKeywordWithoutPreffix(trend.name)
             , trendNameElementId = app.util.strings.removeMetaCharacters(trendName.replace(/ /g, ''))
             , templateData = {trendNameElementId: trendNameElementId, topicName: trendName}
-            , eachSectionList = $('#' + createNewSection(templateData) + ' ul');
+            , eachSectionList = $('#' + createNewSection(templateData));
 
         findNewsForQuery(trend.keywords, eachSectionList, onlyOnce, onSuccess);
         trend.loaded = true;
@@ -522,7 +510,6 @@ app.ui.index = (function () {
             var instagramDiv = $('#instagramPopularPhotos')
                 , index
                 , templateData;
-
 
             if (data.data.length > 0) {
                 instagramDiv.show();
