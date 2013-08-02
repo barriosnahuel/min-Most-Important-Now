@@ -63,7 +63,29 @@ app.util.strings = (function () {
         return aString.replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g, '');
     };
 
+    /**
+     * Remove HTTP protocol preffix from the specified URL and the specific page path returning only the main address: The domain and subdomains.
+     * @param url An URL.
+     * @returns string The domain and subdomains.
+     */
+    var getDomain = function (url) {
+        var temp = url, indexOfDoubleBar = url.indexOf('//');
+
+        if (indexOfDoubleBar > 0) {
+            temp = url.substring(indexOfDoubleBar + 2);
+        }
+
+        if (temp.indexOf('www.') === 0) {
+            temp = temp.substring(4);
+        }
+
+        return temp.substring(0, temp.indexOf('/'));
+    };
+
     return {
-        getKeywordWithoutPreffix: getKeywordWithoutPreffix, truncate: truncate, removeMetaCharacters: removeMetaCharacters
+        getKeywordWithoutPreffix: getKeywordWithoutPreffix,
+        removeMetaCharacters: removeMetaCharacters,
+        getDomain: getDomain,
+        truncate: truncate
     };
 }());

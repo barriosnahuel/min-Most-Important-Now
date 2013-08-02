@@ -55,7 +55,7 @@ app.service.newsFinder = (function () {
 
         if (callbacks.instagram) {
             for (index = 0; index < keywords.length; index++) {
-                app.service.socialNetworks.instagram.findNews(keywords[index].replace(/ /g, ''), callbacks.instagram);
+                app.service.socialNetworks.instagram.findNews(keywords[index].replace(/ /g, '').replace(/&/g, ''), callbacks.instagram);
             }
         }
 

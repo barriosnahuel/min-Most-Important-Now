@@ -68,10 +68,17 @@ i {
     margin-right: 3px;
 }
 
+p {
+    margin: 0;
+}
+
+section ul li, section .leftColumn div, section .rightColumn div {
+    margin: 10px 0;
+}
+
 section ul li {
     border: solid 1px black;
     padding: 5px 10px;
-    margin: 10px 0;
     border-radius: 5px;
     list-style: none;
 }
@@ -132,8 +139,12 @@ footer hr {
     background: url("../img/twitter-bird-white-on-blue.png") no-repeat right;
 }
 
-.rss {
-    background: url("../img/1370747843_Location News.png") no-repeat right;
+.rss>h6 {
+    color: rgb(129, 129, 129);
+    margin: 0;
+    text-align: right;
+    font-style: italic;
+    font-weight: normal;
 }
 
 .facebook {
@@ -145,12 +156,20 @@ footer hr {
     font-size: small;
 }
 
+.st-original-post {
+    font-variant: small-caps;
+}
+
 .twitter>a>span, .facebook>a>span, .gplus>a>span, .rss>a>span {
     display: inline-block;
 }
 
 .gplus {
     background: url("../img/g+29.png") no-repeat right;
+}
+
+.rss h4 {
+    margin: 2px 0;
 }
 
 .flickr, .twitter, .rss, .facebook, .gplus {
@@ -230,7 +249,8 @@ li>a>i {
     border-radius: 10px;
 }
 
-/******************* Start: Recommended Isotope styles *******************/
+/********************************************************************************************/
+/******************************** Recommended Isotope styles ********************************/
 /**** Isotope Filtering ****/
 .isotope-item {
     z-index: 2;
@@ -279,7 +299,6 @@ li>a>i {
     transition-duration: 0s;
 }
 
-/******************* End: Recommended Isotope styles *******************/
 
 /********************************************************************************************/
 /*************************** Responsive styles and customizations ***************************/
