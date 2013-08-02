@@ -258,9 +258,9 @@ app.ui.index = (function () {
 
             form.init();
 
-//            findLocalTrends();
+            findLocalTrends();
             $.when(app.service.google.search.findTrends(undefined)).done(onSuccessGoogleGlobalSearch);
-//            $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
+            $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
         };
 
         return {
