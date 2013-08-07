@@ -77,7 +77,7 @@ app.service.newsFinder = (function () {
             }
         }
 
-        if (callbacks.facebook) {
+        if (app.properties.facebook.enabled && callbacks.facebook) {
             for (index = 0; index < keywords.length; index++) {
                 app.service.socialNetworks.facebook.findNews(keywords[index], callbacks.facebook);
             }
@@ -85,7 +85,7 @@ app.service.newsFinder = (function () {
 
         //  TODO : Add Flipboard! (they haven't got an API yet)
         //  TODO : Add Pinterest!
-        //  TODO : Add Tumblr!
+        //  TODO : Add Tumblr! - posts
         //  TODO : Add Vimeo/Screenr and other video sources!
     };
 

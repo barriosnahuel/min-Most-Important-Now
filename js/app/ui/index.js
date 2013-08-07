@@ -22,6 +22,14 @@
  */
 
 var app = app || {};
+app.properties = app.properties || {};
+
+//  Set application global properties
+app.properties.facebook = app.properties.facebook || {};
+app.properties.facebook.enabled = false;
+
+
+//  Start this file's module.
 app.ui = app.ui || {};
 app.ui.index = (function () {
     "use strict";
@@ -432,7 +440,7 @@ app.ui.index = (function () {
             flickr: flickrCallback,
             twitter: twitterCallback,
             googlePlus: googlePlusCallback,
-//            facebook: facebookCallback,
+            facebook: facebookCallback,
             youTube: youTubeCallback,
             instagram: instagramCallback
         });
@@ -507,6 +515,16 @@ app.ui.index = (function () {
      * Load trends, then news for those trending topics
      */
     var init = function () {
+
+        var myModal = $('#myModal');
+        myModal.modal();
+
+        FB.Event.subscribe('auth.login', function (response) {
+            if (response.status === 'connected') {
+                app.properties.facebook.enabled = true;
+                myModal.modal('hide');
+            }
+        });
 
         menu.init();
 
