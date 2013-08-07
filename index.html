@@ -55,6 +55,34 @@
 </head>
 <body>
 
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function () {
+        // init the FB JS SDK
+        FB.init({
+                    appId: '383847951737582',                    // App ID from the app dashboard
+//                    channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel file for x-domain comms
+                    cookie: true,                                 // enable cookies to allow the server to access the session
+                    status: true,                                 // Check Facebook Login status
+                    xfbml: true                                  // Look for social plugins on the page
+                });
+
+        // Additional initialization code such as adding Event Listeners goes here
+    };
+
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
 <div class="container">
 
     <div class="row">
@@ -199,6 +227,37 @@
                         issue</a></span>
                     </div>
                 </div>
+
+                <!-- Button trigger modal -->
+                <!--<a data-toggle="modal" href="#myModal" class="btn btn-primary btn-lg">Launch demo modal</a>-->
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Facebook login</h4>
+                            </div>
+                            <div class="modal-body">
+                                To enable Facebook public posts results please login with your Facebook account.
+                            </div>
+                            <div class="modal-footer">
+                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Skip Facebook results</button>-->
+                                <div
+                                        class="fb-login-button"
+                                        data-show-faces="true"
+                                        data-width="200"
+                                        data-max-rows="1"
+                                        data-scope="">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
 
             </footer>
         </div>

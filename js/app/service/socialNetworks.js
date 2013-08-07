@@ -118,9 +118,7 @@ app.service.socialNetworks.facebook = (function () {
      * @param onSuccess The onSuccess callback with parameters: data, textStatus and jqXHR.
      */
     var findNews = function (keyword, onSuccess) {
-        var url = 'https://graph.facebook.com/search?type=post&q=' + keyword + '&fields=from,message,id';
-
-        $.getJSON(url, onSuccess);
+        FB.api('https://graph.facebook.com/search', 'get', { type: 'post', q: keyword, fields: 'from,message,id' }, onSuccess);
     };
 
     return {

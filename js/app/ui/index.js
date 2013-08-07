@@ -22,6 +22,14 @@
  */
 
 var app = app || {};
+app.properties = app.properties || {};
+
+//  Set application global properties
+app.properties.facebook = app.properties.facebook || {};
+app.properties.facebook.enabled = false;
+
+
+//  Start this file's module.
 app.ui = app.ui || {};
 app.ui.index = (function () {
     "use strict";
@@ -270,11 +278,12 @@ app.ui.index = (function () {
     }());
 
     /**
-     * TODO : Javadoc for findNewsForQuery
-     * @param keywords
-     * @param container
+     * Finds news from all configured sources (social networks and so on) for the list of specified keywords and load all results to the specified container.
+     *
+     * @param keywords An array of keywords related with a specific topic.
+     * @param container The main container for a specific topic.
      * @param onlyOnce A callback to execute only once after a successfull news look up.
-     * @param onSuccess
+     * @param onSuccess An optional callback function to execute after successfully executed each social network specific callback.
      */
     var findNewsForQuery = function (keywords, container, onlyOnce, onSuccess) {
 
@@ -291,6 +300,10 @@ app.ui.index = (function () {
             }
         }
 
+        /**
+         * Callback to execute after getting news from Google Feeds.
+         * @param result The result in the specified <a href="https://developers.google.com/feed/v1/reference#resultJson">JSON result format of the Google Feed API</a>.
+         */
         var googleFeedsCallback = function (result) {
             var index, eachEntry, templateData;
 
@@ -427,7 +440,7 @@ app.ui.index = (function () {
             flickr: flickrCallback,
             twitter: twitterCallback,
             googlePlus: googlePlusCallback,
-//            facebook: facebookCallback,
+            facebook: facebookCallback,
             youTube: youTubeCallback,
             instagram: instagramCallback
         });
@@ -502,6 +515,16 @@ app.ui.index = (function () {
      * Load trends, then news for those trending topics
      */
     var init = function () {
+
+        var myModal = $('#myModal');
+        myModal.modal();
+
+        FB.Event.subscribe('auth.login', function (response) {
+            if (response.status === 'connected') {
+                app.properties.facebook.enabled = true;
+                myModal.modal('hide');
+            }
+        });
 
         menu.init();
 
