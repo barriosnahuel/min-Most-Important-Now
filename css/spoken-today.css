@@ -87,6 +87,16 @@ section ul li.youtube, section ul li.flickr {
     border: none;
 }
 
+.twitter-tweet {
+    width: 800px;
+}
+
+section ul li.twitter {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
 section h2 {
     text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
     filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
@@ -135,11 +145,7 @@ footer hr {
 
 /***    News (per each social network    ***/
 
-.twitter {
-    background: url("../img/twitter-bird-white-on-blue.png") no-repeat right;
-}
-
-.rss>h6 {
+.rss > h6 {
     color: rgb(129, 129, 129);
     margin: 0;
     text-align: right;
@@ -161,7 +167,7 @@ footer hr {
     white-space: nowrap;
 }
 
-.twitter>a>span, .facebook>a>span, .gplus>a>span, .rss>a>span {
+.twitter > a > span, .facebook > a > span, .gplus > a > span, .rss > a > span {
     display: inline-block;
 }
 
@@ -177,7 +183,7 @@ footer hr {
     background-size: 20px;
 }
 
-.navbar-inner>.container>h6 {
+.navbar-inner > .container > h6 {
     float: right;
     font-style: italic;
     font-family: Lato;
@@ -214,20 +220,20 @@ ul.nav li.dropdown {
     margin: 0;
 }
 
-.navbar .nav>li>a {
+.navbar .nav > li > a {
     padding: 10px;
     float: left;
 }
 
 /*  Customize the close icon for custom searches    */
-.navbar .nav>li>i {
+.navbar .nav > li > i {
     float: right;
     font-size: 0.7em;
     margin-left: -11px;
 }
 
 /*  Customize icons in the menu */
-.nav>li>a>i {
+.nav > li > a > i {
     font-size: 1.3em;
     margin-left: 0.2em;
 }
@@ -236,15 +242,15 @@ section ul, section ol {
     margin: 0;
 }
 
-li>a>i {
+li > a > i {
     font-size: 0.5em;
     vertical-align: middle !important;
 }
 
-.navbar .nav li.dropdown.open>.dropdown-toggle,
-.navbar .nav li.dropdown.active>.dropdown-toggle,
-.navbar .nav li.dropdown.open.active>.dropdown-toggle,
-.navbar .nav>li>a:hover {
+.navbar .nav li.dropdown.open > .dropdown-toggle,
+.navbar .nav li.dropdown.active > .dropdown-toggle,
+.navbar .nav li.dropdown.open.active > .dropdown-toggle,
+.navbar .nav > li > a:hover {
     color: #555;
     background-color: rgb(233, 233, 233);
     border-radius: 10px;
@@ -300,7 +306,6 @@ li>a>i {
     transition-duration: 0s;
 }
 
-
 /********************************************************************************************/
 /*************************** Responsive styles and customizations ***************************/
 @media (max-width: 979px) {
@@ -318,7 +323,7 @@ li>a>i {
         margin-left: 0;
     }
 
-    header h1>span, h6 {
+    header h1 > span, h6 {
         display: none;
     }
 
@@ -326,7 +331,7 @@ li>a>i {
         font-size: 2em;
     }
 
-    footer span, footer span>a {
+    footer span, footer span > a {
         display: inline-block;
     }
 }

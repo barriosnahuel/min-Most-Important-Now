@@ -335,7 +335,7 @@ app.ui.index = (function () {
                 for (index = 0; index < data.statuses.length; index++) {
                     eachTweet = data.statuses[index];
 
-                    templateData = {userName: eachTweet.user.screen_name, text: eachTweet.text, id: eachTweet.id_str};
+                    templateData = {userName: eachTweet.user.screen_name, id: eachTweet.id_str};
                     list.prepend($('#twitterNewsTemplate').render(templateData));
                 }
 
