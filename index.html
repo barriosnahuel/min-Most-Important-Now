@@ -336,10 +336,13 @@
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
     <li class="twitter">
-        <a href="http://twitter.com/{{:userName}}" rel="me" target="_blank">@{{:userName}}</a>
-        <span> said: </span>{{:text}} -
-        <a href="http://twitter.com/{{:userName}}/status/{{:id}}" target="_blank" title="View original tweet on Twitter"><span class="st-original-post">[Original post]</span></a>
-    </li>
+        <blockquote class="twitter-tweet" align="center">
+            <p>{{:text}}</p>
+            &mdash; Nahuel Barrios (@{{:userName}}) <a href="https://twitter.com/{{:userName}}/statuses/{{:id}}">August 21, 2013</a>
+        </blockquote>
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8">
+</script>
+</li>
 </script>
 
 <script id="youTubeNewsTemplate" type="text/x-jsrender">
@@ -361,6 +364,7 @@
             <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on {{:socialNetworkName}}"></a>
         {{/for}}
     </div>
+
 </script>
 
 <!--Scripts propios de los que dependo-->
@@ -372,6 +376,11 @@
 
 <!--Script asociado a esta pantalla-->
 <script type="text/javascript" src="js/app/ui/index.js"></script>
+
+<!--<blockquote class="twitter-tweet">-->
+<!--<p>Ahora si! Entra a <a href="https://twitter.com/search?q=%23SpokenToday&amp;src=hash">#SpokenToday</a> con tu <a href="https://twitter.com/search?q=%23Facebook&amp;src=hash">#Facebook</a> y enterate de los temas más importantes del momento: <a href="http://t.co/jbrxvHEBuq">http://t.co/jbrxvHEBuq</a></p>-->
+<!--&mdash; Nahuel Barrios (@justkenchu) <a href="https://twitter.com/justkenchu/statuses/370005350696882176">August 21, 2013</a>-->
+<!--</blockquote>-->
 
 </body>
 </html>
