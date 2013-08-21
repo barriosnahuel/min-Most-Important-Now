@@ -266,9 +266,9 @@ app.ui.index = (function () {
 
             form.init();
 
-//            findLocalTrends();
+            findLocalTrends();
             $.when(app.service.google.search.findTrends(undefined)).done(onSuccessGoogleGlobalSearch);
-//            $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
+            $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
         };
 
         return {
@@ -335,7 +335,7 @@ app.ui.index = (function () {
                 for (index = 0; index < data.statuses.length; index++) {
                     eachTweet = data.statuses[index];
 
-                    templateData = {userName: eachTweet.user.screen_name, text: eachTweet.text, id: eachTweet.id_str};
+                    templateData = {userName: eachTweet.user.screen_name, id: eachTweet.id_str};
                     list.prepend($('#twitterNewsTemplate').render(templateData));
                 }
 
