@@ -275,6 +275,18 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">google.load("feeds", "1");</script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/1.5.25/jquery.isotope.min.js"></script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+    {
+        "parsetags"
+    :
+        "explicit"
+    }
+</script>
+<script type="text/javascript">
+    function renderPlusone() {
+        gapi.plusone.go("myTabContent", {"size": "medium", annotation: "inline"});
+    }
+</script>
 
 <!--Templates-->
 <script id="menuItemTemplate" type="text/x-jsrender">
@@ -331,6 +343,7 @@
         <a href="http://plus.google.com/{{:userId}}?rel=author" target="_blank">{{:userName}}</a>
         <span> said: </span>{{:text}} -
         <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span class="st-original-post">[Original post]</span></a>
+        <g:plusone size="medium" annotation="inline" href="{{url:link}}"></g:plusone>
     </li>
 </script>
 
