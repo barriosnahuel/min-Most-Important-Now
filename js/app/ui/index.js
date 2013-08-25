@@ -320,6 +320,8 @@ app.ui.index = (function () {
                     list.prepend($('#rssFeedTemplate').render(templateData));
                 }
 
+                renderPlusone();
+
                 callCallbacks();
             }
         };
@@ -349,13 +351,16 @@ app.ui.index = (function () {
                 list.prepend($('#facebookNewsTemplate').render(templateData));
             });
 
+            renderPlusone();
+
             callCallbacks();
         };
 
         var googlePlusCallback = function (data) {
             $.each(data.items, function (index, eachItem) {
                 if (eachItem.title !== '') {
-                    var templateData = {userId: eachItem.actor.id, userName: eachItem.actor.displayName, text: app.util.strings.truncate(eachItem.title), link: eachItem.object.url};
+                    var text = app.util.strings.removeDoubleWhiteSpace(app.util.strings.truncate(eachItem.title, 90));
+                    var templateData = {userUrl: eachItem.actor.url, userName: eachItem.actor.displayName, text: text, link: eachItem.object.url};
                     list.prepend($('#googlePlusNewsTemplate').render(templateData));
                 }
             });

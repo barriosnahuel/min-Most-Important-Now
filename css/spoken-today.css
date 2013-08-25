@@ -69,6 +69,7 @@ i {
 }
 
 p {
+    text-align: left;
     margin: 0;
 }
 
@@ -172,7 +173,19 @@ footer hr {
 }
 
 .gplus {
-    background: url("../img/g+29.png") no-repeat right;
+    height: 94px;
+}
+
+.gplus .st-left {
+    text-align: left;
+}
+
+.rss p > div, .gplus .st-left > div, .facebook > div {
+    vertical-align: bottom !important;
+}
+
+.gplus .st-right {
+    margin-top: -6px;
 }
 
 .rss h4 {
@@ -200,6 +213,14 @@ footer hr {
     padding: 0.5em;
     border: 0;
     display: inline;
+}
+
+.st-left {
+    float: left;
+}
+
+.st-right {
+    float: right;
 }
 
 /*********************************************************************************************************************************************/
