@@ -320,6 +320,8 @@ app.ui.index = (function () {
                     list.prepend($('#rssFeedTemplate').render(templateData));
                 }
 
+                renderPlusone();
+
                 callCallbacks();
             }
         };
@@ -348,6 +350,8 @@ app.ui.index = (function () {
                 var templateData = {userId: eachItem.from.id, userName: eachItem.from.name, text: app.util.strings.truncate(eachItem.message), id: eachItem.id};
                 list.prepend($('#facebookNewsTemplate').render(templateData));
             });
+
+            renderPlusone();
 
             callCallbacks();
         };

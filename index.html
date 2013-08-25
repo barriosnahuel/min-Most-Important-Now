@@ -328,7 +328,7 @@
 <script id="rssFeedTemplate" type="text/x-jsrender">
     <li class="rss">
         <h4>{{:title}}</h4>
-        <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span class="st-original-post">[Original post]</span></a></p>
+        <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span class="st-original-post">[Original post]</span></a> <g:plusone size="medium" annotation="inline" href="{{url:link}}"></g:plusone></p>
         <h6>{{:source}}</h6>
     </li>
 </script>
@@ -337,7 +337,7 @@
     <li class="facebook">
         <a href="http://facebook.com/{{:userId}}" target="_blank">{{:userName}}</a>
         <span> said: </span>{{:text}} -
-        <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span class="st-original-post">[Original post]</span></a>
+        <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span class="st-original-post">[Original post]</span></a> <g:plusone size="medium" annotation="inline" href="http://facebook.com/{{:id}}"></g:plusone>
     </li>
 </script>
 

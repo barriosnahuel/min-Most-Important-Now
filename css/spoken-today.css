@@ -180,7 +180,7 @@ footer hr {
     text-align: left;
 }
 
-.gplus .st-left > div {
+.rss p > div, .gplus .st-left > div, .facebook > div {
     vertical-align: bottom !important;
 }
 
