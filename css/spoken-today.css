@@ -69,6 +69,7 @@ i {
 }
 
 p {
+    text-align: left;
     margin: 0;
 }
 
@@ -175,9 +176,16 @@ footer hr {
     height: 94px;
 }
 
-.gplus > div {
-    float: right;
-    margin-top: -31px;
+.gplus .st-left {
+    text-align: left;
+}
+
+.gplus .st-left > div {
+    vertical-align: bottom !important;
+}
+
+.gplus .st-right {
+    margin-top: -6px;
 }
 
 .rss h4 {
@@ -205,6 +213,14 @@ footer hr {
     padding: 0.5em;
     border: 0;
     display: inline;
+}
+
+.st-left {
+    float: left;
+}
+
+.st-right {
+    float: right;
 }
 
 /*********************************************************************************************************************************************/

@@ -343,12 +343,10 @@
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
     <li class="gplus">
-        {{:text}} -
-        <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span class="st-original-post">[Original post]</span></a>
-        <g:plusone size="medium" annotation="inline" href="{{url:link}}"></g:plusone>
-        <div><div class="g-person" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
-        <div><div class="g-page" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
-        <div><div class="g-community" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
+        <div class="st-left"><p>{{:text}} - </p><a href="{{url:link}}" target="_blank" title="View original post on Google+"><span class="st-original-post">[Original post]</span></a> <g:plusone size="medium" annotation="inline" href="{{url:link}}"></g:plusone></div>
+        <div class="st-right"><div class="g-person" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
+        <div class="st-right"><div class="g-page" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
+        <div class="st-right"><div class="g-community" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
     </li>
 </script>
 
