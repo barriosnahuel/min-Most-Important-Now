@@ -360,6 +360,8 @@ app.ui.index = (function () {
                 }
             });
 
+            renderPlusone();
+
             callCallbacks();
         };
 
