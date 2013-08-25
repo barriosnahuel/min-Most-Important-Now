@@ -40,10 +40,11 @@ app.util.strings = (function () {
      * Truncate the specified {@code aString} to 140 characters and append a '...' suffix to display it to the user.
      * @param aString The String to truncate.
      * @returns The truncated (or not) String.
+     * @param limit The number of allowed characters.
      */
-    var truncate = function (aString) {
+    var truncate = function (aString, limit) {
         var result = aString || ''
-            , maxLength = 140
+            , maxLength = limit || 140
             , suffix = '...';
 
         if (result.length > maxLength) {
@@ -82,10 +83,20 @@ app.util.strings = (function () {
         return temp.substring(0, temp.indexOf('/'));
     };
 
+    /**
+     * Remove sequence of white spaces of 2 or more spaces and leaving only one white space.
+     * @param aString to analize
+     * @returns a new updated string.
+     */
+    var removeDoubleWhiteSpace = function (aString) {
+        return aString.replace(/\s{2,}/g, ' ');
+    };
+
     return {
         getKeywordWithoutPreffix: getKeywordWithoutPreffix,
         removeMetaCharacters: removeMetaCharacters,
         getDomain: getDomain,
-        truncate: truncate
+        truncate: truncate,
+        removeDoubleWhiteSpace: removeDoubleWhiteSpace
     };
 }());
