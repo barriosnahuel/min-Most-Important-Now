@@ -284,6 +284,9 @@
 </script>
 <script type="text/javascript">
     function renderPlusone() {
+        gapi.person.go();
+        gapi.page.go();
+        gapi.community.go();
         gapi.plusone.go("myTabContent", {"size": "medium", annotation: "inline"});
     }
 </script>
@@ -340,10 +343,12 @@
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
     <li class="gplus">
-        <a href="http://plus.google.com/{{:userId}}?rel=author" target="_blank">{{:userName}}</a>
-        <span> said: </span>{{:text}} -
+        {{:text}} -
         <a href="{{url:link}}" target="_blank" title="View original post on Google+"><span class="st-original-post">[Original post]</span></a>
         <g:plusone size="medium" annotation="inline" href="{{url:link}}"></g:plusone>
+        <div><div class="g-person" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
+        <div><div class="g-page" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
+        <div><div class="g-community" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
     </li>
 </script>
 

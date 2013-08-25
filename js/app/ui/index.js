@@ -355,7 +355,7 @@ app.ui.index = (function () {
         var googlePlusCallback = function (data) {
             $.each(data.items, function (index, eachItem) {
                 if (eachItem.title !== '') {
-                    var templateData = {userId: eachItem.actor.id, userName: eachItem.actor.displayName, text: app.util.strings.truncate(eachItem.title), link: eachItem.object.url};
+                    var templateData = {userUrl: eachItem.actor.url, userName: eachItem.actor.displayName, text: app.util.strings.truncate(eachItem.title), link: eachItem.object.url};
                     list.prepend($('#googlePlusNewsTemplate').render(templateData));
                 }
             });

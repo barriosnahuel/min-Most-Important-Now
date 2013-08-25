@@ -172,7 +172,12 @@ footer hr {
 }
 
 .gplus {
-    background: url("../img/g+29.png") no-repeat right;
+    height: 94px;
+}
+
+.gplus > div {
+    float: right;
+    margin-top: -31px;
 }
 
 .rss h4 {
