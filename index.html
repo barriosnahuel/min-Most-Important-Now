@@ -1,35 +1,8 @@
 <!DOCTYPE html>
-<!--
-  ~ Spoken Today - The things that are spoken today, from all points of view, and in one place.
-  ~ Copyright (C) 2013 Nahuel Barrios <barrios.nahuel@gmail.com>.
-  ~
-  ~     This program is free software: you can redistribute it and/or modify
-  ~     it under the terms of the GNU General Public License as published by
-  ~     the Free Software Foundation, either version 3 of the License, or
-  ~     (at your option) any later version.
-  ~
-  ~     This program is distributed in the hope that it will be useful,
-  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~     GNU General Public License for more details.
-  ~
-  ~     You should have received a copy of the GNU General Public License
-  ~     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
-<html>
+<html lang="en">
 <head>
-    <title>Spoken Today (the top things...)</title>
-
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css?family=Finger+Paint|Permanent+Marker|Lato:100,400" rel="stylesheet" type="text/css">
-
-    <link rel="icon" type="image/png" href="img/1370895148_rss.png">
-
-    <link rel="stylesheet" href="css/spoken-today.css">
-
-    <link rel="author" href="https://plus.google.com/111078154336870777078"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
           content="The things that are most spoken today, from all points of view, and in just one place.">
@@ -39,10 +12,8 @@
     <meta name="email" content="barrios.nahuel@gmail.com">
     <meta name="copyright" content="Copyright © 2013">
     <meta name="keywords"
-          content="news,today,today news,spoken today,spokentoday,Twitter,Facebook,Google+,Instagram,Flickr,Google,Trends,Trending topics,Hot searches,nahuel,nahuel barrios, newspapers,social networks,social,real time">
+          content="news,today,today news,spoken today,spokentoday,Twitter,Facebook,Google+,Instagram,Flickr,YouTube,Google,Trends,Trending topics,Hot searches,nahuel,nahuel barrios, newspapers,social networks,social,real time,barrios.nahuel,open source,media,images,video">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-    <meta name="viewport" content="width=device-width">
 
     <!--Facebook metatags\required-->
     <meta property="og:title" content="Spoken Today (the top things...)"/>
@@ -52,7 +23,29 @@
     <!--Facebook metatags\optional-->
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="http://cdn1.iconfinder.com/data/icons/49handdrawing/256x256/rss.png"/>
+
+
+    <title>Spoken Today (the top things...)</title>
+
+    <link rel="author" href="https://plus.google.com/111078154336870777078"/>
+
+    <link rel="shortcut icon" href="img/1370895148_rss.png">
+
+    <!-- Bootstrap core CSS -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://fonts.googleapis.com/css?family=Merienda+One|Jura" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/spoken-today.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="lib/bootstrap-3.0.0/assets/js/html5shiv.js"></script>
+    <script src="lib/bootstrap-3.0.0/assets/js/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <body>
 
 <div id="fb-root"></div>
@@ -83,97 +76,82 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<div class="container">
+<header>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
 
-    <div class="row">
-        <div class="span12">
-
-            <header>
-                <div class="navbar navbar-fixed-top">
-                    <div class="navbar-inner">
-                        <div class="container">
-
-                            <h1>Spoken Today <span>(the top things...)</span></h1>
-                            <h6>"... that are spoken today, from all points of view, and in just one place."</h6>
-
-                            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </a>
-
-                            <!-- Everything you want hidden at 940px or less, place within here -->
-                            <div class="nav-collapse collapse">
-                                <!-- .nav, .navbar-search, .navbar-form, etc -->
-
-                                <form class="navbar-search">
-                                    <input type="text" class="search-query input-medium" placeholder="Wanna know about..." tabindex="1"
-                                           maxlength="25">
-                                </form>
-
-                                <!--TODO : Refactor : remove queries ID and use .nav style instead-->
-                                <ul id="queries" class="nav nav-tabs">
-                                    <li class="active"><a href="#top" data-toggle="tab">Top<i class="icon-star-empty"></i></a></li>
-
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
-                                        <ul class="dropdown-menu" id="localTrends">
-                                        </ul>
-                                    </li>
-
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Global news!<b class="caret"></b></a>
-                                        <ul class="dropdown-menu" id="globalTrends">
-                                        </ul>
-                                    </li>
-                                </ul>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="span12">
-
-            <hr>
-
-            <div class="row">
-                <div class="span12">
-                    <div class="content">
-                        <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane fade in active" id="top">
-                                <div id="instagramPopularPhotos">
-                                    <h5>
-                                        <a href="http://instagram.com/" target="_blank" title="Navigate to Instagram official site">Instagram</a>
-                                        popular photos
-                                    </h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Spoken Today</a>
             </div>
 
+            <div class="navbar-collapse collapse">
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" placeholder="Wanna know about..." class="form-control input-sm" tabindex="1">
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav">
+                    <li class="active st-topNews-menuItem">
+                        <a href="#top" data-toggle="tab">
+                            <span class="glyphicon glyphicon-star"></span>Top
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+                        <ul class="dropdown-menu" id="localTrends"></ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Global news! <b class="caret"></b></a>
+                        <ul class="dropdown-menu" id="globalTrends"></ul>
+                    </li>
+                </ul>
+
+                <ul class="st-headline">
+                    <li>"Trending topics;</li>
+                    <li>all points of view;</li>
+                    <li>one place."</li>
+                </ul>
+            </div>
+            <!--/.navbar-collapse -->
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tab-content">
+                <section class="row tab-pane fade in active" id="top">
+                    <div id="instagramPopularPhotos">
+                        <h3>
+                            <a href="http://instagram.com/" target="_blank" title="Navigate to Instagram official site">Instagram</a>
+                            popular photos
+                        </h3>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="span12">
-            <footer>
+    <footer class="row">
+        <div class="col-md-12">
 
-                <div class="row">
-                    <div class="span12">
-                        <!-- I got these buttons from simplesharebuttons.com -->
-                        <div class="st-shareSite">
+            <div class="row">
+                <div class="col-md-12">
 
-                            <!-- Facebook -->
+                    <!-- I got these buttons from simplesharebuttons.com -->
+                    <div class="st-shareSite">
+                        <span>Share Spoken Today</span>
+
+                        <div>
+                        <!-- Facebook -->
                             <a href="http://www.facebook.com/sharer.php?u=http://spokentoday.info" target="_blank"><img
                                     src="http://www.simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook"/></a>
 
@@ -211,66 +189,63 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <span>&copy; Spoken Today 2013 All rights reserved.</span>
+                    | <span>Created by <a
+                        href="https://www.vizify.com/barriosnahuel" target="_blank" title="My infographic">Nahuel Barrios</a></span>
+                    | <span><a href="mailto:barrios.nahuel@gmail.com" target="_blank" title="Send me an email">barrios.nahuel@gmail.com</a></span>
+                    | <span><a href="https://github.com/barriosnahuel/spoken-today" target="_blank" title="Navigate to the project main site">Project
+                    site</a></span>
+                    | <span><a href="https://github.com/barriosnahuel/spoken-today/issues" target="_blank" title="Report an issue">Report an
+                    issue</a></span>
+
+                </div>
+            </div>
 
 
-                <div class="row">
-                    <div class="span12">
-                        <hr>
+        </div>
+    </footer>
 
-                        <span>This site was created by <a
-                                href="https://docs.google.com/document/d/1vNgn6xjI1rQbN74WwLsVmssuFnaMThSQmvmAlovuL3U/edit?usp=sharing"
-                                target="_blank" title="My resume">Nahuel Barrios</a></span>
-                        | <span><a href="mailto:barrios.nahuel@gmail.com" target="_blank" title="Send me an email">barrios.nahuel@gmail.com</a></span>
-                        | <span><a href="https://github.com/barriosnahuel/spoken-today" target="_blank" title="Navigate to the project main site">Project
-                        site</a></span>
-                        | <span><a href="https://github.com/barriosnahuel/spoken-today/issues" target="_blank" title="Report an issue">Report an
-                        issue</a></span>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Facebook login</h4>
+                </div>
+                <div class="modal-body">
+                    To enable Facebook public posts results please login with your Facebook account.
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Skip Facebook results</button>-->
+                    <div
+                            class="fb-login-button"
+                            data-show-faces="true"
+                            data-width="240"
+                            data-max-rows="1"
+                            data-scope="">
                     </div>
                 </div>
-
-                <!-- Button trigger modal -->
-                <!--<a data-toggle="modal" href="#myModal" class="btn btn-primary btn-lg">Launch demo modal</a>-->
-
-                <!-- Modal -->
-                <div class="modal fade" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">Facebook login</h4>
-                            </div>
-                            <div class="modal-body">
-                                To enable Facebook public posts results please login with your Facebook account.
-                            </div>
-                            <div class="modal-footer">
-                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Skip Facebook results</button>-->
-                                <div
-                                        class="fb-login-button"
-                                        data-show-faces="true"
-                                        data-width="240"
-                                        data-max-rows="1"
-                                        data-scope="">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.modal-content -->
-                    </div>
-                    <!-- /.modal-dialog -->
-                </div>
-                <!-- /.modal -->
-
-            </footer>
+            </div>
         </div>
     </div>
-
 </div>
+<!-- /container -->
 
-<!--Bibliotecas-->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/geo-location-javascript/0.4.8/geo-min.js"></script>
 <script type="text/javascript" src="js/lib/codebird-js-2.4.1/sha1.js"></script>
 <script type="text/javascript" src="js/lib/codebird-js-2.4.1/codebird.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/lib/jsrender.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">google.load("feeds", "1");</script>
@@ -291,63 +266,80 @@
     }
 </script>
 
-<!--Templates-->
+
 <script id="menuItemTemplate" type="text/x-jsrender">
-    <li>
-        <a href="#{{:trendNameElementId}}" data-toggle="tab">
+    <li {{if closeable}}class="st-closeable"{{/if}}>
+        <a href="#{{:topicId}}" data-toggle="tab">
             {{if !closeable}}
-                <i class="icon-ok"></i>
+                <span class="glyphicon glyphicon-ok"></span>
             {{/if}}
             {{:topicName}}
         </a>
         {{if closeable}}
-            <i class="icon-remove st-close"></i>
+            <span class="glyphicon glyphicon-remove"></span>
         {{/if}}
     </li>
+
 </script>
 
 <script id="newsSectionTemplate" type="text/x-jsrender">
-    <section class="tab-pane fade" id="{{:trendNameElementId}}">
-        <h2>{{:topicName}}</h2>
-        <div class="row">
-            <div class="span1 leftColumn"></div>
-
-            <div class="span10">
+    <section class="row tab-pane fade" id="{{:topicId}}">
+            <div class="col-md-1" id="leftColumn"></div>
+            <div class="col-md-10">
+                <h2>{{:topicName}}</h2>
                 <ul></ul>
             </div>
-
-            <div class="span1 rightColumn"></div>
-        </div>
+            <div class="col-md-1" id="rightColumn"></div>
     </section>
+
 </script>
 
 <script id="instagramNewsTemplate" type="text/x-jsrender">
     <a href="{{url:link}}" target="_blank"><img src="{{url:thumbnail}}" class="st-thumbnail" title="View on Instagram"></a>
+
 </script>
 
 <script id="rssFeedTemplate" type="text/x-jsrender">
-    <li class="rss">
-        <h4>{{:title}}</h4>
-        <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span class="st-original-post">[Original post]</span></a> <g:plusone size="medium" annotation="inline" href="{{url:link}}"></g:plusone></p>
-        <h6>{{:source}}</h6>
+    <li class="row rss">
+        <div class="col-md-12">
+            <h4>{{:title}}</h4>
+            <p>{{:contentSnippet}} - <a href="{{url:link}}" target="_blank"><span class="st-original-post">[Original post]</span></a> <g:plusone size="medium" annotation="inline" href="{{url:link}}" width="250"></g:plusone></p>
+            <h6>{{:source}}</h6>
+        </div>
     </li>
+
 </script>
 
 <script id="facebookNewsTemplate" type="text/x-jsrender">
-    <li class="facebook">
-        <a href="http://facebook.com/{{:userId}}" target="_blank">{{:userName}}</a>
-        <span> said: </span>{{:text}} -
-        <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span class="st-original-post">[Original post]</span></a> <g:plusone size="medium" annotation="inline" href="http://facebook.com/{{:id}}"></g:plusone>
+    <li class="row facebook">
+        <div class="col-md-12">
+            <p>
+                <a href="http://facebook.com/{{:userId}}" target="_blank">{{:userName}}</a>
+                <span> said: </span>{{:text}} -
+            </p>
+            <a href="http://facebook.com/{{:id}}" target="_blank" title="View original status update on Facebook"><span class="st-original-post">[Original post]</span></a>
+            <g:plusone size="medium" annotation="inline" href="http://facebook.com/{{:id}}"></g:plusone>
+        </div>
     </li>
+
 </script>
 
 <script id="googlePlusNewsTemplate" type="text/x-jsrender">
-    <li class="gplus">
-        <div class="st-left"><p>{{:text}} - </p><a href="{{url:link}}" target="_blank" title="View original post on Google+"><span class="st-original-post">[Original post]</span></a> <g:plusone size="medium" annotation="inline" href="{{url:link}}"></g:plusone></div>
-        <div class="st-right"><div class="g-person" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
-        <div class="st-right"><div class="g-page" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
-        <div class="st-right"><div class="g-community" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div></div>
+    <li class="row gplus">
+        <div class="col-md-8 st-left">
+            <p>{{:text}} - </p>
+            <a href="{{url:link}}" target="_blank" title="View original post on Google+">
+                <span class="st-original-post">[Original post]</span>
+            </a>
+            <g:plusone size="medium" annotation="inline" href="{{url:link}}" width="250"></g:plusone>
+        </div>
+        <div class="col-md-4 st-right">
+            <div class="g-person" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div>
+            <div class="g-page" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div>
+            <div class="g-community" data-width="273" data-href="{{:userUrl}}" data-rel="author" data-layout="landscape"></div>
+        </div>
     </li>
+
 </script>
 
 <script id="twitterNewsTemplate" type="text/x-jsrender">
@@ -355,9 +347,9 @@
         <blockquote class="twitter-tweet" align="center">
             <a href="https://twitter.com/{{:userName}}/statuses/{{:id}}"></a>
         </blockquote>
-        <script async src="//platform.twitter.com/widgets.js" charset="utf-8">
-</script>
-</li>
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"/>
+    </li>
+
 </script>
 
 <script id="youTubeNewsTemplate" type="text/x-jsrender">
@@ -371,12 +363,13 @@
             </object>
         {{/for}}
     </div>
+
 </script>
 
 <script id="flickrAndInstagramNewsTemplate" type="text/x-jsrender">
     <div>
         {{for photos}}
-            <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail" title="View on {{:socialNetworkName}}"></a>
+            <a href="{{url:link}}" target="_blank" class="isotopeTest"><img src="{{url:photo}}" class="st-thumbnail img-responsive" title="View on {{:socialNetworkName}}"></a>
         {{/for}}
     </div>
 
@@ -391,11 +384,6 @@
 
 <!--Script asociado a esta pantalla-->
 <script type="text/javascript" src="js/app/ui/index.js"></script>
-
-<!--<blockquote class="twitter-tweet">-->
-<!--<p>Ahora si! Entra a <a href="https://twitter.com/search?q=%23SpokenToday&amp;src=hash">#SpokenToday</a> con tu <a href="https://twitter.com/search?q=%23Facebook&amp;src=hash">#Facebook</a> y enterate de los temas más importantes del momento: <a href="http://t.co/jbrxvHEBuq">http://t.co/jbrxvHEBuq</a></p>-->
-<!--&mdash; Nahuel Barrios (@justkenchu) <a href="https://twitter.com/justkenchu/statuses/370005350696882176">August 21, 2013</a>-->
-<!--</blockquote>-->
 
 </body>
 </html>

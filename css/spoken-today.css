@@ -16,123 +16,55 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Epic Moments - What people all around the world are saying when you want to hear them.
- * Copyright (C) 2013 Nahuel Barrios <barrios.nahuel@gmail.com>.
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 /***************************************************************************************************/
 /*************************** Estilos por default para los elementos HTML ***************************/
 
-header h1 {
-    margin-top: 8px;
-    margin-bottom: 0;
-    text-align: center;
-    font-family: 'Finger Paint', cursive;
-    text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
-    filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
-}
-
-header h1 span {
-    font-size: large;
-    display: inline-block;
-}
-
 body {
     background: url('../img/hexellence.png') repeat;
-    padding-top: 60px;
-}
-
-div {
+    margin-top: 60px;
     text-align: center;
-}
-
-ul {
-    text-align: left;
-}
-
-i {
-    margin-right: 3px;
-}
-
-p {
-    text-align: left;
-    margin: 0;
-}
-
-section ul li, section .leftColumn div, section .rightColumn div {
-    margin: 10px 0;
-}
-
-section ul li {
-    border: solid 1px black;
-    padding: 5px 10px;
-    border-radius: 5px;
-    list-style: none;
-}
-
-section ul li.youtube, section ul li.flickr {
-    border: none;
-}
-
-.twitter-tweet {
-    width: 800px;
-}
-
-section ul li.twitter {
-    border: none;
-    padding: 0;
-    margin: 0;
-}
-
-section h2 {
-    text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
-    filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
-    font-family: Permanent Marker;
-    background-color: rgba(0, 173, 255, 0.69);
-    border-radius: 40px 40px 4px 4px;
-    box-shadow: 0 2px 10px;
-    margin: 0px 5px;
 }
 
 footer {
-    font-size: x-small;
+    font-size: small;
+    margin-bottom: 1em;
 }
 
 footer a {
-    transition: color 1.2s;
+    transition: color 1s;
 }
 
 footer a:hover {
     color: black;
 }
 
-footer hr {
-    margin: 3px 0;
+/***********************************************************************************/
+/*************************** Own classes and definitions ***************************/
+.st-closeable span {
+    cursor: pointer;
 }
 
-/*******************************************************************/
-/*************************** Own classes ***************************/
-
-#instagramPopularPhotos {
-    text-align: center;
-    display: none;
+/*  Customize the close icon for custom searches    */
+.nav > li.st-closeable > span {
+    float: right;
+    font-size: 0.9em;
+    margin-top: -50px;
+    margin-right: 3px;
 }
 
-#instagramPopularPhotos h5 {
+.navbar .st-headline {
+    float: right;
+    color: white;
+    list-style: none;
+    text-align: left;
+    font-style: italic;
+    margin: 4px 0 0 0;
+    font-size: 0.82em;
+}
+
+/*  Section: Top    */
+#top h3 {
+    margin-top: 0.2em;
     text-align: left;
 }
 
@@ -140,13 +72,65 @@ footer hr {
     border-radius: 20px;
 }
 
-.st-close {
-    cursor: pointer;
+section#top > div > h3 {
+    font-size: 1.3em;
 }
 
-/***    News (per each social network    ***/
+/*  Section: Each topic    */
 
-.rss > h6 {
+section h2 {
+    text-shadow: 4px -1px 4px rgba(238, 255, 89, 0.41);
+    filter: dropshadow(color=rgba(238, 255, 89, 0.41), offx=4, offy=-1);
+    font-family: Jura, monospace;
+    background-color: rgba(0, 173, 255, 0.69);
+    border-radius: 40px 40px 4px 4px;
+    box-shadow: 0 2px 10px;
+    margin: 0.2em 0.3em 0.5em 0.3em;
+}
+
+section ul {
+    padding-left: 0;
+}
+
+section ul li {
+    list-style: none;
+    text-align: left;
+}
+
+#leftColumn, #rightColumn {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#leftColumn .st-thumbnail, #rightColumn .st-thumbnail {
+    border-radius: 10px;
+}
+
+section ul li.youtube {
+    text-align: center;
+}
+
+section ul li.rss, section ul li.gplus, section ul li.facebook {
+    border: solid 1px black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 6px 0;
+}
+
+.gplus, .rss, .facebook {
+    background-color: white;
+}
+
+.rss p > div, .gplus .st-left div, .facebook > div > div {
+    vertical-align: bottom !important;
+}
+
+.facebook span, .gplus span, .rss span {
+    font-style: italic;
+    font-size: small;
+}
+
+.rss h6 {
     color: rgb(129, 129, 129);
     margin: 0;
     text-align: right;
@@ -158,78 +142,47 @@ footer hr {
     background: url("../img/FB-f-Logo__blue_29.png") no-repeat right;
 }
 
-.twitter span, .facebook span, .gplus span, .rss span {
-    font-style: italic;
-    font-size: small;
-}
-
 .st-original-post {
     font-variant: small-caps;
     white-space: nowrap;
 }
 
-.twitter > a > span, .facebook > a > span, .gplus > a > span, .rss > a > span {
-    display: inline-block;
-}
-
-.gplus {
-    height: 94px;
-}
-
-.gplus .st-left {
-    text-align: left;
-}
-
-.rss p > div, .gplus .st-left > div, .facebook > div {
-    vertical-align: bottom !important;
-}
-
-.gplus .st-right {
-    margin-top: -6px;
-}
-
-.rss h4 {
-    margin: 2px 0;
-}
-
-.flickr, .twitter, .rss, .facebook, .gplus {
-    background-size: 20px;
-}
-
-.navbar-inner > .container > h6 {
-    float: right;
-    font-style: italic;
-    font-family: Lato;
-    color: rgb(129, 129, 129);
+.st-thumbnail {
+    border-radius: 20px;
 }
 
 .st-shareSite {
-    margin-top: 2em;
+    margin: 2.6em 0 1em 0;
 }
 
-.st-shareSite img {
+.st-shareSite span {
+    font-size: x-small;
+    font-style: italic;
+}
 
+.st-shareSite div img {
     width: 3.4em;
-    padding: 0.5em;
+    padding: 0.3em;
     border: 0;
     display: inline;
-}
-
-.st-left {
-    float: left;
-}
-
-.st-right {
-    float: right;
 }
 
 /*********************************************************************************************************************************************/
 /*************************** Estilos especificos para sobreescribir los heredados por las dependencias (uso el ID) ***************************/
 
-/*  To trigger dropdown on mouse over   */
-ul.nav li.dropdown:hover > ul.dropdown-menu {
-    display: block;
-    margin-top: 0;
+.navbar > .container .navbar-brand {
+    font-family: 'Merienda One', sans-serif;
+    font-size: 2em;
+    padding-right: 0;
+    color: white;;
+}
+
+.navbar form input {
+    margin-top: 2px;
+}
+
+.twitter-tweet {
+    width: 800px;
 }
 
 /*  By default, dropdowns aren't visible because it hasn't got any topic    */
@@ -237,44 +190,21 @@ ul.nav li.dropdown {
     display: none;
 }
 
-.navbar .nav {
-    margin: 0;
+ul.nav li.dropdown {
+    text-align: left;
 }
 
-.navbar .nav > li > a {
-    padding: 10px;
-    float: left;
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    background-color: rgba(128, 128, 128, 0.76);
 }
 
-/*  Customize the close icon for custom searches    */
-.navbar .nav > li > i {
-    float: right;
-    font-size: 0.7em;
-    margin-left: -11px;
+ul.nav li.dropdown .glyphicon {
+    margin-right: 0.5em;
 }
 
-/*  Customize icons in the menu */
-.nav > li > a > i {
-    font-size: 1.3em;
-    margin-left: 0.2em;
-}
-
-section ul, section ol {
-    margin: 0;
-}
-
-li > a > i {
-    font-size: 0.5em;
-    vertical-align: middle !important;
-}
-
-.navbar .nav li.dropdown.open > .dropdown-toggle,
-.navbar .nav li.dropdown.active > .dropdown-toggle,
-.navbar .nav li.dropdown.open.active > .dropdown-toggle,
-.navbar .nav > li > a:hover {
-    color: #555;
-    background-color: rgb(233, 233, 233);
-    border-radius: 10px;
+div.fb-login-button.fb_iframe_widget span iframe {
+    width: 519px !important;
+    margin-left: -290px;
 }
 
 /********************************************************************************************/
@@ -329,30 +259,30 @@ li > a > i {
 
 /********************************************************************************************/
 /*************************** Responsive styles and customizations ***************************/
-@media (max-width: 979px) {
-    .navbar-fixed-top,
-    .navbar-fixed-bottom {
-        position: fixed;
+
+@media (min-width: 991px) {
+
+    /*  To trigger dropdown on mouse over   */
+    ul.nav li.dropdown:hover > ul.dropdown-menu {
+        display: block;
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 990px) {
+    .st-headline {
+        display: none;
     }
 }
 
 @media (max-width: 767px) {
-    .navbar-fixed-top,
-    .navbar-fixed-bottom,
-    .navbar-static-top {
-        margin-right: 0;
-        margin-left: 0;
+
+    div.fb-login-button.fb_iframe_widget span iframe {
+        width: 240px;
+        margin-left: -102px;
     }
 
-    header h1 > span, h6 {
-        display: none;
-    }
-
-    header h1 {
-        font-size: 2em;
-    }
-
-    footer span, footer span > a {
-        display: inline-block;
+    .st-topNews-menuItem {
+        text-align: left;
     }
 }
