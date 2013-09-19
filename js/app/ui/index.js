@@ -22,260 +22,73 @@
  */
 
 var app = app || {};
-app.properties = app.properties || {};
 
 //  Set application global properties
+app.properties = app.properties || {};
 app.properties.facebook = app.properties.facebook || {};
-app.properties.facebook.enabled = false;
+app.properties.facebook.enabled = true;
 
-
-//  Start this file's module.
 app.ui = app.ui || {};
+
 app.ui.index = (function () {
     "use strict";
 
     var localTrends = []
         , globalTrends = []
         , globalTrendsIndex = 0
-        , alreadyLoaded
         , loadedTrendsCount;
 
+    var showSection = function (sectionId) {
+        $('.nav a[href="#' + sectionId + '"]').tab('show');
+    };
+
+    var createNewSection = function (templateData) {
+        var content = $('.tab-content')
+            , sectionHTML = $('#newsSectionTemplate').render(templateData);
+
+        content.append(sectionHTML);
+
+        return templateData.topicId;
+    };
+
     /**
-     * Module that represents and manage the navigation menu
+     * TODO : Javadoc for loadNews
+     * @param containerSelector
+     * @param indexTrendToLoad
+     * @param onlyOnce A callback to execute only once after a successfull news look up.
+     * @param onSuccess
      */
-    var menu = (function () {
+    var loadNews = function (containerSelector, indexTrendToLoad, onlyOnce, onSuccess) {
+        //  TODO : Refactor :  method loadNews. Improve parameters!!
+        var trends = localTrends;
 
-        /**
-         * Module that represents and manage the form that user will use to find custom topics.
-         */
-        var form = (function () {
-            var $form = $('form'), $input = $form.find('input');
+        if (containerSelector === '#globalTrends') {
+            trends = globalTrends;
+        }
 
-            /**
-             * Find news from all configured sources for a specific topic that has been choosed for the user in the search box of the left side menu.
-             */
-            var findNewsForCustomTopic = function () {
-                var userQuery = $input.val()
-                    , containerQuerySelector = '#queries'
-                    , templateData = menu.createEntry(containerQuerySelector, userQuery, true)
-                    , sectionId = createNewSection(templateData, true)
-                    , sectionIdSelector = '#' + sectionId;
+        if (indexTrendToLoad >= 0) {
+            findNewsForTrend(trends[indexTrendToLoad], onlyOnce, onSuccess);
 
-                showSection(sectionId);
-
-                findNewsForQuery([userQuery], $(sectionIdSelector), undefined, undefined);
-            };
-
-            var onSubmit = function (event) {
-                event.preventDefault();
-
-                //  TODO : Functionality : Check what to do if the custom query contains only meta characters.
-
-                findNewsForCustomTopic();
-
-                $input.val('');
-            };
-
-            var init = function () {
-                $form.submit(onSubmit);
-            };
-
-            return {
-                init: init
-            };
-        }());
+            loadedTrendsCount = loadedTrendsCount + 1;
+        }
+    };
 
 
-        var createEntry = function (containerSelector, topicName, closeable) {
+    /**
+     * TODO : Javadoc for findNewsForTrend
+     * @param trend
+     * @param onlyOnce A callback to execute only once after a successfull news look up.
+     * @param onSuccess
+     */
+    var findNewsForTrend = function (trend, onlyOnce, onSuccess) {
+        var trendName = app.util.strings.getKeywordWithoutPreffix(trend.name)
+            , topicId = app.util.strings.removeMetaCharacters(trendName.replace(/ /g, ''))
+            , templateData = {topicId: topicId, topicName: trendName}
+            , eachSectionList = $('#' + createNewSection(templateData));
 
-            var trendNameElementId = app.util.strings.removeMetaCharacters(topicName.replace(/ /g, ''))
-                , templateData = {trendNameElementId: trendNameElementId, topicName: topicName, closeable: closeable}
-                , menuItemHTML = $('#menuItemTemplate').render(templateData)
-                , menu = $(containerSelector)
-                , trendNameElementSelector = '#' + trendNameElementId
-                , entry;
-
-            menu.append(menuItemHTML);
-
-
-            $('a[href="' + trendNameElementSelector + '"]').on('shown', function (e) {
-                scrollTo(trendNameElementSelector);
-            })
-
-            if (closeable) {
-                entry = menu.find('li>a[href=#' + templateData.trendNameElementId + ']').parent();
-                entry.find('>i').on('click', function (event) {
-                    entry.remove();
-                    $('section[id=' + templateData.trendNameElementId + ']').remove();
-                });
-            }
-
-            $(containerSelector + ' a[href=' + trendNameElementSelector + ']').on('click', {containerSelector: containerSelector},
-                                                                                  onMenuItemSelected);
-
-            function onMenuItemSelected(event) {
-                event.preventDefault();
-
-                //  If section doesn't exists, then create it.
-                if ($(trendNameElementSelector).length === 0) {
-
-                    // If topic is in trends list, then load news from that trend object.
-                    // I'm sure that the topic is in trends list because if it's not, then the flow mustn't enter to this IF statement.
-                    //  TODO : Functionality : Check this!!
-                    var index, found;
-
-                    for (index = 0; index < localTrends.length; index++) {
-                        if (localTrends[index].name === topicName) {
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found) {
-                        for (index = 0; index < globalTrends.length; index++) {
-                            if (globalTrends[index].name === topicName) {
-                                break;
-                            }
-                        }
-                    }
-
-                    loadNews(event.data.containerSelector, index >= 0 ? index : -1, undefined, showSection.bind(null, trendNameElementId));
-                } else {
-                    showSection(trendNameElementId);
-                }
-            }
-
-            return templateData;
-        };
-
-        var init = function () {
-
-            var findLocalTrends = function () {
-
-                var onSuccessTwitterLocalTrends = function (countryName, data) {
-                    var index
-                        , eachTrend
-                        , twitterTrends
-                        , $localTrendsLIParent
-                        , $dropdownLabel;
-
-                    twitterTrends = data[0].trends;
-                    for (index = 0; index < twitterTrends.length; index++) {
-                        eachTrend = twitterTrends[index];
-                        localTrends[index] = {name: eachTrend.name, keywords: [eachTrend.name.replace(/#/, '')]};
-                    }
-
-                    for (index = 0; index < localTrends.length; index++) {
-                        createEntry('#localTrends', localTrends[index].name, false);
-                    }
-
-                    $localTrendsLIParent = $('#localTrends').parent();
-                    $dropdownLabel = $localTrendsLIParent.find('>a');
-                    $dropdownLabel.html(countryName + $dropdownLabel.html());
-
-                    $localTrendsLIParent.show();
-
-                    if (!alreadyLoaded) {
-                        //  TODO : Performance : remove remaining calls to lazyload. Clear the entire JS!
-                        findNewsForTrend(localTrends[0], undefined, undefined);
-                        loadedTrendsCount = 1;
-                        alreadyLoaded = true;
-                    }
-                };
-
-                //  End method definitions
-
-                if (geo_position_js.init()) {
-                    geo_position_js.getCurrentPosition(function (position) {
-
-                        app.service.socialNetworks.twitter.findClosestTrends(position.coords, function (locations) {
-                            if (locations.length > 0) {
-                                var currentLocation = locations[0];
-
-                                $.when(app.service.socialNetworks.twitter.findTrends(currentLocation.woeid,
-                                                                                     undefined)).done(onSuccessTwitterLocalTrends.bind(null,
-                                                                                                                                       currentLocation.country));
-                            }
-                        });
-
-                    }, function (positionError) {
-                        //  TODO : Functionality : Do something when locations sources returns a positionError
-                    }, {maximumAge: 1000000, timeout: 20000});
-                } else {
-                    //  TODO : Functionality : Do something when there's no location source method available.
-                }
-
-            };
-
-            var onSuccessGoogleGlobalSearch = function (result) {
-                var index
-                    , eachTrend
-                    , keywords
-                    , relativeGlobalTrendsIndex = globalTrendsIndex
-                    , googleTrends = result.feed.entries;
-
-                for (index = 0; index < googleTrends.length; index++, globalTrendsIndex++) {
-                    eachTrend = googleTrends[index];
-
-                    keywords = [];
-                    if (eachTrend.content !== '') {
-                        keywords = eachTrend.content.split(', ');
-                    } else {
-                        keywords[0] = eachTrend.title;
-                    }
-
-                    globalTrends[globalTrendsIndex] = {name: eachTrend.title, keywords: keywords, loaded: false};
-                }
-
-                for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
-                    createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
-                }
-
-                $('#globalTrends').parent().show();
-
-                if (!alreadyLoaded) {
-                    findNewsForTrend(globalTrends[0], undefined, undefined);
-                    loadedTrendsCount = 1;
-                    alreadyLoaded = true;
-                }
-            };
-
-            var onSuccessTwitterGlobalSearch = function (data) {
-                var index
-                    , eachTrend
-                    , twitterTrends = data[0].trends
-                    , relativeGlobalTrendsIndex = globalTrendsIndex;
-
-                for (index = 0; index < twitterTrends.length; index++, globalTrendsIndex++) {
-                    eachTrend = twitterTrends[index];
-                    globalTrends[globalTrendsIndex] = {name: eachTrend.name, keywords: [eachTrend.name.replace(/#/, '')]};
-                }
-
-                for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
-                    createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
-                }
-
-                if (!alreadyLoaded) {
-                    findNewsForTrend(globalTrends[0], undefined, undefined);
-                    loadedTrendsCount = 1;
-                    alreadyLoaded = true;
-                }
-            };
-
-            //  End method definitions
-
-            form.init();
-
-            findLocalTrends();
-            $.when(app.service.google.search.findTrends(undefined)).done(onSuccessGoogleGlobalSearch);
-            $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
-        };
-
-        return {
-            init: init,
-            createEntry: createEntry
-        };
-    }());
+        findNewsForQuery(trend.keywords, eachSectionList, onlyOnce, onSuccess);
+        trend.loaded = true;
+    };
 
     /**
      * Finds news from all configured sources (social networks and so on) for the list of specified keywords and load all results to the specified container.
@@ -317,7 +130,7 @@ app.ui.index = (function () {
                         link: eachEntry.link,
                         source: app.util.strings.getDomain(eachEntry.link)
                     };
-                    list.prepend($('#rssFeedTemplate').render(templateData));
+                    list.append($('#rssFeedTemplate').render(templateData));
                 }
 
                 renderPlusone();
@@ -338,7 +151,7 @@ app.ui.index = (function () {
                     eachTweet = data.statuses[index];
 
                     templateData = {userName: eachTweet.user.screen_name, id: eachTweet.id_str};
-                    list.prepend($('#twitterNewsTemplate').render(templateData));
+                    list.append($('#twitterNewsTemplate').render(templateData));
                 }
 
                 callCallbacks();
@@ -346,14 +159,18 @@ app.ui.index = (function () {
         };
 
         var facebookCallback = function (data) {
-            $.each(data.data, function (index, eachItem) {
-                var templateData = {userId: eachItem.from.id, userName: eachItem.from.name, text: app.util.strings.truncate(eachItem.message), id: eachItem.id};
-                list.prepend($('#facebookNewsTemplate').render(templateData));
-            });
+            if (data.data) {
+                $.each(data.data, function (index, eachItem) {
+                    var templateData = {userId: eachItem.from.id, userName: eachItem.from.name, text: app.util.strings.truncate(eachItem.message), id: eachItem.id};
+                    list.append($('#facebookNewsTemplate').render(templateData));
+                });
 
-            renderPlusone();
+                renderPlusone();
 
-            callCallbacks();
+                callCallbacks();
+            } else {
+                console.log('Failed to load Facebook results: ' + data.error.message);
+            }
         };
 
         var googlePlusCallback = function (data) {
@@ -362,7 +179,7 @@ app.ui.index = (function () {
                     //  TODO : Functionality : Truncate this at 300 or something like this to use the entire space generated by the GPlus badge.
                     var text = app.util.strings.removeDoubleWhiteSpace(app.util.strings.truncate(eachItem.title, 85));
                     var templateData = {userUrl: eachItem.actor.url, userName: eachItem.actor.displayName, text: text, link: eachItem.object.url};
-                    list.prepend($('#googlePlusNewsTemplate').render(templateData));
+                    list.append($('#googlePlusNewsTemplate').render(templateData));
                 }
             });
 
@@ -375,7 +192,7 @@ app.ui.index = (function () {
             var templateData = {}
                 , index, eachItem
                 , imagesContainer
-                , columnSelector = '.rightColumn';
+                , columnSelector = '#rightColumn';
 
             templateData.photos = [];
 
@@ -397,7 +214,7 @@ app.ui.index = (function () {
                 , index
                 , eachItem
                 , imagesContainer
-                , columnSelector = '.leftColumn';
+                , columnSelector = '#leftColumn';
 
             templateData.photos = [];
 
@@ -445,85 +262,248 @@ app.ui.index = (function () {
 
         app.service.newsFinder.findNews(keywords, {
             googleFeeds: googleFeedsCallback,
-            flickr: flickrCallback,
             twitter: twitterCallback,
             googlePlus: googlePlusCallback,
             facebook: facebookCallback,
             youTube: youTubeCallback,
+            flickr: flickrCallback,
             instagram: instagramCallback
         });
     };
 
     /**
-     * TODO : Javadoc for findNewsForTrend
-     * @param trend
-     * @param onlyOnce A callback to execute only once after a successfull news look up.
-     * @param onSuccess
+     * Module that represents and manage the navigation menu
      */
-    var findNewsForTrend = function (trend, onlyOnce, onSuccess) {
-        var trendName = app.util.strings.getKeywordWithoutPreffix(trend.name)
-            , trendNameElementId = app.util.strings.removeMetaCharacters(trendName.replace(/ /g, ''))
-            , templateData = {trendNameElementId: trendNameElementId, topicName: trendName}
-            , eachSectionList = $('#' + createNewSection(templateData));
+    var menu = (function () {
 
-        findNewsForQuery(trend.keywords, eachSectionList, onlyOnce, onSuccess);
-        trend.loaded = true;
-    };
+        var createEntry = function (containerSelector, topicName, closeable) {
 
-    /**
-     * TODO : Javadoc for loadNews
-     * @param containerSelector
-     * @param indexTrendToLoad
-     * @param onlyOnce A callback to execute only once after a successfull news look up.
-     * @param onSuccess
-     */
-    var loadNews = function (containerSelector, indexTrendToLoad, onlyOnce, onSuccess) {
-        //  TODO : Refactor :  method loadNews. Improve parameters!!
-        var trends = localTrends;
+            var topicId = app.util.strings.removeMetaCharacters(topicName.replace(/ /g, ''))
+                , templateData = {topicId: topicId, topicName: topicName, closeable: closeable}
+                , menuItemHTML = $('#menuItemTemplate').render(templateData)
+                , menu = $(containerSelector)
+                , topicNameElementSelector = '#' + topicId
+                , entry;
 
-        if (containerSelector === '#globalTrends') {
-            trends = globalTrends;
-        }
+            menu.append(menuItemHTML);
 
-        if (indexTrendToLoad >= 0) {
-            findNewsForTrend(trends[indexTrendToLoad], onlyOnce, onSuccess);
+            if (closeable) {
+                entry = menu.find('li>a[href=#' + templateData.topicId + ']').parent();
+                entry.find('>span').on('click', function (event) {
+                    entry.remove();
+                    $('section[id=' + templateData.topicId + ']').remove();
+                    showSection('top');
+                });
+            }
 
-            loadedTrendsCount = loadedTrendsCount + 1;
-        }
-    };
+            $(containerSelector + ' a[href=' + topicNameElementSelector + ']').on('click', {containerSelector: containerSelector},
+                                                                                  onMenuItemSelected);
 
-    var createNewSection = function (templateData, atBegin) {
-        var content = $('#myTabContent')
-            , sectionHTML = $('#newsSectionTemplate').render(templateData);
+            function onMenuItemSelected(event) {
+                event.preventDefault();
 
-        if (atBegin) {
-            content.prepend(sectionHTML);
-        } else {
-            content.append(sectionHTML);
-        }
+                //  If section doesn't exists, then create it.
+                if ($(topicNameElementSelector).length === 0) {
 
-        return templateData.trendNameElementId;
-    };
+                    // If topic is in trends list, then load news from that trend object.
+                    // I'm sure that the topic is in trends list because if it's not, then the flow mustn't enter to this IF statement.
+                    //  TODO : Functionality : Check this!!
+                    var index, found;
 
-    var showSection = function (sectionId) {
-        $('#queries a[href="#' + sectionId + '"]').tab('show');
-    };
+                    for (index = 0; index < localTrends.length; index++) {
+                        if (localTrends[index].name === topicName) {
+                            found = true;
+                            break;
+                        }
+                    }
 
-    /**
-     * Scroll to the specified {@code jQuerySelector}.
-     * @param jQuerySelector A jQuery selector to scroll the entire page.
-     */
-    var scrollTo = function (jQuerySelector) {
-        $('html, body').stop().animate({
-                                           scrollTop: $(jQuerySelector).offset().top - 150
-                                       }, 0);
-    };
+                    if (!found) {
+                        for (index = 0; index < globalTrends.length; index++) {
+                            if (globalTrends[index].name === topicName) {
+                                break;
+                            }
+                        }
+                    }
 
-    /**
-     * Load trends, then news for those trending topics
-     */
+                    loadNews(event.data.containerSelector, index >= 0 ? index : -1, undefined, showSection.bind(null, topicId));
+                } else {
+                    showSection(topicId);
+                }
+            }
+
+            return templateData;
+        };
+
+        /**
+         * Module that represents and manage the form that user will use to find custom topics.
+         */
+        var form = (function () {
+            var $form = $('form'), $input = $form.find('input');
+
+            /**
+             * Find news from all configured sources for a specific topic that has been choosed for the user in the search box of the left side menu.
+             */
+            var findNewsForCustomTopic = function () {
+                var userQuery = $input.val()
+                    , containerQuerySelector = '.nav'
+                    , templateData = menu.createEntry(containerQuerySelector, userQuery, true)
+                    , sectionId = createNewSection(templateData)
+                    , sectionIdSelector = '#' + sectionId;
+
+                showSection(sectionId);
+
+                findNewsForQuery([userQuery], $(sectionIdSelector), undefined, undefined);
+            };
+
+            var onSubmit = function (event) {
+                event.preventDefault();
+
+                //  TODO : Functionality : Check what to do if the custom query contains only meta characters.
+
+                findNewsForCustomTopic();
+
+                $input.val('');
+            };
+
+            var init = function () {
+                $form.submit(onSubmit);
+            };
+
+            return {
+                init: init
+            };
+        }());
+
+        var init = function () {
+
+            var findLocalTrends = function () {
+
+                var onSuccessTwitterLocalTrends = function (countryName, data) {
+                    var index
+                        , eachTrend
+                        , twitterTrends
+                        , $localTrendsLIParent
+                        , $dropdownLabel;
+
+                    twitterTrends = data[0].trends;
+                    for (index = 0; index < twitterTrends.length; index++) {
+                        eachTrend = twitterTrends[index];
+                        localTrends[index] = {name: eachTrend.name, keywords: [eachTrend.name.replace(/#/, '')]};
+                    }
+
+                    for (index = 0; index < localTrends.length; index++) {
+                        createEntry('#localTrends', localTrends[index].name, false);
+                    }
+
+                    $localTrendsLIParent = $('#localTrends').parent();
+                    $dropdownLabel = $localTrendsLIParent.find('>a');
+                    $dropdownLabel.html(countryName + $dropdownLabel.html());
+
+                    $localTrendsLIParent.show();
+                };
+
+                //  End method definitions
+
+                if (geo_position_js.init()) {
+                    geo_position_js.getCurrentPosition(function (position) {
+
+                        app.service.socialNetworks.twitter.findClosestTrends(position.coords, function (locations) {
+                            if (locations.length > 0) {
+                                var currentLocation = locations[0];
+
+                                $.when(app.service.socialNetworks.twitter.findTrends(currentLocation.woeid,
+                                                                                     undefined)).done(onSuccessTwitterLocalTrends.bind(null,
+                                                                                                                                       currentLocation.country));
+                            }
+                        });
+
+                    }, function (positionError) {
+                        //  TODO : Functionality : Do something when locations sources returns a positionError
+                    }, {maximumAge: 1000000, timeout: 20000});
+                }
+                //  TODO : Functionality : Do something when there's no location source method available.
+            };
+
+            var onSuccessGoogleGlobalSearch = function (result) {
+                var index, eachTrend, keywords, relativeGlobalTrendsIndex = globalTrendsIndex, googleTrends = result.feed.entries;
+
+                for (index = 0; index < googleTrends.length; index++, globalTrendsIndex++) {
+                    eachTrend = googleTrends[index];
+
+                    keywords = [];
+                    if (eachTrend.content !== '') {
+                        keywords = eachTrend.content.split(', ');
+                    } else {
+                        keywords[0] = eachTrend.title;
+                    }
+
+                    globalTrends[globalTrendsIndex] = {name: eachTrend.title, keywords: keywords, loaded: false};
+                }
+
+                for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
+                    createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
+                }
+
+                $('#globalTrends').parent().show();
+            };
+
+            var onSuccessTwitterGlobalSearch = function (data) {
+                var index, eachTrend, twitterTrends = data[0].trends, relativeGlobalTrendsIndex = globalTrendsIndex;
+
+                for (index = 0; index < twitterTrends.length; index++, globalTrendsIndex++) {
+                    eachTrend = twitterTrends[index];
+                    globalTrends[globalTrendsIndex] = {name: eachTrend.name, keywords: [eachTrend.name.replace(/#/, '')]};
+                }
+
+                for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
+                    createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
+                }
+            };
+
+            //  End method definitions
+
+            form.init();
+
+            findLocalTrends();
+            $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
+            $.when(app.service.google.search.findTrends(undefined)).done(onSuccessGoogleGlobalSearch);
+        };
+
+        return {
+            init: init,
+            createEntry: createEntry
+        };
+    }());
+
+    var home = (function () {
+        var init = function () {
+            app.service.socialNetworks.instagram.findTrends(function (data) {
+                var instagramDiv = $('#instagramPopularPhotos'), index, templateData;
+
+                if (data.data.length > 0) {
+                    instagramDiv.show();
+                }
+
+                for (index = 0; index < data.data.length; index++) {
+                    templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
+                    instagramDiv.append($('#instagramNewsTemplate').render(templateData));
+                }
+
+                //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
+            });
+        };
+
+        var show = function () {
+            showSection('top');
+        };
+
+        return {
+            init: init,
+            show: show
+        };
+    }());
+
     var init = function () {
-
         var myModal = $('#myModal');
         myModal.modal();
 
@@ -531,37 +511,20 @@ app.ui.index = (function () {
             if (response.status === 'connected') {
                 app.properties.facebook.enabled = true;
                 myModal.modal('hide');
+            } else {
+                console.log('Facebook response status: ' + response.status);
             }
         });
 
         menu.init();
-
-//          TODO : Put instagram initialization into container module.
-        app.service.socialNetworks.instagram.findTrends(function (data) {
-            var instagramDiv = $('#instagramPopularPhotos')
-                , index
-                , templateData;
-
-            if (data.data.length > 0) {
-                instagramDiv.show();
-            }
-
-            for (index = 0; index < data.data.length; index++) {
-                templateData = {link: data.data[index].link, thumbnail: data.data[index].images.thumbnail.url};
-                instagramDiv.append($('#instagramNewsTemplate').render(templateData));
-            }
-
-            //  TODO : Retrieve tags from theese photos, add them to trends and search for photos with those tags!
-        });
-
+        home.init();
+        home.show();
     };
 
     return {
         init: init
     };
-
 }());
-
 
 $(document).ready(function () {
     'use strict';
