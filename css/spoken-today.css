@@ -68,10 +68,6 @@ footer a:hover {
     text-align: left;
 }
 
-.st-thumbnail {
-    border-radius: 20px;
-}
-
 section#top > div > h3 {
     font-size: 1.3em;
 }
@@ -149,6 +145,13 @@ section ul li.rss, section ul li.gplus, section ul li.facebook {
 
 .st-thumbnail {
     border-radius: 20px;
+}
+
+/*  Fix images size in FF   */
+@-moz-document url-prefix() {
+    #leftColumn .st-thumbnail, #rightColumn .st-thumbnail {
+        width: 100%;
+    }
 }
 
 .st-shareSite {
