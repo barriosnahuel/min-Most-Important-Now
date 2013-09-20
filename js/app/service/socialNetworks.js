@@ -121,8 +121,23 @@ app.service.socialNetworks.facebook = (function () {
         FB.api('https://graph.facebook.com/search', 'get', { type: 'post', q: keyword, fields: 'from,message,id' }, onSuccess);
     };
 
+    var showLogin = function (modalSelector) {
+        var myModal = $(modalSelector);
+        myModal.modal();
+
+        FB.Event.subscribe('auth.login', function (response) {
+            if (response.status === 'connected') {
+                app.properties.facebook.enabled = true;
+                myModal.modal('hide');
+            } else {
+                console.log('Facebook response status: ' + response.status);
+            }
+        });
+    }
+
     return {
-        findNews: findNews
+        findNews: findNews,
+        showLogin: showLogin
     };
 
 }());

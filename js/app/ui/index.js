@@ -26,7 +26,7 @@ var app = app || {};
 //  Set application global properties
 app.properties = app.properties || {};
 app.properties.facebook = app.properties.facebook || {};
-app.properties.facebook.enabled = true;
+app.properties.facebook.enabled = false;
 
 app.ui = app.ui || {};
 
@@ -302,6 +302,10 @@ app.ui.index = (function () {
             function onMenuItemSelected(event) {
                 event.preventDefault();
 
+                if (!app.properties.facebook.enabled) {
+                    app.service.socialNetworks.facebook.showLogin('#myModal');
+                }
+
                 //  If section doesn't exists, then create it.
                 if ($(topicNameElementSelector).length === 0) {
 
@@ -358,6 +362,9 @@ app.ui.index = (function () {
             var onSubmit = function (event) {
                 event.preventDefault();
 
+                if (!app.properties.facebook.enabled) {
+                    app.service.socialNetworks.facebook.showLogin('#myModal');
+                }
                 //  TODO : Functionality : Check what to do if the custom query contains only meta characters.
 
                 findNewsForCustomTopic();
@@ -504,18 +511,6 @@ app.ui.index = (function () {
     }());
 
     var init = function () {
-        var myModal = $('#myModal');
-        myModal.modal();
-
-        FB.Event.subscribe('auth.login', function (response) {
-            if (response.status === 'connected') {
-                app.properties.facebook.enabled = true;
-                myModal.modal('hide');
-            } else {
-                console.log('Facebook response status: ' + response.status);
-            }
-        });
-
         menu.init();
         home.init();
         home.show();
