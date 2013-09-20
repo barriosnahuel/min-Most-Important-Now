@@ -40,6 +40,11 @@ footer a:hover {
 
 /***********************************************************************************/
 /*************************** Own classes and definitions ***************************/
+#tagcloud {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .st-closeable span {
     cursor: pointer;
 }

@@ -27,6 +27,7 @@ var app = app || {};
 app.properties = app.properties || {};
 app.properties.facebook = app.properties.facebook || {};
 app.properties.facebook.enabled = false;
+app.properties.facebook.displayed = false;
 
 app.ui = app.ui || {};
 
@@ -292,9 +293,14 @@ app.ui.index = (function () {
                 entry.find('>span').on('click', function (event) {
                     entry.remove();
                     $('section[id=' + templateData.topicId + ']').remove();
-                    showSection('top');
+                    showSection('home');
                 });
             }
+
+            var cloudList = home.$tagCloud.find('>ul');
+            cloudList.append('<li><a href="' + topicNameElementSelector + '">' + topicName + '</a></li>');
+
+            $(cloudList.find('>li>a[href=' + topicNameElementSelector + ']')).on('click', {containerSelector: containerSelector}, onMenuItemSelected);
 
             $(containerSelector + ' a[href=' + topicNameElementSelector + ']').on('click', {containerSelector: containerSelector},
                                                                                   onMenuItemSelected);
@@ -302,7 +308,7 @@ app.ui.index = (function () {
             function onMenuItemSelected(event) {
                 event.preventDefault();
 
-                if (!app.properties.facebook.enabled) {
+                if (!app.properties.facebook.enabled && !app.properties.facebook.displayed) {
                     app.service.socialNetworks.facebook.showLogin('#myModal');
                 }
 
@@ -362,7 +368,7 @@ app.ui.index = (function () {
             var onSubmit = function (event) {
                 event.preventDefault();
 
-                if (!app.properties.facebook.enabled) {
+                if (!app.properties.facebook.enabled && !app.properties.facebook.displayed) {
                     app.service.socialNetworks.facebook.showLogin('#myModal');
                 }
                 //  TODO : Functionality : Check what to do if the custom query contains only meta characters.
@@ -381,7 +387,7 @@ app.ui.index = (function () {
             };
         }());
 
-        var init = function () {
+        var init = function (callback) {
 
             var findLocalTrends = function () {
 
@@ -401,6 +407,8 @@ app.ui.index = (function () {
                     for (index = 0; index < localTrends.length; index++) {
                         createEntry('#localTrends', localTrends[index].name, false);
                     }
+
+                    home.init(undefined);
 
                     $localTrendsLIParent = $('#localTrends').parent();
                     $dropdownLabel = $localTrendsLIParent.find('>a');
@@ -451,6 +459,8 @@ app.ui.index = (function () {
                     createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
                 }
 
+                home.init(undefined);
+
                 $('#globalTrends').parent().show();
             };
 
@@ -465,6 +475,8 @@ app.ui.index = (function () {
                 for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
                     createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
                 }
+
+                home.init(undefined);
             };
 
             //  End method definitions
@@ -474,6 +486,8 @@ app.ui.index = (function () {
             findLocalTrends();
             $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
             $.when(app.service.google.search.findTrends(undefined)).done(onSuccessGoogleGlobalSearch);
+
+            callback();
         };
 
         return {
@@ -483,6 +497,54 @@ app.ui.index = (function () {
     }());
 
     var home = (function () {
+        var $tagCloud = $('#tagcloud');
+
+        var init = function (callback) {
+            var settings = {
+                //height of sphere container
+                height: 400,
+                //width of sphere container
+                width: 400,
+                //radius of sphere
+                radius: 150,
+                //rotation speed
+                speed: 0.5,
+                //sphere rotations slower
+                slower: 0.9,
+                //delay between update position
+                timer: 10,
+                //dependence of a font size on axis Z
+                fontMultiplier: 15,
+                //tag css stylies on mouse over
+                hoverStyle: {
+                    border: 'none',
+                    color: '#0b2e6f'
+                },
+                //tag css stylies on mouse out
+                mouseOutStyle: {
+                    border: '',
+                    color: ''
+                }
+            };
+            $tagCloud.tagoSphere(settings);
+
+            if (callback) {
+                callback();
+            }
+        };
+
+        var show = function () {
+            showSection('home');
+        };
+
+        return {
+            $tagCloud: $tagCloud,
+            init: init,
+            show: show
+        };
+    }());
+
+    var top = (function () {
         var init = function () {
             app.service.socialNetworks.instagram.findTrends(function (data) {
                 var instagramDiv = $('#instagramPopularPhotos'), index, templateData;
@@ -500,20 +562,14 @@ app.ui.index = (function () {
             });
         };
 
-        var show = function () {
-            showSection('top');
-        };
-
         return {
-            init: init,
-            show: show
-        };
+            init: init
+        }
     }());
 
     var init = function () {
-        menu.init();
-        home.init();
-        home.show();
+        menu.init(home.init.bind(null, home.show));
+        top.init();
     };
 
     return {

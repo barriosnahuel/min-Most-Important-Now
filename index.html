@@ -98,7 +98,12 @@
 
                 <ul class="nav navbar-nav">
                     <li class="active st-topNews-menuItem">
-                        <a href="#top" data-toggle="tab">
+                        <a href="#home" data-toggle="tab">
+                            <span class="glyphicon glyphicon-home"></span>
+                        </a>
+                    </li>
+                    <li class="st-topNews-menuItem">
+                    <a href="#top" data-toggle="tab">
                             <span class="glyphicon glyphicon-star"></span>Top
                         </a>
                     </li>
@@ -128,8 +133,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="tab-content">
-                <section class="row tab-pane fade in active" id="top">
-                    <div id="instagramPopularPhotos">
+                <section class="row tab-pane fade in active" id="home">
+                    <div id="tagcloud">
+                        <ul></ul>
+                    </div>
+                </section>
+                <section class="row tab-pane fade in" id="top">
+                <div id="instagramPopularPhotos">
                         <h3>
                             <a href="http://instagram.com/" target="_blank" title="Navigate to Instagram official site">Instagram</a>
                             popular photos
@@ -257,6 +267,7 @@
 <script type="text/javascript" src="js/lib/codebird-js-2.4.1/codebird.js"></script>
 <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/lib/jsrender.js"></script>
+<script type="text/javascript" src="js/lib/tagcloud.jquery.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">google.load("feeds", "1");</script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/1.5.25/jquery.isotope.min.js"></script>
@@ -280,9 +291,6 @@
 <script id="menuItemTemplate" type="text/x-jsrender">
     <li {{if closeable}}class="st-closeable"{{/if}}>
         <a href="#{{:topicId}}" data-toggle="tab">
-            {{if !closeable}}
-                <span class="glyphicon glyphicon-ok"></span>
-            {{/if}}
             {{:topicName}}
         </a>
         {{if closeable}}

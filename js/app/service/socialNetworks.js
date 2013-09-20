@@ -125,6 +125,8 @@ app.service.socialNetworks.facebook = (function () {
         var myModal = $(modalSelector);
         myModal.modal();
 
+        app.properties.facebook.displayed = true;
+
         FB.Event.subscribe('auth.login', function (response) {
             if (response.status === 'connected') {
                 app.properties.facebook.enabled = true;
