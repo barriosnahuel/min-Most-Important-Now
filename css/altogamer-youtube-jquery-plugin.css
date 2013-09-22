@@ -1,0 +1,19 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+.ag-youtube-videos iframe.ag-youtube-video {
+    display: none;
+}
+.ag-youtube-videos iframe.ag-youtube-video.ag-youtube-selected {
+    display: block;
+}
+
+.ag-youtube-thumbs img.ag-youtube-thumb {
+    cursor: pointer;
+    margin: 3px;
+}
+.ag-youtube-thumbs img.ag-youtube-thumb.ag-youtube-selected {
+    margin: 0;
+    border: 3px solid crimson;
+    border-radius: 2px;
+}

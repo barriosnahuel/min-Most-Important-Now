@@ -114,10 +114,6 @@ section ul li {
     border-radius: 10px;
 }
 
-section ul li.youtube {
-    text-align: center;
-}
-
 section ul li.rss, section ul li.gplus, section ul li.facebook {
     border: solid 1px black;
     padding: 5px 10px;

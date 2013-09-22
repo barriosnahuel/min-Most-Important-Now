@@ -37,6 +37,7 @@
     <link href="http://fonts.googleapis.com/css?family=Merienda+One|Jura" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template -->
+    <link href="css/altogamer-youtube-jquery-plugin.css" rel="stylesheet">
     <link href="css/spoken-today.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -255,9 +256,10 @@
 <script type="text/javascript" src="js/lib/codebird-js-2.4.1/sha1.js"></script>
 <script type="text/javascript" src="js/lib/codebird-js-2.4.1/codebird.js"></script>
 <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/lib/jsrender.js"></script>
+<script type="text/javascript" src="http://www.jsviews.com/download/jsrender.min.js"></script>
 <script type="text/javascript" src="js/lib/tagcloud.jquery.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="js/lib/altogamer-youtube-jquery-plugin.js"></script>
 <script type="text/javascript">google.load("feeds", "1");</script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/1.5.25/jquery.isotope.min.js"></script>
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
@@ -367,18 +369,27 @@
 </script>
 
 <script id="youTubeNewsTemplate" type="text/x-jsrender">
-    <div>
+    <!-- This is the container where the plugin is going to be rendered. -->
+    <div id="videos-{{:topicId}}"></div>
+</script>
+
+<!-- This is a jsrender template used to render the videos.
+     You can edit this template and customize it to your liking.
+     Be sure to add css class "ag-youtube-video" to each youtube iframe,
+     and "ag-youtube-thumb" to each thumbnail.
+-->
+<script id="agYouTubeVideosTemplate" type="text/x-jsrender">
+    <div class="ag-youtube-videos">
         {{for videos}}
-            <object width="300" height="168.75">
-                <param name="movie" value="https://www.youtube.com/v/{{:id}}"></param>
-                <param name="allowFullScreen" value="true"></param>
-                <param name="allowScriptAccess" value="always"></param>
-                <embed src="https://www.youtube.com/v/{{:id}}" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="300" height="168.75"></embed>
-            </object>
+            <iframe class="ag-youtube-video {{:#index==0 ? 'ag-youtube-selected' : ''}}" data-index="{{:#index}}" width="{{:#parent.parent.data.settings.width}}" height="{{:#parent.parent.data.settings.height}}" src="http://www.youtube.com/embed/{{:id}}" frameborder="0" allowfullscreen></iframe>
         {{/for}}
     </div>
 
-
+    <div class="ag-youtube-thumbs">
+        {{for videos}}
+            <img class="ag-youtube-thumb {{:#index==0 ? 'ag-youtube-selected' : ''}}" data-index="{{:#index}}" src='{{:thumbnail.sqDefault}}' alt="{{<title}}" />
+        {{/for}}
+    </div>
 </script>
 
 <script id="flickrAndInstagramNewsTemplate" type="text/x-jsrender">

@@ -238,37 +238,18 @@ app.ui.index = (function () {
             }
         };
 
-        var youTubeCallback = function (data) {
-            var templateData = {}
-                , li
-                , liSelector = 'li[class=youtube]'
-                , index;
-
-            //  TODO : Refactor encapsulate functionality to render YouTube, Instagram and Flickr results.
-
-            templateData.videos = [];
-            for (index = 0; index < data.items.length; index++) {
-                templateData.videos[index] = {id: data.items[index].id.videoId};
-            }
-
-            li = list.find(liSelector);
-            if (li.length === 0) {
-                li = list.append('<li class="youtube"></li>').find(liSelector);
-            }
-
-            li.append($('#youTubeNewsTemplate').render(templateData));
-
-            callCallbacks();
-        };
+        list.append('<li class="st-videos"></li>').find('.st-videos').altogamerYouTube({
+                                                                                           query: keywords[0],
+                                                                                           maxResults: 6,
+                                                                                       });
 
         app.service.newsFinder.findNews(keywords, {
-            googleFeeds: googleFeedsCallback,
-            twitter: twitterCallback,
             googlePlus: googlePlusCallback,
+            twitter: twitterCallback,
             facebook: facebookCallback,
-            youTube: youTubeCallback,
             flickr: flickrCallback,
-            instagram: instagramCallback
+            instagram: instagramCallback,
+            googleFeeds: googleFeedsCallback
         });
     };
 
