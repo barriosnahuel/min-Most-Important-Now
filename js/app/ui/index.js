@@ -297,11 +297,6 @@ app.ui.index = (function () {
                 });
             }
 
-            var cloudList = home.$tagCloud.find('>ul');
-            cloudList.append('<li><a href="' + topicNameElementSelector + '">' + topicName + '</a></li>');
-
-            $(cloudList.find('>li>a[href=' + topicNameElementSelector + ']')).on('click', {containerSelector: containerSelector}, onMenuItemSelected);
-
             $(containerSelector + ' a[href=' + topicNameElementSelector + ']').on('click', {containerSelector: containerSelector},
                                                                                   onMenuItemSelected);
 
@@ -387,7 +382,7 @@ app.ui.index = (function () {
             };
         }());
 
-        var init = function (callback) {
+        var init = function () {
 
             var findLocalTrends = function () {
 
@@ -407,8 +402,6 @@ app.ui.index = (function () {
                     for (index = 0; index < localTrends.length; index++) {
                         createEntry('#localTrends', localTrends[index].name, false);
                     }
-
-                    home.init(undefined);
 
                     $localTrendsLIParent = $('#localTrends').parent();
                     $dropdownLabel = $localTrendsLIParent.find('>a');
@@ -459,8 +452,6 @@ app.ui.index = (function () {
                     createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
                 }
 
-                home.init(undefined);
-
                 $('#globalTrends').parent().show();
             };
 
@@ -475,8 +466,6 @@ app.ui.index = (function () {
                 for (relativeGlobalTrendsIndex; relativeGlobalTrendsIndex < globalTrends.length; relativeGlobalTrendsIndex++) {
                     createEntry('#globalTrends', globalTrends[relativeGlobalTrendsIndex].name, false);
                 }
-
-                home.init(undefined);
             };
 
             //  End method definitions
@@ -486,61 +475,11 @@ app.ui.index = (function () {
             findLocalTrends();
             $.when(app.service.socialNetworks.twitter.findGlobalTrends()).done(onSuccessTwitterGlobalSearch);
             $.when(app.service.google.search.findTrends(undefined)).done(onSuccessGoogleGlobalSearch);
-
-            callback();
         };
 
         return {
             init: init,
             createEntry: createEntry
-        };
-    }());
-
-    var home = (function () {
-        var $tagCloud = $('#tagcloud');
-
-        var init = function (callback) {
-            var settings = {
-                //height of sphere container
-                height: 400,
-                //width of sphere container
-                width: 400,
-                //radius of sphere
-                radius: 150,
-                //rotation speed
-                speed: 0.5,
-                //sphere rotations slower
-                slower: 0.9,
-                //delay between update position
-                timer: 10,
-                //dependence of a font size on axis Z
-                fontMultiplier: 15,
-                //tag css stylies on mouse over
-                hoverStyle: {
-                    border: 'none',
-                    color: '#0b2e6f'
-                },
-                //tag css stylies on mouse out
-                mouseOutStyle: {
-                    border: '',
-                    color: ''
-                }
-            };
-            $tagCloud.tagoSphere(settings);
-
-            if (callback) {
-                callback();
-            }
-        };
-
-        var show = function () {
-            showSection('home');
-        };
-
-        return {
-            $tagCloud: $tagCloud,
-            init: init,
-            show: show
         };
     }());
 
@@ -568,7 +507,7 @@ app.ui.index = (function () {
     }());
 
     var init = function () {
-        menu.init(home.init.bind(null, home.show));
+        menu.init();
         top.init();
     };
 
