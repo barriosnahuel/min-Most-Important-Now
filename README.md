@@ -10,6 +10,13 @@ It's a web app that joins most important news from social networks and newspaper
 
 [![Stories ready to be worked on](https://badge.waffle.io/barriosnahuel/spoken-today.png?label=ready&title=Ready)](https://waffle.io/barriosnahuel/spoken-today) [![Stories in progress](https://badge.waffle.io/barriosnahuel/spoken-today.png?label=in progress&title=In Progress)](https://waffle.io/barriosnahuel/spoken-today)
 
+##Repo usage
+*Do not clone or push to* **master** *branch.*
+
+Create branch or fork from **develop**, then push or create pull requests (if you don't have access) to that branch.
+
+The repo uses [this branching model](http://nvie.com/posts/a-successful-git-branching-model/).
+
 ##License
 
 
