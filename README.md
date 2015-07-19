@@ -1,4 +1,4 @@
-#Spoken Today
+# Spoken Today
 
 *The things that are spoken today, from all points of view, and in one place.*
 
@@ -6,18 +6,24 @@ It's a web app that joins most important news from social networks and newspaper
 
 * Proyect site: [spokentoday.info](http://www.spokentoday.info)
 
-##Issues
+## Project status
+
+[![GitHub version](https://badge.fury.io/gh/barriosnahuel%2Fspoken-today.svg)](http://github.com/barriosnahuel/spoken-today/releases)
+[![Semver](http://img.shields.io/SemVer/2.0.0.png)](http://semver.org/spec/v2.0.0.html)
+[![stable](https://img.shields.io/badge/stability-unstable-yellow.svg)](https://nodejs.org/api/documentation.html#documentation_stability_index)
+
+## Issues
 
 [![Stories ready to be worked on](https://badge.waffle.io/barriosnahuel/spoken-today.png?label=ready&title=Ready)](https://waffle.io/barriosnahuel/spoken-today) [![Stories in progress](https://badge.waffle.io/barriosnahuel/spoken-today.png?label=in progress&title=In Progress)](https://waffle.io/barriosnahuel/spoken-today)
 
-##Repo usage
+## Repo usage
 *Do not clone or push to* **master** *branch.*
 
 Create branch or fork from **develop**, then push or create pull requests (if you don't have access) to that branch.
 
 The repo uses [this branching model](http://nvie.com/posts/a-successful-git-branching-model/).
 
-##License
+## License
 
 
     Spoken Today - The things that are spoken today, from all points of view, and in one place.
