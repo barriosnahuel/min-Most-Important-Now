@@ -10,7 +10,7 @@ It's a web app that joins most important news from social networks and newspaper
 
 [![GitHub version](https://badge.fury.io/gh/barriosnahuel%2Fspoken-today.svg)](http://github.com/barriosnahuel/spoken-today/releases)
 [![Semver](http://img.shields.io/SemVer/2.0.0.png)](http://semver.org/spec/v2.0.0.html)
-[![stable](https://img.shields.io/badge/stability-unstable-yellow.svg)](https://nodejs.org/api/documentation.html#documentation_stability_index)
+[![deprecated](http://badges.github.io/stability-badges/dist/deprecated.svg)](http://github.com/badges/stability-badges)
 
 ## Issues
 
