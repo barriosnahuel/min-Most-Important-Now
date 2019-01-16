@@ -12,10 +12,6 @@ It's a web app that joins most important news from social networks and newspaper
 [![Semver](http://img.shields.io/SemVer/2.0.0.png)](http://semver.org/spec/v2.0.0.html)
 [![deprecated](http://badges.github.io/stability-badges/dist/deprecated.svg)](http://github.com/badges/stability-badges)
 
-## Issues
-
-[![Stories ready to be worked on](https://badge.waffle.io/barriosnahuel/spoken-today.png?label=ready&title=Ready)](https://waffle.io/barriosnahuel/spoken-today) [![Stories in progress](https://badge.waffle.io/barriosnahuel/spoken-today.png?label=in progress&title=In Progress)](https://waffle.io/barriosnahuel/spoken-today)
-
 ## Repo usage
 *Do not clone or push to* **master** *branch.*
 
